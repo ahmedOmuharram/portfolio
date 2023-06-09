@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes reverse-spin {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% { 
+    transform: rotate(0deg); 
+  }
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Nunito', sans-serif;
+  background-image: url('media/background.gif');
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.3);
+  background-blend-mode: overlay;
+  height: 100vh;
+  padding:0;
+  margin:0;
+	height: 100vh;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+.start {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(255, 255, 255, 0);
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  background-blend-mode: overlay;
+  animation: fade-out 1.4s ease-out 10s;
+}
+
+.button {
+  position: fixed;
+  margin: auto;
+  bottom: 2vh;
+  width: 100%;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.5vmax;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.start button {
+  background-color: rgba(255, 255, 255, 0);
+  color: white;
+  border-radius: 12px;
+}
+
+.start button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
+}
+
+.dot {
+  height: 25vw;
+  width: 25vw;
+  display: table;
+  margin: 0 auto;
+  border-top: 0.3vw solid rgba(255, 255, 255, 0.2);
+  border-bottom: 0.3vw solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  /* Time elapsed: 
+  Fade in: 2s
+  Spins after 3s for 3 cycles, 1 second each (total 6s)
+  Fades out after 7s for 2s (total 9s)
+  */
+  animation: fade-in 2s ease-in, 
+             spin 3s cubic-bezier(1, 0.6, 0.4, 1) 1s 7, 
+             fade-out 2s ease-out 10s;
+}
+
+.home {
+  animation: fade-in 1s ease-in;
+}
+
+.dot h1 {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 5vw;
+  color: white;
+  margin: 0;
+  animation: reverse-spin 3s cubic-bezier(1, 0.6, 0.4, 1) 1s 7, 
+             fade-in 1s ease-in, 
+             fade-out 1s ease-out 5s,
+             fade-in 1s ease-in 6s,
+             fade-out 2s ease-out 10s;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* new stuff */
+/* Style the navigation menu */
+.navbar {
+  margin: auto;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 10px;
+  width: fit-content;
+  overflow: hidden;
+  height: 4vmax;
+
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Navigation links */
+.navbar a, #time-container {
+  margin: 1.2vw;
+  padding: 1vmin 1.5vmin 1vmin 1.5vmin;
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-size: 1.4vw;
+  transition: 0.4s;
+  align-self: center;/* Four equal-width links. If you have two links, use 50%, and 33.33% for three links, etc.. */
+  text-align: center; /* If you want the text to be centered */
+}
+
+#time-container {
+  background-image: url('media/morning.jpeg');
+  background-size: cover;
+  background-position: top;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-blend-mode: overlay;
+  margin: 0;
+  margin-top: 1vmin;
+  margin-bottom: 1vmin;
+}
+
+#sidebar {
+  top: 35%;
+  position: fixed;
+  left: 2vw;
+  align-self: left;
+  text-align: left; 
+  margin-top: 1vmin;
+  margin-bottom: 1vmin;
+  text-align: center;
+}
+
+/* Add a background color on mouse-over */
+.navbar a:hover{
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#time-container:hover{
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center;
+}
+
+/* Style the current/active link */
+.navbar a.active {
+  color: #1a70bc;
+}
+
+#main {
+  position: fixed;
+  left: 20vw;
+  top: 5vw;
+  height: 84%;
+  width: 75%;
+  background-blend-mode: overlay;
+  font-size: 4vmax;
+  color: white;
+
+}
