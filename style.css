@@ -21,12 +21,12 @@
 
 @keyframes wave-animation {
   0% { transform: rotate( 0.0deg) }
- 10% { transform: rotate(14.0deg) }  /* The following five values can be played with to make the waving more or less extreme */
+ 10% { transform: rotate(14.0deg) } 
  20% { transform: rotate(-8.0deg) }
  30% { transform: rotate(14.0deg) }
  40% { transform: rotate(-4.0deg) }
  50% { transform: rotate(10.0deg) }
- 60% { transform: rotate( 0.0deg) }  /* Reset for the last half to pause */
+ 60% { transform: rotate( 0.0deg) }  
 100% { transform: rotate( 0.0deg) }
 }
 
@@ -126,11 +126,6 @@ body {
   text-align: center;
   display: flex;
   justify-content: center;
-  /* Time elapsed: 
-  Fade in: 2s
-  Spins after 3s for 3 cycles, 1 second each (total 6s)
-  Fades out after 7s for 2s (total 9s)
-  */
   animation: fade-in 2s ease-in, 
              spin 3s cubic-bezier(1, 0.6, 0.4, 1) 1s 7, 
              fade-out 2s ease-out 10s;
@@ -156,9 +151,6 @@ body {
   display: none;
 }
 
-
-/* new stuff */
-/* Style the navigation menu */
 .navbar {
   margin: auto;
   position: -webkit-sticky;
@@ -174,7 +166,6 @@ body {
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Navigation links */
 .navbar a, #time-container {
   margin: 1.2vw;
   padding: 1vmin 1.5vmin 1vmin 1.5vmin;
@@ -183,8 +174,8 @@ body {
   border-radius: 12px;
   font-size: 1.2vmax;
   transition: 0.4s;
-  align-self: center;/* Four equal-width links. If you have two links, use 50%, and 33.33% for three links, etc.. */
-  text-align: center; /* If you want the text to be centered */
+  align-self: center;
+  text-align: center;
 }
 
 #time-container {
@@ -210,7 +201,6 @@ body {
   text-align: center;
 }
 
-/* Add a background color on mouse-over */
 .navbar a:hover{
   background-color: rgba(255, 255, 255, 0.2);
 }
@@ -220,7 +210,6 @@ body {
   background-position: center;
 }
 
-/* Style the current/active link */
 .navbar a.active {
   color: #1a70bc;
 }
@@ -244,10 +233,10 @@ body {
 }
 
 .wave {
-  animation-name: wave-animation;  /* Refers to the name of your @keyframes element below */
-  animation-duration: 2.5s;        /* Change to speed up or slow down */
-  animation-iteration-count: infinite;  /* Never stop waving :) */
-  transform-origin: 70% 70%;       /* Pivot around the bottom-left palm */
+  animation-name: wave-animation; 
+  animation-duration: 2.5s;      
+  animation-iteration-count: infinite; 
+  transform-origin: 70% 70%;  
   display: inline-block;
 }
 
@@ -260,11 +249,9 @@ body {
   cursor: pointer;
 }
 
-
-
 .slidercontainer {
   margin-top: 10px;
-  width: 15vmin; /* Width of the outside container */
+  width: 15vmin;
 }
 
 .slider {

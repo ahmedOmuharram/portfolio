@@ -2,7 +2,6 @@ const startElement = document.querySelector('.start');
 const portfolioHome = document.querySelector('.home');
 const startH1 = document.querySelector('.start h1');
 
-// Initial loading screen
 setTimeout(() => {
   startElement.classList.add('hidden');
   portfolioHome.classList.remove('hidden');
@@ -20,7 +19,6 @@ setTimeout(() => {
 }, 6000
 );
 
-// User time
 function setCurrentTime() {
   var myDate = new Date();
 
@@ -74,14 +72,3 @@ function play() {
 setInterval(function() {
   setCurrentTime();
 }, 1000);
-
-/*var slider = document.getElementById("music");
-var rain = new Audio("media/rain.ogg");
-
-slider.oninput = function() {
-  if(this.value > 0) {
-    rain.play();
-  }
-  rain.volume = this.value/100;
-  rain.loop = true;
-}*/
