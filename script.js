@@ -73,28 +73,23 @@ setInterval(function() {
   setCurrentTime();
 }, 1000);
 
-
-setInterval(function() {
-  rain.currentTime = 0;
-}, 22000);
-
-var isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
-               navigator.userAgent &&
-               navigator.userAgent.indexOf('CriOS') == -1 &&
-               navigator.userAgent.indexOf('FxiOS') == -1;
-
-if (isSafari) {
-  var rain = new Audio("media/rain.wav");
-} else {
-  var rain = new Audio("media/rain.ogg");
-}
-
+var rain = new Audio("media/rain.ogg");
 var slider = document.getElementById("music");
-
+var slidertext = document.getElementById("slidertext");
 
 slider.oninput = function() {
-  if (this.value > 0) {
+  if (this.value <= 1) {
+    slidertext.textContent = "🔇 Rain sounds";
+    rain.pause();
+  } else {
+    slidertext.textContent = "🌧️ Rain sounds";
     rain.play();
     rain.volume = this.value/100;
   }
 }
+
+rain.addEventListener('timeupdate', function() {
+  if (rain.currentTime >= 22) {
+    rain.currentTime = 0;
+  }
+});
