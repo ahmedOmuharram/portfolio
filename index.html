@@ -5,6 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Ahmed Muharram</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="media/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="media/favicon-16x16.png">
+        <link rel="manifest" href="media/site.webmanifest">
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
@@ -21,8 +25,8 @@
             <div class="navbar">
                 <a href="#about">About</a> 
                 <a href="#projects">Projects</a> 
-                <a href="#resume">Resume</a> 
                 <a href="#contact">Contact</a>
+                <a href="media/resume.pdf" target="_blank">Resume <i class="fa fa-external-link" aria-hidden="true"></i></a> 
             </div>
             <div id="sidebar">
                 <div id="time-container" class="current-time"></div>
@@ -33,6 +37,11 @@
                     <a href="https://linkedin.com/in/ahmed-muharram" target="_blank" rel="noopener noreferrer">
                         <i class="fa fa-linkedin" style="font-size:3vmin; color: #d8d8d8;"></i>
                     </a>
+                    <div class="slidercontainer" style="color: white; font-size: 2vmin">
+                        <br>
+                        🌧️ Rain sounds
+                        <input type="range" min="1" max="100" value="1" class="slider" id="music">
+                    </div>
                 </div> 
             </div>
             <div id="main">
@@ -41,6 +50,21 @@
                 <p style="font-size: 3vmin">I am a computer science student at the <b>University of Pennsylvania</b>, actively seeking a software engineering internship. With a strong passion for development, I have a solid foundation in computer science and web development, and a keen interest in contributing to <em>innovative software projects</em>. I am dedicated to expanding my skills and making valuable contributions to the field of software engineering. Let's connect and discuss how I can contribute to your team! <span class="rocket">🚀</span></p>
             </div>
         </div>
+        <script src="SeamlessLoop.js" type="text/javascript"></script>
+        <script>
+            var loop = new SeamlessLoop();
+            loop.addUri("media/rain.ogg", 6000, 'sound1');
+            loop.callback(soundsLoaded);
+            function soundsLoaded() {
+                loop.start('sound1');
+            }
+
+            var slider = document.getElementById("music");
+            slider.oninput = function() {
+                loop.volume(this.value/100);
+            }
+            
+        </script>
         <script src="script.js"></script>
     </body>
 </html>

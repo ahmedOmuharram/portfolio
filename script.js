@@ -67,10 +67,21 @@ function skipAnimation() {
 }
 
 function play() {
-  var audio = new Audio('https://en-audio.howtopronounce.com/1628064468610a4ad439bfc.mp3');
-  audio.play();
+  var pronunciation = new Audio('https://en-audio.howtopronounce.com/1628064468610a4ad439bfc.mp3');
+  pronunciation.play();
 }
 
 setInterval(function() {
   setCurrentTime();
 }, 1000);
+
+/*var slider = document.getElementById("music");
+var rain = new Audio("media/rain.ogg");
+
+slider.oninput = function() {
+  if(this.value > 0) {
+    rain.play();
+  }
+  rain.volume = this.value/100;
+  rain.loop = true;
+}*/
