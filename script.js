@@ -72,3 +72,17 @@ function play() {
 setInterval(function() {
   setCurrentTime();
 }, 1000);
+
+var rain = new Audio("media/rain.ogg");
+var slider = document.getElementById("music");
+
+slider.oninput = function() {
+  if (this.value > 0) {
+    rain.play();
+    rain.volume = this.value/100;
+  }
+}
+
+setInterval(function() {
+  rain.currentTime = 0;
+}, 22000);
