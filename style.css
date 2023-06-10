@@ -181,7 +181,7 @@ body {
   color: white;
   text-decoration: none;
   border-radius: 12px;
-  font-size: 1.4vw;
+  font-size: 1.2vmax;
   transition: 0.4s;
   align-self: center;/* Four equal-width links. If you have two links, use 50%, and 33.33% for three links, etc.. */
   text-align: center; /* If you want the text to be centered */
@@ -231,8 +231,15 @@ body {
   height: 84%;
   width: 75%;
   background-blend-mode: overlay;
-  font-size: 4vmax;
+  font-size: 7vmin;
   color: white;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#main p {
+  margin: 0;
 }
 
 .wave {
@@ -241,4 +248,13 @@ body {
   animation-iteration-count: infinite;  /* Never stop waving :) */
   transform-origin: 70% 70%;       /* Pivot around the bottom-left palm */
   display: inline-block;
+}
+
+.pronunciation {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: white;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
 }

@@ -28,11 +28,14 @@ function setCurrentTime() {
 
   let amOrPm;
   let twelveHours = function() {
+    const timePhoto = document.getElementById('time-container');
     if (myDate.getHours() > 6 && myDate.getHours() < 19) {
       amOrPm = '☀️';     
       let twentyFourHourTime = myDate.getHours();
+      timePhoto.style.backgroundImage = 'url("media/morning.jpeg")';
     } else {
       amOrPm = '🌙';
+      timePhoto.style.backgroundImage = 'url("media/night.png")';
     }
     return `${myDate.getHours()}`
   };
@@ -63,8 +66,11 @@ function skipAnimation() {
   portfolioHome.classList.remove('hidden');
 }
 
+function play() {
+  var audio = new Audio('https://en-audio.howtopronounce.com/1628064468610a4ad439bfc.mp3');
+  audio.play();
+}
+
 setInterval(function() {
   setCurrentTime();
 }, 1000);
-
-
