@@ -73,8 +73,24 @@ setInterval(function() {
   setCurrentTime();
 }, 1000);
 
-var rain = new Audio("media/rain.ogg");
+
+setInterval(function() {
+  rain.currentTime = 0;
+}, 22000);
+
+var isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
+               navigator.userAgent &&
+               navigator.userAgent.indexOf('CriOS') == -1 &&
+               navigator.userAgent.indexOf('FxiOS') == -1;
+
+if (isSafari) {
+  var rain = new Audio("media/rain.wav");
+} else {
+  var rain = new Audio("media/rain.ogg");
+}
+
 var slider = document.getElementById("music");
+
 
 slider.oninput = function() {
   if (this.value > 0) {
@@ -82,7 +98,3 @@ slider.oninput = function() {
     rain.volume = this.value/100;
   }
 }
-
-setInterval(function() {
-  rain.currentTime = 0;
-}, 22000);
