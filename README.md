@@ -17,7 +17,6 @@ The portfolio as of last commit uses plain HTML, CSS, and JS only.
 
 ## WIP
 
-- Adding a contact page.
 - Adding projects.
 
 ## Known problems
