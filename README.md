@@ -19,7 +19,6 @@ The portfolio as of last commit uses plain HTML, CSS, and JS only.
 
 - Adding a contact page.
 - Adding projects.
-- Connecting the navbar to these pages using animations.
 
 ## Known problems
 
