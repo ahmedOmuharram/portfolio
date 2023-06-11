@@ -99,7 +99,7 @@ rain.addEventListener('timeupdate', function() {
 });
 
 // Get all the anchor elements in the navbar
-const anchors = document.querySelectorAll('.navbar a');
+const anchors = document.querySelectorAll('.navbar a:not(#resume)');
 
 // Add event listeners to each anchor element
 anchors.forEach(anchor => {
@@ -113,7 +113,7 @@ anchors.forEach(anchor => {
       // Target section is already visible, no need to apply the fade-in animation
       return;
     }
-    
+
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
       section.classList.add('hidden');
