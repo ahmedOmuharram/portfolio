@@ -54,12 +54,28 @@
                     <p>Hi <span class="wave">👋</span></p>
                     <p>projects</p>
                 </div>
-                <div id="contact" class="section hidden">
-                    <p>Hi <span class="wave">👋</span></p>
-                    <p>contact</p>
+                <div id="contact" class="section hidden" style="transition: 0.3s;">
+                    <p style="margin-bottom: 1vmin; text-align: center;">Contact me <span class="mail">✉️</span></p>
+                    <iframe id="formIFrame" src="form.html" frameBorder="0" style="height: 40vh; width: 100%; margin:0; padding:0;"></iframe>
+                    <div id="confirmation" class="hidden" style="text-align: center; font-size: 4vmin; height: 20vh; width: 100%; margin:0; padding:0;">
+                        Thank you. I will get back to you within 1-2 business days.
+                    </div>
                 </div>
             </div> 
         </div>
+        <script>
+            window.addEventListener('message', function(event) {
+                if (event.data === 'hideIframe') {
+                    const confirmationText = document.getElementById("confirmation");
+                    const iframe = document.getElementById('formIFrame');
+                    confirmationText.style.animation = 'fade-in 0.5s ease-in';
+                    setInterval(function() {
+                        iframe.style.display = 'none';
+                        confirmationText.classList.remove('hidden');
+                    }, 500);
+                }
+            });
+        </script>
         <script src="script.js"></script>
     </body>
 </html>
