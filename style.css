@@ -153,13 +153,11 @@ body {
 
 .navbar {
   margin: auto;
-  position: -webkit-sticky;
-  position: sticky;
+  position: static;
   top: 10px;
   width: fit-content;
   overflow: hidden;
   height: 4vmax;
-
   display: flex;
   align-items: center;
   justify-content: center; 

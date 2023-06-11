@@ -97,3 +97,33 @@ rain.addEventListener('timeupdate', function() {
     rain.currentTime = 0;
   }
 });
+
+// Get all the anchor elements in the navbar
+const anchors = document.querySelectorAll('.navbar a');
+
+// Add event listeners to each anchor element
+anchors.forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent the default behavior of the anchor element
+
+    // Get the ID of the target section from the href attribute
+    const targetId = anchor.getAttribute('href').substring(1);
+    const targetSection = document.getElementById(targetId);
+    if (!targetSection.classList.contains('hidden')) {
+      // Target section is already visible, no need to apply the fade-in animation
+      return;
+    }
+    
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+      section.classList.add('hidden');
+    });
+
+    // Show the target section
+    targetSection.classList.remove('hidden');
+    targetSection.style.animation = 'fade-in 0.5s ease-in';
+  });
+});
+
+
+
