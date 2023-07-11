@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^browser-labyrinth$ https://ahmedomuharram.github.io/browser-labyrinth/index.html [R=301,L]
