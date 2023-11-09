@@ -62,7 +62,7 @@
                     <p style="font-size: 3vmin">Welcome to the first iteration of my portfolio! I am a computer science student at the <b>University of Pennsylvania</b>, actively seeking a software engineering internship. With a strong passion for development, I have a solid foundation in computer science and web development, and a keen interest in contributing to <em>innovative software projects</em>. I am dedicated to expanding my skills and making valuable contributions to the field of software engineering. Let's connect and discuss how I can contribute to your team! <span class="rocket">🚀</span></p>
                 </div>
                 <div id="projects" class="section hidden" style="overflow-y: scroll; width: 70vw; margin-top: 5vh;">
-                    <div style="display: flex; flex-direction: row; column-count: 2; column-gap: 2vw; align-items: center; width: 800px ">
+                    <div id="prodosphere" style="display: flex; cursor: pointer; flex-direction: row; column-count: 2; column-gap: 2vw; align-items: center; width: 800px">
                         <div>
                             <p style="font-size: 32px; text-align: center; text-shadow: #FFF 1px 0 5px;">Prodosphere</p>
                             <p style="font-size: 16px; text-align: center; font-style: italic;">A powerful web application designed to elevate your productivity and organization to new heights as your new homepage. Embrace a personalized productivity journey with customizable settings, an interactive interface, and features curated just for you.</p>
@@ -110,7 +110,7 @@
                         </div>
                         <img src="media/prodosphere.gif" width="600px" height="auto" style="position: relative; right: 0vw">
                     </div>
-                    <div style="display: flex; margin-top: 5vh; flex-direction: row; column-count: 2; column-gap: 2vw; align-items: center; width: 800px ">
+                    <div id="browserslabyrinth" style="display: flex; cursor: pointer; margin-top: 5vh; flex-direction: row; column-count: 2; column-gap: 2vw; align-items: center; width: 800px ">
                         <img src="media/bl.gif" width="600px" height="auto" style="position: relative; right: 0vw">
                         <div style="position: relative; right: 0vw;" >
                             <p style="font-size: 32px; text-align: center; text-shadow: #FFF 1px 0 5px;">Browser's Labyrinth</p>
@@ -146,7 +146,7 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: flex; margin-top: 5vh; flex-direction: row; column-count: 2; column-gap: 2vw; align-items: center; width: 800px ">
+                    <div id="passportpilot" style="display: flex; cursor: pointer; margin-top: 5vh; flex-direction: row; column-count: 2; column-gap: 2vw; align-items: center; width: 800px ">
                         <div>
                             <p style="font-size: 32px; text-align: center; text-shadow: #FFF 1px 0 5px;">Passport Pilot</p>
                             <p style="font-size: 16px; text-align: center; font-style: italic;">Know your next travel destination! Passport Pilot's "Visa Mode" allows you to explore travel restrictions between countries so you can stress less about your plans! Includes options to sort countries based on population or GDP.</p>
@@ -193,6 +193,19 @@
             </div> 
         </div>
         <script>
+            var prodosphere = document.getElementById("prodosphere");
+            var browserslabyrinth = document.getElementById("browserslabyrinth");
+            var passportpilot = document.getElementById("passportpilot");
+            prodosphere.addEventListener("click", function() {
+                window.open("https://ahmedomuharram.github.io/prodosphere", "_blank");
+            });
+            browserslabyrinth.addEventListener("click", function() {
+                window.open("https://muharram.dev/browser-labyrinth", "_blank");
+            });
+
+            passportpilot.addEventListener("click", function() {
+                window.open("https://ahmedomuharram.github.io/passport-pilot/", "_blank");
+            });
             window.addEventListener('message', function(event) {
                 if (event.data === 'hideIframe') {
                     const confirmationText = document.getElementById("confirmation");
