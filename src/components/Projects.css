@@ -1,0 +1,345 @@
+/* Base styles */
+.projects-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-family: 'Metropolis', sans-serif;
+  overflow: hidden;
+}
+
+.projects-header {
+  position: absolute;
+  top: 8%;
+  left: 8%;
+  z-index: 3;
+  display: grid;
+  gap: 0.6rem;
+  max-width: 420px;
+}
+
+.projects-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.projects-header h2 {
+  margin: 0;
+  font-size: 2.4rem;
+  color: #1b1b1b;
+}
+
+.projects-header p {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.6;
+}
+
+.projects-network {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.projects-network-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.projects-network-lines line {
+  stroke: rgba(0, 0, 0, 0.18);
+  stroke-width: 0.8;
+}
+
+.project-node {
+  position: absolute;
+  transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px)));
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  padding: 0;
+  z-index: 2;
+}
+
+.project-node:focus,
+.project-node:focus-visible {
+  outline: none;
+}
+
+.project-node {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.project-node-core {
+  width: 58px;
+  height: 58px;
+  background: rgba(236, 49, 7, 0.12);
+  border: 1px solid rgba(236, 49, 7, 0.45);
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: #EC3107;
+  transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.project-node:hover .project-node-core {
+  transform: translateY(-2px) scale(1.06);
+  color: #b91805;
+  background: rgba(236, 49, 7, 0.22);
+  border-color: rgba(236, 49, 7, 0.7);
+}
+
+.project-node-core svg {
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+}
+
+.project-node-core img {
+  width: 28px;
+  height: 28px;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(23%) sepia(67%) saturate(5199%) hue-rotate(4deg) brightness(94%) contrast(103%);
+}
+
+.project-node-label {
+  font-family: 'Metropolis', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.7);
+  text-align: center;
+  max-width: 140px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: none;
+}
+
+.shape-circle .project-node-core {
+  border-radius: 999px;
+}
+
+.projects-modal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(230, 228, 223, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.projects-modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.projects-modal-card {
+  position: relative;
+  width: min(860px, 94vw);
+  padding: 2.5rem;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.projects-modal-card::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border-radius: 18px;
+  border: 1px dashed rgba(236, 49, 7, 0.25);
+  pointer-events: none;
+}
+
+.projects-modal-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.8rem;
+  color: #1a1a1a;
+}
+
+.projects-modal-card p {
+  margin: 0 0 1.6rem;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.projects-hint {
+  margin: -0.8rem 0 1.6rem;
+  font-size: 0.8rem;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.projects-media {
+  display: grid;
+  gap: 0.8rem;
+  margin-bottom: 1.6rem;
+}
+
+.projects-media-frame {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+}
+
+.projects-media-frame img,
+.projects-media-frame iframe {
+  width: 100%;
+  height: 320px;
+  border: 0;
+  display: block;
+  object-fit: contain;
+  background: transparent;
+}
+
+.projects-media-image.is-small {
+  height: 240px;
+}
+
+.projects-media-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: #f3efe9;
+  color: #EC3107;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: none;
+  padding: 0;
+}
+
+.projects-media-nav svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  display: block;
+}
+
+.projects-media-nav.prev {
+  left: 10px;
+}
+
+.projects-media-nav.next {
+  right: 10px;
+}
+
+.projects-media-caption {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.projects-media-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.projects-media-dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.projects-media-dots .dot.is-active {
+  background: rgba(236, 49, 7, 0.7);
+}
+
+@media (max-width: 768px) {
+  .projects-media-frame img,
+  .projects-media-frame iframe {
+    height: 240px;
+  }
+
+  .projects-media-image.is-small {
+    height: 200px;
+  }
+}
+
+.projects-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.projects-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  text-decoration: none;
+}
+
+.projects-link.is-disabled {
+  background: rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.45);
+  cursor: default;
+}
+
+@media (max-width: 768px) {
+  .projects-header {
+    top: 6%;
+    left: 6%;
+    right: 6%;
+  }
+
+  .project-node-core {
+    width: 48px;
+    height: 48px;
+  }
+
+  .project-node-label {
+    font-size: 0.6rem;
+  }
+
+  .projects-modal-card {
+    padding: 2rem;
+  }
+
+  .projects-modal-card h3 {
+    font-size: 1.5rem;
+  }
+}
+  

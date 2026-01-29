@@ -1,42 +1,935 @@
-#root {
-  max-width: 1280px;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+*:focus,
+*:focus-visible {
+  outline: none;
+}
+
+button:focus,
+button:focus-visible,
+button:active,
+a:focus,
+a:focus-visible,
+a:active,
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+select:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: #000;
+  overflow: hidden; /* Prevent any scrolling on these elements */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.App {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; /* We'll handle section transitions via transform */
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+/* Add styles for the heading */
+h1 {
+  position: fixed;
+  top: 50%;
+  left: 2rem; /* Adjust position from right instead of left */
+  transform: rotate(-90deg) translateX(50%); /* Rotate 90deg and adjust position */
+  transform-origin: right center;
+  z-index: 1000;
+  font-size: 2rem;
+  text-align: center;
+  font-family: 'StarlightRune', sans-serif; /* Added font-family */
+}
+
+@font-face {
+  font-family: 'StarlightRune';
+  src: url('/fonts/StarlightRune.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  src: url('/fonts/SpaceMono-Regular.ttf') format('truetype');
+}
+
+/* Side navigation rail */
+.side-nav {
+  position: fixed;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-direction: row-reverse;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.side-nav.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+.side-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  margin: 0;
+  padding: 6px 4px;
+  background: transparent;
+  border-radius: 999px;
+}
+
+.side-nav-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-direction: row-reverse;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: 'Metropolis', sans-serif;
+  padding: 4px 6px;
+  color: #1a1a1a;
+  text-align: right;
+}
+
+.side-nav-dot {
+  width: 6px;
+  height: 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  background: transparent;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.side-nav-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+
+.side-nav-button:hover .side-nav-label,
+.side-nav-button.is-active .side-nav-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.side-nav-button.is-active {
+  font-weight: 600;
+}
+
+.side-nav-button.is-active .side-nav-label {
+  color: #000;
+}
+
+.side-nav-button.is-active .side-nav-dot {
+  background: #EC3107;
+  border-color: #EC3107;
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .side-nav { right: 10px; }
+}
+
+@media (max-width: 480px) {
+  .side-nav { right: 8px; }
+  .side-nav-label { display: none; }
+}
+
+.sections-container {
+  height: 100%;
+  transition: transform 1s ease;
+}
+
+.section {
+  min-height: 100vh;
+  height: 100vh; /* Ensure each section takes full viewport height */
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start; /* Align sections to start */
+  scroll-snap-stop: always; /* Ensure snapping stops at each section */
+  position: relative;
+}
+
+.hero {
+  padding: 0;
+  height: 100vh;
+}
+
+.about, .experience, .thesis, .projects, .contact {
+  background: #F4F1EB;
+}
+
+h2 {
+  font-family: 'Metropolis', sans-serif;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+p {
+  font-family: 'Metropolis', sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Update WireframeHand container styles */
+.hero > div {
+  width: 100%;
+  height: 100vh;
+}
+
+/* Add these styles for the contact form */
+input, textarea {
+  width: 90%;
+  background: transparent;
+  border: 1px solid #000;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  font-family: 'Metropolis', sans-serif;
+  transition: all 0.3s ease;
+  color: #000 !important; /* Force black text */
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #EC3107;
+  color: #EC3107;
+}
+
+button[type="submit"] {
+  border: 1px solid #000;
+  background: #000;
+  color: #fff;
+  padding: 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+  button[type="submit"]:hover {
+    background: #444;
+    color: #ffF;
+  }
+
+.contact form {
+  max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
+  height: 100%;
+  width: 90%;
+}
+
+/* Update section styles for contact */
+.section.contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add back the contact form container styles */
+.contact-form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.contact-form,
+.contact-success-message {
+  max-width: 800px;
+  width: 100%;
+  padding: 2rem;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Add back the animation classes */
+.fade-out {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Style the success message specifically */
+.contact-success-message {
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.contact-success-message h2 {
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.contact-success-message p {
+  font-size: 1.2rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+/* Animation keyframes */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-30%);
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
   }
 }
 
-.card {
-  padding: 2em;
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20%);
+  }
 }
 
-.read-the-docs {
-  color: #888;
+/* Add styles for the contact section with envelope */
+.contact-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.contact-shell {
+  width: min(900px, 92vw);
+  display: grid;
+  gap: 1.5rem;
+  z-index: 2;
+}
+
+.contact-header {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.contact-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.contact-header h2 {
+  margin: 0;
+  font-size: 2.6rem;
+  color: #1e1e1e;
+}
+
+.contact-header p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.contact-card {
+  position: relative;
+  padding: 2rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.contact-card::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border-radius: 16px;
+  border: 1px dashed rgba(236, 49, 7, 0.2);
+  pointer-events: none;
+}
+
+.contact-form-modern {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.contact-form--blocked {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.contact-form--resetting {
+  opacity: 0.2;
+  transform: translateY(12px);
+}
+
+.contact-toast {
+  position: absolute;
+  top: -12px;
+  right: 0;
+  background: rgba(17, 17, 17, 0.9);
+  color: #fff;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+
+.contact-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-family: 'Metropolis', sans-serif;
+}
+
+.contact-field span {
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.contact-limit {
+  margin-top: 0.35rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(236, 49, 7, 0.8);
+}
+
+.contact-field input,
+.contact-field textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 0.85rem 0.9rem;
+  background: rgba(255, 255, 255, 0.85);
+  color: #111 !important;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-field textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+  outline: none;
+  border-color: rgba(236, 49, 7, 0.7);
+  box-shadow: 0 0 0 3px rgba(236, 49, 7, 0.15);
+}
+
+.contact-field--full {
+  grid-column: 1 / -1;
+}
+
+.contact-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.contact-actions button {
+  border-radius: 999px;
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  padding: 0.85rem 1.6rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.contact-actions button:hover {
+  transform: translateY(-1px);
+  background: #2a2a2a;
+  border-color: #2a2a2a;
+}
+
+.contact-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.contact-hint {
+  font-size: 0.78rem;
+  color: rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.04em;
+}
+
+.contact-error {
+  font-size: 0.85rem;
+  color: #b31212;
+}
+
+.contact-footer {
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 768px) {
+  .contact-header h2 {
+    font-size: 2rem;
+  }
+
+  .contact-card {
+    padding: 1.5rem;
+  }
+
+  .contact-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-card {
+    padding: 1.25rem;
+  }
+}
+
+.wireframe-envelope {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none; /* Allow clicking through to form */
+}
+
+.about-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  gap: 3rem;
+}
+
+.about-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 500px;
+}
+
+.about-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.about-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.about-text ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.about-text li {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.about-text li:before {
+  content: "•";
+  color: #EC3107;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.about-graph {
+  flex: 1;
+  height: 600px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 2rem;
+    justify-content: center;
+  }
+  
+  .about-text {
+    max-width: 100%;
+    text-align: center;
+  }
+  
+  .about-text h2 {
+    font-size: 2rem;
+  }
+  
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .about-graph {
+    height: 400px;
+    width: 100%;
+  }
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7); /* Reduced opacity */
+  backdrop-filter: blur(3px); /* Subtle blur for the overlay too */
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+}
+
+.popup-content {
+  background: rgba(255, 112, 112, 0.65); /* Reduced opacity to make it more translucent */
+  backdrop-filter: blur(10px); /* Add blur effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  padding: 3rem;
+  border-radius: 8px;
+  max-width: 90vw;
+  min-width: 90vw;
+  width: 90vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Add subtle border */
+}
+
+.popup-content h2 {
+  margin-bottom: 2rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 2.5rem;
+}
+
+.popup-content p {
+  margin-bottom: 1.5rem;
+  font-family: 'Space Mono', monospace;
+  line-height: 1.8;
+  font-size: 1.2rem;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.close-button {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.close-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Add these animations to your existing App.css */
+.step-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.step-enter-active {
+  opacity: 1;
+  transform: translateX(0%);
+  transition: all 300ms ease-in-out;
+}
+
+.step-exit {
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.step-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all 300ms ease-in-out;
+}
+
+.form-step {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.contact-form {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 250px;
+  justify-content: flex-start;
+  width: 800px;
+  padding: 2rem;
+}
+
+/* Add this to ensure buttons are clickable */
+.button-container {
+  margin-top: 20px;
+  z-index: 2;
+  padding-top: 10px;
+  background: transparent;
+  position: relative;
+}
+
+/* Update the form-step label styling to handle newlines */
+.form-step label {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  display: block;
+  font-family: 'Metropolis', sans-serif;
+  white-space: pre-line; /* This will make \n characters create line breaks */
+}
+
+/* Fill-in-the-blanks text area styling */
+.fill-in-blank-container {
+  position: relative;
+  padding-bottom: 0.5rem;
+  margin-bottom: 10px;
+}
+
+.fill-in-blank-textarea {
+  width: 73%;
+  background: transparent;
+  border: 1px solid #000; /* full border instead of just bottom */
+  margin-bottom: 0;
+  font-family: 'Metropolis', sans-serif;
+  resize: none;
+  line-height: 1.6; /* adjust as needed */
+  transition: all 0.3s ease;
+  min-height: 150px;
+  color: #000 !important;
+}
+
+.fill-in-blank-textarea:focus {
+  outline: none;
+  border-color: #EC3107;
+}
+
+/* Add this for the fill-in-the-blanks input styling */
+.fill-in-blank-input {
+  width: 73%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #000;
+  padding: 0.5rem 0;
+  margin-bottom: 0;
+  font-family: 'Metropolis', sans-serif;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  color: #000 !important;
+}
+
+.fill-in-blank-input:focus {
+  outline: none;
+  border-color: #EC3107;
+  color: #EC3107;
+}
+
+/* Simple, clean form styling */
+.simple-form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Metropolis', sans-serif;
+}
+
+.step-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.step-container h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.form-input {
+  width: 80%;
+  padding: 10px 0;
+  font-size: 16px;
+  border: none;
+  border-bottom: 1px solid #000;
+  background: transparent;
+  margin-bottom: 20px;
+}
+
+textarea.form-input {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.form-buttons {
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.form-buttons button {
+  color: #000;
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #000;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s;
+}
+
+.fixed-height-container {
+  width: 800px;
+}
+
+.form-buttons button:hover {
+  color: #000;
+  background: rgba(0,0,0,0.05);
+}
+
+.thank-you-message {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.thank-you-message h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+/* Add a hidden class to hide elements but keep them in the DOM */
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
 }

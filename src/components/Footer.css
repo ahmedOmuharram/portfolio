@@ -1,0 +1,430 @@
+.footer-container {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  height: 40px;
+  padding: 0;
+}
+
+.footer-blur-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(230, 228, 223, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 0;
+}
+
+.footer {
+  position: relative;
+  padding: 0;
+  z-index: 1;
+  color: #FFF;
+  height: 40px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 0;
+  font-family: 'Metropolis', sans-serif;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.9rem;
+  padding: 5px 15px;
+  color: #000;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 5px 15px;
+  margin: 0;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.footer-secret-button {
+  position: absolute;
+  right: 20%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.4s ease, color 0.2s ease;
+  display: inline-flex;
+  pointer-events: none;
+}
+
+body[data-active-section="contact"] .footer-secret-button {
+  display: inline-flex;
+}
+
+.footer-secret-button:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.footer-secret-button.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.footer-secret-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(230, 228, 223, 0.55);
+  display: grid;
+  place-items: center;
+  z-index: 2000;
+}
+
+.footer-secret-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+  padding: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+  width: min(360px, 90vw);
+  display: grid;
+  gap: 1.2rem;
+}
+
+.footer-secret-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.8rem;
+  border: none;
+  background: transparent;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.footer-secret-title {
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.footer-secret-keypad {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 1rem;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.keypad-dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 44px);
+  grid-template-rows: repeat(3, 44px);
+  gap: 0.4rem;
+  justify-content: center;
+  align-content: center;
+  justify-self: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.keypad-dpad button {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.8);
+  color: #EC3107;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.keypad-key.is-correct {
+  background: rgba(30, 183, 90, 0.2);
+  border-color: rgba(30, 183, 90, 0.8);
+  box-shadow: 0 0 0 3px rgba(30, 183, 90, 0.25);
+  animation: keypad-flash 0.22s ease;
+}
+
+.keypad-dpad svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  display: block;
+}
+
+.keypad-dpad button:nth-child(1) { grid-column: 2; grid-row: 1; }
+.keypad-dpad button:nth-child(2) { grid-column: 1; grid-row: 2; }
+.keypad-dpad button:nth-child(3) { grid-column: 2; grid-row: 3; }
+.keypad-dpad button:nth-child(4) { grid-column: 3; grid-row: 2; }
+
+.keypad-buttons {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.keypad-buttons button {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 1px solid rgba(236, 49, 7, 0.5);
+  color: #EC3107;
+  background: rgba(236, 49, 7, 0.08);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+@keyframes keypad-flash {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.keypad-enter {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: #111;
+  color: #fff;
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  justify-self: center;
+  transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-shadow: none;
+  z-index: 0;
+  isolation: isolate;
+}
+
+.keypad-enter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #111;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.keypad-enter-label {
+  position: relative;
+  z-index: 1;
+}
+
+.keypad-enter.is-ready {
+  background: repeating-linear-gradient(
+    90deg,
+    #ff4d4d 0%,
+    #ff9d00 16.6%,
+    #ffe600 33.2%,
+    #26d07c 49.8%,
+    #2f80ed 66.4%,
+    #8e44ad 83%,
+    #ff4d4d 100%
+  );
+  background-size: 200% 100%;
+  animation: keypad-rainbow-flow 3s linear infinite;
+  border-color: rgba(0, 0, 0, 0.35);
+  color: #111;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.95),
+    0 0 18px rgba(255, 255, 255, 0.65);
+}
+
+.keypad-enter.is-ready::before {
+  opacity: 0;
+}
+
+@keyframes keypad-rainbow-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: -200% 50%; }
+}
+
+.footer-arcade-modal {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: grid;
+  place-items: center;
+  z-index: 2600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 4s ease;
+}
+
+ .footer-arcade-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.footer-arcade-stars::before,
+.footer-arcade-stars::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.5;
+}
+
+.footer-arcade-stars::before {
+  background-image:
+    radial-gradient(circle at 20px 30px, rgba(255,255,255,0.8) 0 1px, transparent 2px),
+    radial-gradient(circle at 80px 120px, rgba(255,255,255,0.6) 0 1px, transparent 2px),
+    radial-gradient(circle at 140px 60px, rgba(255,255,255,0.7) 0 1px, transparent 2px),
+    radial-gradient(circle at 40px 170px, rgba(255,255,255,0.5) 0 1px, transparent 2px);
+  animation: star-flicker-a 3.2s infinite;
+}
+
+.footer-arcade-stars::after {
+  background-image:
+    radial-gradient(circle at 60px 40px, rgba(255,255,255,0.5) 0 1px, transparent 2px),
+    radial-gradient(circle at 110px 150px, rgba(255,255,255,0.7) 0 1px, transparent 2px),
+    radial-gradient(circle at 170px 90px, rgba(255,255,255,0.6) 0 1px, transparent 2px),
+    radial-gradient(circle at 30px 100px, rgba(255,255,255,0.4) 0 1px, transparent 2px);
+  animation: star-flicker-b 4.1s infinite;
+}
+
+@keyframes star-flicker-a {
+  0%, 100% { opacity: 0.25; }
+  40% { opacity: 0.65; }
+  75% { opacity: 0.4; }
+}
+
+@keyframes star-flicker-b {
+  0%, 100% { opacity: 0.45; }
+  55% { opacity: 0.8; }
+  85% { opacity: 0.35; }
+}
+
+.footer-arcade-modal.fade-to-black,
+.footer-arcade-modal.show-arcade,
+.footer-arcade-modal.fade-arcade,
+.footer-arcade-modal.fade-back {
+  pointer-events: auto;
+}
+
+.footer-arcade-modal.fade-to-black,
+.footer-arcade-modal.show-arcade,
+.footer-arcade-modal.fade-arcade {
+  opacity: 1;
+}
+
+.footer-arcade-modal.fade-back {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.footer-arcade-frame {
+  position: relative;
+  height: 100vh;
+  width: auto;
+  aspect-ratio: 16 / 9;
+  background: url('/images/arcade.png') center/contain no-repeat;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transition: opacity 1.4s ease 3s;
+  z-index: 1;
+}
+
+.footer-arcade-modal.show-arcade .footer-arcade-frame {
+  opacity: 1;
+}
+
+.footer-arcade-modal.fade-to-black .footer-arcade-frame,
+.footer-arcade-modal.fade-arcade .footer-arcade-frame,
+.footer-arcade-modal.fade-back .footer-arcade-frame {
+  opacity: 0;
+  transition: none;
+}
+
+.footer-arcade-modal.show-arcade .footer-arcade-stars {
+  opacity: 1;
+  transition: opacity 1.2s ease;
+}
+
+.footer-arcade-modal.fade-to-black .footer-arcade-stars,
+.footer-arcade-modal.fade-arcade .footer-arcade-stars,
+.footer-arcade-modal.fade-back .footer-arcade-stars {
+  opacity: 0;
+}
+.footer-arcade-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  border: none;
+  background: transparent;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #EC3107;
+}
+
+.footer-arcade-screen {
+  width: 130%;
+  height: 155%;
+  margin-top: -14%;
+  margin-left: 0.5%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.footer-arcade-viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transform: scale(0.25);
+  transform-origin: center;
+}
+
+.footer-arcade-screen iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.footer li {
+  display: inline-block;
+}
+
+.footer svg {
+  width: 18px;
+  height: 18px;
+  fill: #000;
+  transition: fill 0.3s ease;
+}
+
+.footer a:hover svg {
+  fill: #EC3107;
+}
+
+.footer svg:hover {
+  fill: #666;
+} 
