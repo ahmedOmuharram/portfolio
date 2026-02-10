@@ -75,8 +75,8 @@ const Thesis = () => {
       <div className="thesis-split">
         <div className="thesis-copy">
           <h2>
-            How Underspecified Prompts Shape Tool-Calling LLM Agents in
-            Scientific Workflows
+            Master's Thesis: "How Underspecified Prompts Shape Tool-Calling LLM
+            Agents in Scientific Workflows"
           </h2>
           <p>
             Case studies in materials science and eukaryotic pathogen

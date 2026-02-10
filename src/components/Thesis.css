@@ -32,10 +32,11 @@
  
 .thesis-copy h2 {
    margin: 0;
-   font-size: 2.4rem;
+   font-size: 1.75rem;
    color: #1b1b1b;
  }
- 
+
+
 .thesis-copy p {
    margin: 0;
    color: rgba(0, 0, 0, 0.65);
@@ -292,7 +293,7 @@
  
  @media (max-width: 600px) {
   .thesis-copy h2 {
-     font-size: 2rem;
+     font-size: 1.45rem;
    }
  
   .thesis-media-card {
