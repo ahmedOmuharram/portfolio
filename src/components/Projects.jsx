@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
+import * as Dialog from '@radix-ui/react-dialog'
 import './Projects.css'
 import browsersLabyrinthGif from '../assets/browserslabyrinth.gif'
 import prodosphereGif from '../assets/prodosphere.gif'
@@ -18,7 +19,7 @@ const projectsData = [
     title: 'ScenIQ: On-Prem Meeting Intelligence',
     shortLabel: 'ScenIQ',
     description:
-      'An on-prem, security-first meeting intelligence system that transforms video into transcripts, topics, and action items. Modular Python + FastAPI backend with Postgres/pgvector, Zoom/Teams ingestion, ClickUp/Jira outputs, and a React/TypeScript frontend for enterprise workflows. Optimized pipeline performance that processes a 5-minute video in roughly 1-2 minutes.',
+      'An on-prem, security-first meeting intelligence system that transforms video into transcripts, topics, and structured action items. The pipeline runs FFmpeg → speaker diarization → Whisper transcription → segmentation → action-item extraction. Python + FastAPI backend with PostgreSQL + pgvector, including speaker / org-chart embeddings for relationship-aware action assignment. Zoom/Teams ingestion, ClickUp/Jira outputs, React + TypeScript frontend, air-gapped / private-cloud deployment. Processes a 5-minute video in roughly 1-2 minutes.',
     hint: "Hint 3: Knowledge Occults Names; Ashes Map Intentions. this is the Clever Owl's oDE.",
     link: 'https://sceniq.app',
     shape: 'circle',
@@ -35,7 +36,7 @@ const projectsData = [
     title: 'ByteNet: Distributed Web Search Engine',
     shortLabel: 'ByteNet',
     description:
-      'A distributed web search engine on a custom Java stack with a coordinator/worker cluster on AWS. Features a large-scale crawler (~500k URLs) with robots compliance, politeness limits, URL normalization, and deduplication, plus distributed indexing and ranking (inverted index, TF/IDF, PageRank).',
+      'A distributed web search engine on a custom Java stack (webserver + distributed key-value store + RDD-style data-parallel framework) with a coordinator/worker cluster on AWS EC2. Features a production-grade crawler (~500k URLs) with robots.txt compliance, per-host rate limiting, URL normalization, and content-hash deduplication. Distributed indexing and ranking (TF-IDF inverted index + iterative PageRank) served via a /search JSON API.',
     link: null,
     shape: 'circle',
     position: { x: 18, y: 62 },
@@ -259,13 +260,7 @@ const ProjectsPage = () => {
     return () => cancelAnimationFrame(raf)
   }, [seeds])
 
-  useEffect(() => {
-    const onKey = (event) => {
-      if (event.key === 'Escape') setActiveIndex(null)
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [])
+  // Radix Dialog handles escape, focus trap, body scroll lock, return-focus, and ARIA roles for us.
 
   const activeProject = activeIndex !== null ? projectsData[activeIndex] : null
   const activeMedia = activeProject?.media?.[mediaIndex] ?? null
@@ -321,13 +316,19 @@ const ProjectsPage = () => {
         ))}
       </div>
 
-      <div className={`projects-modal ${activeProject ? 'is-open' : ''}`} onClick={() => setActiveIndex(null)}>
-        <div className="projects-modal-card" onClick={(e) => e.stopPropagation()}>
-          <button className="projects-modal-close" type="button" onClick={() => setActiveIndex(null)}>
-            ×
-          </button>
-          {activeProject && (
+      <Dialog.Root
+        open={activeProject !== null}
+        onOpenChange={(open) => { if (!open) setActiveIndex(null) }}
+      >
+        <Dialog.Portal>
+          <Dialog.Overlay className="projects-modal" />
+          <Dialog.Content className="projects-modal-card" aria-describedby={undefined}>
+            <Dialog.Close asChild>
+              <button className="projects-modal-close" type="button" aria-label="Close">×</button>
+            </Dialog.Close>
+            {activeProject && (
             <>
+              <div className="projects-modal-scroll">
               {activeMedia && (
                 <div className="projects-media">
                   <div className="projects-media-frame">
@@ -382,24 +383,32 @@ const ProjectsPage = () => {
                   </div>
                 </div>
               )}
-              <h3>{activeProject.title}</h3>
-              <p>{activeProject.description}</p>
+              <Dialog.Title asChild>
+                <h3>{activeProject.title}</h3>
+              </Dialog.Title>
+              <Dialog.Description asChild>
+                <p>{activeProject.description}</p>
+              </Dialog.Description>
               {activeProject.hint && (
                 <p className="projects-hint">{activeProject.hint}</p>
               )}
-              {activeProject.link ? (
-                <a className="projects-link" href={activeProject.link} target="_blank" rel="noreferrer">
-                  Visit project
-                </a>
-              ) : activeProject.repoStatus === 'private' ? (
-                <span className="projects-link is-disabled">Private repo available upon request</span>
-              ) : (
-                <span className="projects-link is-disabled">Link coming soon</span>
-              )}
+              </div>
+              <div className="projects-modal-actions">
+                {activeProject.link ? (
+                  <a className="projects-link" href={activeProject.link} target="_blank" rel="noreferrer">
+                    Visit project
+                  </a>
+                ) : activeProject.repoStatus === 'private' ? (
+                  <span className="projects-link is-disabled">Private repo available upon request</span>
+                ) : (
+                  <span className="projects-link is-disabled">Link coming soon</span>
+                )}
+              </div>
             </>
           )}
-        </div>
-      </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
     </div>
   )
 }

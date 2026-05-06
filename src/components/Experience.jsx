@@ -6,14 +6,14 @@ import publicResume from '../assets/public_resume.pdf'
 
 const experienceData = [
   {
-    title: 'AI/ML Engineer (Temporary Hire)',
+    title: 'AI/ML Engineer',
     company: 'Fidelity Investments',
     dates: 'Dec 2025 - Jan 2026',
     logo: fidInvst,
     bullets: [
       'Rejoined to take the previously developed system (an R&D LLM/RAG prototype) into production. I expanded the system to support generic data sources by formalizing a connector → ingestion → indexing template that teams could follow without one-off work.',
       'Redesigned retrieval to handle fast refreshes by replacing the BM25S index with a PostgreSQL full-text search (inverted index) + pgvector hybrid. This cut 1M-chunk refresh latency from 10 minutes to under 1 second while keeping relevance stable as corpora evolved.',
-      'Built advanced retrieval using multivector / late-interaction scoring and improved scalability with Qdrant sharding and load balancing. This increased corpus capacity and broadened document coverage across sources.',
+      'Built advanced retrieval using multivector / late-interaction scoring with hybrid-score reranking, and improved scalability with Qdrant sharding and load balancing. This increased corpus capacity and broadened document coverage across sources.',
       'Backfilled legacy embeddings into pgvector to unify historical and new data. I presented the system to the R&D org, supported rollout, and it is now used in production by ~200 daily users.',
     ],
   },

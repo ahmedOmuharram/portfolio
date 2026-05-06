@@ -45,6 +45,8 @@ function App() {
   useEffect(() => {
     let wheelCooldown = false;
     const handleWheel = (e) => {
+      // If any modal/dialog is open, let it handle scroll. Don't hijack wheel for section nav.
+      if (document.querySelector('[role="dialog"][data-state="open"]')) return;
       e.preventDefault();
       setShowNav(true);
       if (navHideTimeoutRef.current) {

@@ -129,34 +129,82 @@
   border-radius: 999px;
 }
 
+/* Radix Dialog: Overlay and Content are siblings inside the Portal, not nested. */
 .projects-modal {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(230, 228, 223, 0.55);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 10;
+  background: rgba(20, 20, 20, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 1000;
+  animation: projects-modal-fade-in 0.18s ease;
 }
 
-.projects-modal.is-open {
-  opacity: 1;
-  pointer-events: auto;
+.projects-modal[data-state="closed"] {
+  animation: projects-modal-fade-out 0.18s ease;
+}
+
+@keyframes projects-modal-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes projects-modal-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
 .projects-modal-card {
-  position: relative;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: min(860px, 94vw);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
   padding: 2.5rem;
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  z-index: 1001;
+  /* Portal escapes .projects-page styling — scope typography here */
+  font-family: 'Metropolis', sans-serif;
+  font-weight: 400;
+  color: #1a1a1a;
+  animation: projects-modal-card-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.projects-modal-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  /* offset for the dashed inner border + close button */
+  padding-right: 0.4rem;
+}
+
+.projects-modal-actions {
+  flex-shrink: 0;
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.projects-modal-card[data-state="closed"] {
+  animation: projects-modal-card-out 0.18s ease;
+}
+
+@keyframes projects-modal-card-in {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.97); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes projects-modal-card-out {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  to   { opacity: 0; transform: translate(-50%, -48%) scale(0.97); }
 }
 
 .projects-modal-card::before {
@@ -300,16 +348,33 @@
 
 .projects-link {
   display: inline-flex;
+  align-self: flex-start;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 100%;
   padding: 0.7rem 1.4rem;
   border-radius: 999px;
   background: #111;
   color: #fff;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   font-size: 0.7rem;
+  line-height: 1.4;
   text-decoration: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .projects-link {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    padding: 0.65rem 1.1rem;
+  }
 }
 
 .projects-link.is-disabled {

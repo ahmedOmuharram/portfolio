@@ -7,7 +7,7 @@ const thesisMedia = {
     src: "/images/lamina.png",
     caption: "Sample question and phase diagram output.",
   },
-  pathfinder: { src: pathfinderImage, caption: "Strategy graph build-out." },
+  pathfinder: { src: pathfinderImage, caption: "Plan approval flow with WDK strategy steps." },
 };
 
 const Thesis = () => {
@@ -83,18 +83,32 @@ const Thesis = () => {
             informatics, focused on how vague language and underspecified
             prompts shape agent planning, tool selection, and failure modes.
           </p>
-          <a
-            className="thesis-link"
-            href="#"
-            onClick={(event) => event.preventDefault()}
-          >
-            Paper: Expected May 2026
-            <span className="thesis-link-icon" aria-hidden="true">
-              ↗
-            </span>
-          </a>
+          <div className="thesis-link-row">
+            <a
+              className="thesis-link"
+              href="https://drive.google.com/file/d/1pT22STsQXo0BKfvNUpkWZ2qmoOJ534rl/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Read the paper
+              <span className="thesis-link-icon" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+            <a
+              className="thesis-link"
+              href="https://www.youtube.com/watch?v=atXx9LYXkus"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Watch the defense (May 2026)
+              <span className="thesis-link-icon" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </div>
           <div className="thesis-authors">
-            Ahmed Muharram, Chris Callison-Burch, David S. Roos, Delip Rao
+            Advisor: Chris Callison-Burch · Reader: Eric Wong · Collaborators: David S. Roos (VEuPathDB), Delip Rao, Andrew Zhu
           </div>
         </div>
 
@@ -174,10 +188,10 @@ const Thesis = () => {
               <div className="thesis-media-body">
                 <div className="thesis-card-title">PATHFINDER</div>
                 <p>
-                  A conversational planner that turns natural-language intent
-                  into a step-by-step strategy graph for pathogen data
-                  exploration. Designed to reduce trial-and-error while keeping
-                  reasoning transparent and reproducible.
+                  A 44-tool LLM agent that turns natural-language biological
+                  questions into executable WDK strategy graphs across the
+                  14-database VEuPathDB pathogen-genomics consortium. Currently
+                  being integrated into the VEuPathDB platform.
                 </p>
                 <div className="thesis-card-links">
                   <a
