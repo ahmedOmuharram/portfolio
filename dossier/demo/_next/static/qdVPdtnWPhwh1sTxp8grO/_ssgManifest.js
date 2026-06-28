@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set(["\u002Fapp\u002Fdossiers\u002F[id]","\u002Fapp\u002Fdossiers\u002F[id]\u002Fprojects\u002F[projectId]","\u002Fapp\u002Fpractice\u002F[mode]","\u002Fapp\u002Fpractice\u002Fsessions\u002F[id]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
