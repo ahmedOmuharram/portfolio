@@ -25,7 +25,7 @@ const About = () => {
             and ambitious execution.
           </p>
           <ul className="about-chips">
-            <li>Applications Consultant @ Orascom Construction</li>
+            <li>R&D Software Developer @ Orascom Construction</li>
             <li>UPenn Bachelor's + Master's</li>
             <li>Onsi Sawiris Scholar</li>
             <li>Penn Engineering Outstanding Research Award</li>

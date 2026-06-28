@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
-const ThemeContext = createContext({ theme: 'dark', toggleTheme: () => {} })
+const ThemeContext = createContext({ theme: 'light', toggleTheme: () => {} })
 
 const STORAGE_KEY = 'pf-theme'
 
@@ -12,7 +12,7 @@ function readInitialTheme() {
     const saved = localStorage.getItem(STORAGE_KEY)
     if (saved === 'light' || saved === 'dark') return saved
   }
-  return 'dark' // dark is the default
+  return 'light' // light is the default
 }
 
 export function ThemeProvider({ children }) {

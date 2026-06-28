@@ -26,7 +26,7 @@ and the human experience of software.
 
 ## Experience
 
-- **Applications Consultant, Orascom Construction** (Jul 2026 to Present).
+- **R&D Software Developer, Orascom Construction** (Jul 2026 to Present).
 - **AI/ML Engineer, Fidelity Investments** (Dec 2025 to Jan 2026). Productionized
   and scaled an internal LLM/RAG system from intern phase to production, expanding
   it to arbitrary enterprise data sources via a standardized connector, ingestion,
