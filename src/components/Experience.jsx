@@ -1,26 +1,35 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import './Experience.css'
 import fidInvst from '../assets/fid-invst.png'
 import aydi from '../assets/aydi.png'
+import orascom from '../assets/orascom.png'
 import publicResume from '../assets/public_resume.pdf'
 
 const experienceData = [
   {
-    title: 'AI/ML Engineer',
+    title: 'Applications Consultant',
+    company: 'Orascom Construction',
+    dates: 'Jul 2026 — Present',
+    logo: orascom,
+    current: true,
+    note: 'Current position; more to come.',
+  },
+  {
+    title: 'AI / ML Engineer',
     company: 'Fidelity Investments',
-    dates: 'Dec 2025 - Jan 2026',
+    dates: 'Dec 2025 — Jan 2026',
     logo: fidInvst,
     bullets: [
-      'Rejoined to take the previously developed system (an R&D LLM/RAG prototype) into production. I expanded the system to support generic data sources by formalizing a connector → ingestion → indexing template that teams could follow without one-off work.',
-      'Redesigned retrieval to handle fast refreshes by replacing the BM25S index with a PostgreSQL full-text search (inverted index) + pgvector hybrid. This cut 1M-chunk refresh latency from 10 minutes to under 1 second while keeping relevance stable as corpora evolved.',
-      'Built advanced retrieval using multivector / late-interaction scoring with hybrid-score reranking, and improved scalability with Qdrant sharding and load balancing. This increased corpus capacity and broadened document coverage across sources.',
-      'Backfilled legacy embeddings into pgvector to unify historical and new data. I presented the system to the R&D org, supported rollout, and it is now used in production by ~200 daily users.',
+      'Rejoined to take the previously developed system (an R&D LLM/RAG prototype) into production, expanding it to arbitrary enterprise data sources via a standardized connector, ingestion, and indexing template that let teams onboard new corpora without one-off work.',
+      'Replaced the BM25S retrieval index with a custom hybrid PostgreSQL full-text search + pgvector design, cutting refresh latency from 10 minutes per 1M chunks to under 1 second while holding retrieval quality steady under continuous corpus updates.',
+      'Implemented multivector / late-interaction retrieval with hybrid-score reranking, sharded the Qdrant cluster for scale, and backfilled historical embeddings into pgvector to unify legacy and new corpora.',
+      'Presented the system to the R&D org and supported rollout; it is now used in production by ~200 daily users.',
     ],
   },
   {
-    title: 'Data Science and Artificial Intelligence Intern',
+    title: 'Data Science & AI Intern',
     company: 'Fidelity Investments',
-    dates: 'Jun 2025 - Aug 2025',
+    dates: 'Jun 2025 — Aug 2025',
     logo: fidInvst,
     bullets: [
       'Designed a high-throughput ingestion pipeline for terabytes of internal data, reaching 99.99%+ success through validation, retries, and idempotent writes that kept downstream analytics and search reliable.',
@@ -29,9 +38,9 @@ const experienceData = [
     ],
   },
   {
-    title: 'Software Engineering Intern (AI Integration)',
+    title: 'Software Engineering Intern · AI Integration',
     company: 'Aydi',
-    dates: 'Jun 2024 - Aug 2024',
+    dates: 'Jun 2024 — Aug 2024',
     logo: aydi,
     bullets: [
       'Built a chatbot for agricultural business owners in low-connectivity environments, using Haystack, MongoDB Atlas, Redis, and GPT-4o-family models to deliver real-time analytics with 85%+ top-1 retrieval accuracy.',
@@ -41,31 +50,25 @@ const experienceData = [
   },
 ]
 
+// "previously developed system" (in the AI/ML Engineer role) jumps to the
+// internship where that system was first built.
+const LINKED_TARGET = 2
+
 const Experience = () => {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const linkedSystemTargetIndex = 1
-  const panelRefs = useRef([])
-  const [detailMinHeight, setDetailMinHeight] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(1)
 
-  useLayoutEffect(() => {
-    const heights = panelRefs.current.map((panel) => panel?.scrollHeight || 0)
-    const maxHeight = Math.max(0, ...heights)
-    const adjustedHeight = Math.max(0, maxHeight - 24)
-    if (adjustedHeight && adjustedHeight !== detailMinHeight) {
-      setDetailMinHeight(adjustedHeight)
-    }
-  }, [detailMinHeight])
+  const toggle = (i) => setActiveIndex((cur) => (cur === i ? -1 : i))
 
-  const renderBullet = (bullet, jobIndex, bulletIndex) => {
-    if (jobIndex === 0 && bulletIndex === 0 && bullet.includes('previously developed system')) {
+  const renderBullet = (bullet, jobIndex, key) => {
+    if (jobIndex === 1 && key === 0 && bullet.includes('previously developed system')) {
       const [before, after] = bullet.split('previously developed system')
       return (
-        <li key={`${jobIndex}-${bulletIndex}`}>
+        <li key={key}>
           {before}
           <button
-            className="experience-inline-link"
+            className="xp-inline-link"
             type="button"
-            onClick={() => setActiveIndex(linkedSystemTargetIndex)}
+            onClick={() => setActiveIndex(LINKED_TARGET)}
           >
             previously developed system
           </button>
@@ -73,8 +76,7 @@ const Experience = () => {
         </li>
       )
     }
-
-    return <li key={`${jobIndex}-${bulletIndex}`}>{bullet}</li>
+    return <li key={key}>{bullet}</li>
   }
 
   return (
@@ -91,76 +93,62 @@ const Experience = () => {
             View Resume
           </a>
         </div>
-        <p>Selected roles focused on ML systems, retrieval, and production delivery.</p>
+        <p>Selected roles across ML systems, retrieval, and enterprise software.</p>
       </div>
-      <div className="experience-body">
-        <div className="experience-rail-list" role="tablist" aria-label="Experience timeline">
-          {experienceData.map((job, index) => {
-            const isActive = index === activeIndex
-            return (
+
+      <ol className="xp-timeline">
+        {experienceData.map((job, i) => {
+          const open = i === activeIndex
+          return (
+            <li
+              key={`${job.title}-${job.company}`}
+              className={`xp-item${open ? ' is-open' : ''}${job.current ? ' is-current' : ''}`}
+            >
+              <span className="xp-node" aria-hidden="true" />
               <button
-                key={`${job.title}-${job.company}`}
-                className={`experience-tab${isActive ? ' is-active' : ''}`}
+                className="xp-head"
                 type="button"
-                role="tab"
-                aria-selected={isActive}
-                aria-controls={`experience-panel-${index}`}
-                onClick={() => setActiveIndex(index)}
+                onClick={() => toggle(i)}
+                aria-expanded={open}
               >
-                <span className="experience-tab-icon" aria-hidden="true">
-                  {job.logo && (
-                    <img className="experience-tab-logo" src={job.logo} alt="" />
-                  )}
+                <span className="xp-dates">
+                  {job.dates}
+                  {job.current && <span className="xp-badge">Current</span>}
                 </span>
-                <span className="experience-tab-content">
-                  <span className="experience-tab-title">{job.title}</span>
-                  <span className="experience-tab-company">{job.company}</span>
-                  <span className="experience-tab-dates">{job.dates}</span>
-                </span>
-                <span className="experience-tab-accent" aria-hidden="true" />
-              </button>
-            )
-          })}
-        </div>
-        <div
-          className="experience-detail"
-          style={detailMinHeight ? { minHeight: `${detailMinHeight}px` } : undefined}
-        >
-          {experienceData.map((job, index) => {
-            const isActive = index === activeIndex
-            return (
-              <article
-                key={`${job.title}-${job.company}-panel`}
-                id={`experience-panel-${index}`}
-                className={`experience-panel${isActive ? ' is-active' : ''}`}
-                role="tabpanel"
-                aria-hidden={!isActive}
-                ref={(element) => {
-                  panelRefs.current[index] = element
-                }}
-              >
-                <div className="experience-detail-header">
-                  <div className="experience-heading">
-                    {job.logo && (
-                      <img className="experience-logo" src={job.logo} alt={`${job.company} logo`} />
+                <span className="xp-role">
+                  <span className="xp-logo">
+                    {job.logo ? (
+                      <img src={job.logo} alt="" />
+                    ) : (
+                      <span className="xp-logo-initial">{job.company[0]}</span>
                     )}
-                    <div>
-                      <div className="experience-title">{job.title}</div>
-                      <div className="experience-company">{job.company}</div>
-                    </div>
-                  </div>
-                  <div className="experience-dates">{job.dates}</div>
-                </div>
-                <ul className="experience-bullets">
-                  {job.bullets.map((bullet, bulletIndex) =>
-                    renderBullet(bullet, index, bulletIndex),
+                  </span>
+                  <span className="xp-titles">
+                    <span className="xp-title">{job.title}</span>
+                    <span className="xp-company">{job.company}</span>
+                  </span>
+                  <span className="xp-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18">
+                      <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </span>
+              </button>
+              <div className="xp-detail">
+                <div className="xp-detail-inner">
+                  {job.bullets ? (
+                    <ul className="xp-bullets">
+                      {job.bullets.map((b, k) => renderBullet(b, i, k))}
+                    </ul>
+                  ) : (
+                    <p className="xp-note">{job.note}</p>
                   )}
-                </ul>
-              </article>
-            )
-          })}
-        </div>
-      </div>
+                </div>
+              </div>
+            </li>
+          )
+        })}
+      </ol>
     </div>
   )
 }

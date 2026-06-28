@@ -30,7 +30,7 @@
   align-items: flex-end;
   justify-content: space-between;
   margin: 0;
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
 }
 
 .footer p {
@@ -145,7 +145,7 @@ body[data-active-section="contact"] .footer-secret-button {
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   background: rgba(255, 255, 255, 0.8);
-  color: #EC3107;
+  color: var(--accent);
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -182,9 +182,9 @@ body[data-active-section="contact"] .footer-secret-button {
   width: 48px;
   height: 48px;
   border-radius: 999px;
-  border: 1px solid rgba(236, 49, 7, 0.5);
-  color: #EC3107;
-  background: rgba(236, 49, 7, 0.08);
+  border: 1px solid rgba(196, 77, 255, 0.5);
+  color: var(--accent);
+  background: rgba(196, 77, 255, 0.08);
   font-size: 0.95rem;
   cursor: pointer;
 }
@@ -383,7 +383,7 @@ body[data-active-section="contact"] .footer-secret-button {
   border-radius: 999px;
   font-size: 1.6rem;
   cursor: pointer;
-  color: #EC3107;
+  color: var(--accent);
 }
 
 .footer-arcade-screen {
@@ -422,9 +422,26 @@ body[data-active-section="contact"] .footer-secret-button {
 }
 
 .footer a:hover svg {
-  fill: #EC3107;
+  fill: var(--accent);
 }
 
 .footer svg:hover {
   fill: #666;
-} 
+}
+
+/* Footer adapts to the dark theme */
+:root[data-theme='dark'] .footer-blur-background {
+  background: rgba(12, 10, 18, 0.35);
+}
+
+:root[data-theme='dark'] .footer p {
+  color: rgba(244, 241, 235, 0.7);
+}
+
+:root[data-theme='dark'] .footer svg {
+  fill: rgba(244, 241, 235, 0.7);
+}
+
+:root[data-theme='dark'] .footer a:hover svg {
+  fill: var(--accent-glow);
+}

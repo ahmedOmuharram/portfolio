@@ -3,6 +3,55 @@
   line-height: 1.5;
   font-weight: 400;
 
+  /* ── Type: DARK = synthwave (Orbitron display + Chakra Petch body) ── */
+  --font-display: 'Orbitron', 'Chakra Petch', system-ui, sans-serif;
+  --font-body: 'Chakra Petch', system-ui, sans-serif;
+  --font-mono: 'Chakra Petch', ui-monospace, monospace;
+
+  /* ── Constants (shared across themes) ──────────────────── */
+  --cream: #f4f1eb;
+  --glass-blur: 18px;
+
+  /* ── Semantic tokens — DEFAULT = DARK (80s synthwave galaxy) ── */
+  --accent: #c44dff;          /* electric violet / magenta */
+  --accent-glow: #db7bff;
+  --accent-soft: rgba(196, 77, 255, 0.5);
+  --cool: #2fd9ff;            /* neon cyan */
+  --warm: #ffd84d;            /* sparing yellow */
+  --page-bg: #0a0612;         /* deep violet-black */
+  --page-bg-2: #150d26;
+  --text: #f4f1eb;
+  --text-soft: rgba(244, 241, 235, 0.7);
+  --text-faint: rgba(207, 196, 235, 0.5);
+  --heading: #f4f1eb;
+  /* liquid glass — frosted panel behind text, clear boundary over the galaxy */
+  --panel-bg: rgba(22, 14, 38, 0.5);
+  --panel-border: rgba(176, 140, 255, 0.18);
+  --panel-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  --hairline: rgba(176, 140, 255, 0.18);
+}
+
+/* ── Light theme overrides (warm coral / cream) ──────────── */
+:root[data-theme='light'] {
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'Space Grotesk', system-ui, sans-serif;
+  --accent: #ec3107;
+  --accent-glow: #ff5a2c;
+  --accent-soft: rgba(255, 90, 44, 0.5);
+  --cool: #5f7585;
+  --warm: #d68a00;
+  --page-bg: #f4f1eb;
+  --page-bg-2: #ffffff;
+  --text: #1b1b1b;
+  --text-soft: #4b4b4b;
+  --text-faint: rgba(0, 0, 0, 0.5);
+  --heading: #222222;
+  --panel-bg: rgba(255, 255, 255, 0.62);
+  --panel-border: rgba(0, 0, 0, 0.08);
+  --panel-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
+  --hairline: rgba(0, 0, 0, 0.1);
+
   color-scheme: light dark;
   color: rgba(0, 0, 0, 1);
   background-color: #EFEEEA;
@@ -28,6 +77,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: var(--font-body);
 }
 
 h1 {

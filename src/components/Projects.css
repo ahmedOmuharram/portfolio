@@ -3,7 +3,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
   overflow: hidden;
 }
 
@@ -27,13 +27,78 @@
 .projects-header h2 {
   margin: 0;
   font-size: 2.4rem;
-  color: #1b1b1b;
+  color: var(--heading);
 }
 
 .projects-header p {
   margin: 0;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--text-soft);
   line-height: 1.6;
+}
+
+/* ── 3D galaxy ─────────────────────────────────────────── */
+.projects-galaxy {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.projects-galaxy canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  cursor: grab;
+}
+
+/* the constellation rides the shared galaxy now; a CSS halo replaces bloom */
+:root[data-theme='dark'] .projects-galaxy canvas {
+  filter: drop-shadow(0 0 7px rgba(196, 77, 255, 0.32));
+}
+
+.projects-galaxy canvas:active {
+  cursor: grabbing;
+}
+
+.projects-galaxy-hint {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+.galaxy-label {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-soft);
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  user-select: none;
+}
+
+:root[data-theme='dark'] .galaxy-label {
+  text-shadow: 0 0 12px rgba(7, 7, 16, 0.9);
+}
+
+.galaxy-label.is-featured {
+  color: var(--accent-glow);
+  font-weight: 600;
+}
+
+.galaxy-label.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .projects-network {
@@ -81,20 +146,20 @@
 .project-node-core {
   width: 58px;
   height: 58px;
-  background: rgba(236, 49, 7, 0.12);
-  border: 1px solid rgba(236, 49, 7, 0.45);
+  background: rgba(196, 77, 255, 0.12);
+  border: 1px solid rgba(196, 77, 255, 0.45);
   border-radius: 999px;
   display: grid;
   place-items: center;
-  color: #EC3107;
+  color: var(--accent);
   transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .project-node:hover .project-node-core {
   transform: translateY(-2px) scale(1.06);
-  color: #b91805;
-  background: rgba(236, 49, 7, 0.22);
-  border-color: rgba(236, 49, 7, 0.7);
+  color: var(--accent);
+  background: rgba(196, 77, 255, 0.22);
+  border-color: rgba(196, 77, 255, 0.7);
 }
 
 .project-node-core svg {
@@ -113,7 +178,7 @@
 }
 
 .project-node-label {
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -172,7 +237,7 @@
   -webkit-backdrop-filter: blur(12px);
   z-index: 1001;
   /* Portal escapes .projects-page styling — scope typography here */
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
   font-weight: 400;
   color: #1a1a1a;
   animation: projects-modal-card-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
@@ -212,7 +277,7 @@
   position: absolute;
   inset: 14px;
   border-radius: 18px;
-  border: 1px dashed rgba(236, 49, 7, 0.25);
+  border: 1px dashed rgba(196, 77, 255, 0.25);
   pointer-events: none;
 }
 
@@ -271,7 +336,7 @@
   transform: translateY(-50%);
   border: none;
   background: #f3efe9;
-  color: #EC3107;
+  color: var(--accent);
   width: 30px;
   height: 30px;
   border-radius: 999px;
@@ -319,7 +384,7 @@
 }
 
 .projects-media-dots .dot.is-active {
-  background: rgba(236, 49, 7, 0.7);
+  background: rgba(196, 77, 255, 0.7);
 }
 
 @media (max-width: 768px) {
@@ -381,6 +446,25 @@
   background: rgba(0, 0, 0, 0.12);
   color: rgba(0, 0, 0, 0.45);
   cursor: default;
+}
+
+/* ── Project modal: dark glass in dark theme ──────────────── */
+:root[data-theme='dark'] .projects-modal-card {
+  background: rgba(16, 10, 28, 0.95);
+  border-color: var(--panel-border);
+  color: var(--text);
+}
+:root[data-theme='dark'] .projects-modal-card h3 { color: var(--heading); }
+:root[data-theme='dark'] .projects-modal-card p { color: var(--text-soft); }
+:root[data-theme='dark'] .projects-modal-actions { border-top-color: var(--hairline); }
+:root[data-theme='dark'] .projects-hint { color: var(--text-faint); }
+:root[data-theme='dark'] .projects-media-caption { color: var(--text-faint); }
+:root[data-theme='dark'] .projects-modal-close { color: var(--text-soft); }
+:root[data-theme='dark'] .projects-media-nav { background: rgba(44, 30, 66, 0.92); }
+:root[data-theme='dark'] .projects-media-dots .dot { background: rgba(244, 241, 235, 0.2); }
+:root[data-theme='dark'] .projects-link.is-disabled {
+  background: rgba(244, 241, 235, 0.08);
+  color: var(--text-faint);
 }
 
 @media (max-width: 768px) {

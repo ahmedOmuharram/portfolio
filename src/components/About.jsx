@@ -9,9 +9,9 @@ const About = () => {
         <div className="about-text">
           <h2>About</h2>
           <p>
-            I'm a recent graduate of the University of Pennsylvania (BSE and
-            MSE in Computer and Information Science, May 2026) and an Onsi
-            Sawiris Scholar.
+            I'm a recent graduate of the University of Pennsylvania (Bachelor's
+            and Master's in Computer and Information Science, May 2026) and an
+            Onsi Sawiris Scholar.
           </p>
           <p>
             I care deeply about clarity, reliability, and the human experience
@@ -24,10 +24,15 @@ const About = () => {
             and I gravitate toward teams that value depth, thoughtful design,
             and ambitious execution.
           </p>
+          <ul className="about-chips">
+            <li>Applications Consultant @ Orascom Construction</li>
+            <li>UPenn Bachelor's + Master's</li>
+            <li>Onsi Sawiris Scholar</li>
+            <li>Penn Engineering Outstanding Research Award</li>
+          </ul>
         </div>
         <div className="brain-panel">
           <WireframeBrain />
-          <div className="brain-caption">Curiosity in motion</div>
         </div>
       </div>
     </div>

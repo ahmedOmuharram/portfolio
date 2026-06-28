@@ -31,9 +31,10 @@ html, body, #root {
   height: 100vh;
   margin: 0;
   padding: 0;
-  background: #fff;
-  color: #000;
+  background: var(--page-bg);
+  color: var(--text);
   overflow: hidden; /* Prevent any scrolling on these elements */
+  transition: background 0.5s ease, color 0.5s ease;
 }
 
 body {
@@ -122,9 +123,9 @@ h1 {
   background: transparent;
   border: none;
   cursor: pointer;
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
   padding: 4px 6px;
-  color: #1a1a1a;
+  color: var(--text);
   text-align: right;
 }
 
@@ -132,7 +133,7 @@ h1 {
   width: 6px;
   height: 12px;
   border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--text-faint);
   background: transparent;
   transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
@@ -141,7 +142,7 @@ h1 {
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--text-soft);
   opacity: 0;
   transform: translateX(-6px);
   transition: opacity 0.2s ease, transform 0.2s ease;
@@ -159,12 +160,12 @@ h1 {
 }
 
 .side-nav-button.is-active .side-nav-label {
-  color: #000;
+  color: var(--heading);
 }
 
 .side-nav-button.is-active .side-nav-dot {
-  background: #EC3107;
-  border-color: #EC3107;
+  background: var(--accent);
+  border-color: var(--accent);
   transform: scale(1.1);
 }
 
@@ -178,21 +179,57 @@ h1 {
 }
 
 .sections-container {
-  height: 100%;
-  transition: transform 1s ease;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
 }
 
+/* Desktop = a layered slide-deck. Every section is its own full-screen layer
+   pinned to the same box; only the active one is shown while the rest fade and
+   slide away. Because no two sections are ever physically adjacent, neither
+   overflowing content nor a CRT-barrel filter that paints slightly outside its
+   box can ever bleed from one section into another. */
 .section {
-  min-height: 100vh;
-  height: 100vh; /* Ensure each section takes full viewport height */
+  position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100vh;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  scroll-snap-align: start; /* Align sections to start */
-  scroll-snap-stop: always; /* Ensure snapping stops at each section */
-  position: relative;
+  overflow: hidden;
+  /* sections below the current one wait off-screen at the bottom */
+  transform: translateY(100%);
+  visibility: hidden;
+  /* slide over 0.7s; the section stays painted while it slides out, then the
+     visibility flips hidden AFTER the slide so that, at rest, only the active
+     section is painted (nothing adjacent for a CRT-barrel edge to bleed into) */
+  transition: transform 0.7s cubic-bezier(0.66, 0, 0.34, 1), visibility 0s linear 0.7s;
+  z-index: 1;
+}
+
+/* the section in view */
+.section.is-active {
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 2;
+  transition: transform 0.7s cubic-bezier(0.66, 0, 0.34, 1), visibility 0s linear 0s;
+}
+
+/* already-passed sections wait off-screen at the top; not-yet-reached ones wait
+   off-screen below. A step changes only the two sections involved, so it reads
+   as scrolling straight from one section to the next. */
+.section.is-above {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+.section.is-below {
+  transform: translateY(100%);
+  pointer-events: none;
 }
 
 .hero {
@@ -200,18 +237,41 @@ h1 {
   height: 100vh;
 }
 
+/* Sections are transparent so the one shared background shows through every
+   one of them — light = cream (html/body), dark = the galaxy canvas. */
 .about, .experience, .thesis, .projects, .contact {
-  background: #F4F1EB;
+  background: transparent;
+}
+
+/* Shared galaxy background — fixed behind everything, fades with the theme. */
+.space-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.space-bg.is-visible {
+  opacity: 1;
+}
+
+.space-bg canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 
 h2 {
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-display);
   font-size: 3rem;
   margin-bottom: 2rem;
+  letter-spacing: -0.02em;
 }
 
 p {
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
   font-size: 1.2rem;
   line-height: 1.6;
   max-width: 800px;
@@ -224,6 +284,58 @@ p {
   height: 100vh;
 }
 
+/* Hero overlay: role line + scroll cue over the wireframe hand */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 7vh;
+  gap: 1.7rem;
+}
+
+.hero-role {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  letter-spacing: 0.03em;
+  color: var(--text-soft);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: none;
+}
+
+.hero-role span {
+  color: var(--accent-glow);
+}
+
+.hero-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--text-faint);
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(var(--text-faint), transparent);
+  animation: heroScroll 1.9s ease-in-out infinite;
+}
+
+@keyframes heroScroll {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.55); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+}
+
 /* Add these styles for the contact form */
 input, textarea {
   width: 90%;
@@ -231,15 +343,15 @@ input, textarea {
   border: 1px solid #000;
   padding: 0.5rem;
   margin-bottom: 1rem;
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
   transition: all 0.3s ease;
   color: #000 !important; /* Force black text */
 }
 
 input:focus, textarea:focus {
   outline: none;
-  border-color: #EC3107;
-  color: #EC3107;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 button[type="submit"] {
@@ -403,7 +515,7 @@ button[type="submit"] {
   position: absolute;
   inset: 12px;
   border-radius: 16px;
-  border: 1px dashed rgba(236, 49, 7, 0.2);
+  border: 1px dashed rgba(196, 77, 255, 0.2);
   pointer-events: none;
 }
 
@@ -456,7 +568,7 @@ button[type="submit"] {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
 }
 
 .contact-field span {
@@ -471,7 +583,7 @@ button[type="submit"] {
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(236, 49, 7, 0.8);
+  color: rgba(196, 77, 255, 0.8);
 }
 
 .contact-field input,
@@ -494,8 +606,8 @@ button[type="submit"] {
 .contact-field input:focus,
 .contact-field textarea:focus {
   outline: none;
-  border-color: rgba(236, 49, 7, 0.7);
-  box-shadow: 0 0 0 3px rgba(236, 49, 7, 0.15);
+  border-color: rgba(196, 77, 255, 0.7);
+  box-shadow: 0 0 0 3px rgba(196, 77, 255, 0.15);
 }
 
 .contact-field--full {
@@ -633,7 +745,7 @@ button[type="submit"] {
 
 .about-text li:before {
   content: "•";
-  color: #EC3107;
+  color: var(--accent);
   font-weight: bold;
   position: absolute;
   left: 0;
@@ -805,7 +917,7 @@ button[type="submit"] {
   font-weight: 500;
   margin-bottom: 1rem;
   display: block;
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
   white-space: pre-line; /* This will make \n characters create line breaks */
 }
 
@@ -821,7 +933,7 @@ button[type="submit"] {
   background: transparent;
   border: 1px solid #000; /* full border instead of just bottom */
   margin-bottom: 0;
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
   resize: none;
   line-height: 1.6; /* adjust as needed */
   transition: all 0.3s ease;
@@ -831,7 +943,7 @@ button[type="submit"] {
 
 .fill-in-blank-textarea:focus {
   outline: none;
-  border-color: #EC3107;
+  border-color: var(--accent);
 }
 
 /* Add this for the fill-in-the-blanks input styling */
@@ -842,7 +954,7 @@ button[type="submit"] {
   border-bottom: 1px solid #000;
   padding: 0.5rem 0;
   margin-bottom: 0;
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
   font-size: 1.2rem;
   transition: all 0.3s ease;
   color: #000 !important;
@@ -850,8 +962,8 @@ button[type="submit"] {
 
 .fill-in-blank-input:focus {
   outline: none;
-  border-color: #EC3107;
-  color: #EC3107;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* Simple, clean form styling */
@@ -859,7 +971,7 @@ button[type="submit"] {
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
-  font-family: 'Metropolis', sans-serif;
+  font-family: var(--font-body);
 }
 
 .step-container {
@@ -932,4 +1044,416 @@ textarea.form-input {
   opacity: 0;
   position: absolute;
   pointer-events: none;
+}
+
+/* Labels read as plain text, not uppercase "tags" */
+.galaxy-label,
+.experience-tab-dates,
+.experience-dates,
+.thesis-card-title,
+.thesis-media-card figcaption,
+.thesis-card-meta,
+.thesis-card-links a,
+.thesis-link,
+.contact-field span,
+.contact-footer,
+.contact-limit,
+.side-nav-label {
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+/* ── Theme toggle ──────────────────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  top: 22px;
+  right: 22px;
+  z-index: 1400;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.theme-toggle-track {
+  display: inline-flex;
+  align-items: center;
+  width: 58px;
+  height: 30px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-toggle-thumb {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  transform: translateX(0);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
+  box-shadow: 0 0 16px rgba(255, 90, 44, 0.5);
+}
+
+:root[data-theme='dark'] .theme-toggle-thumb {
+  transform: translateX(28px);
+}
+
+.theme-toggle-thumb svg {
+  width: 15px;
+  height: 15px;
+}
+
+.theme-toggle:hover .theme-toggle-thumb {
+  box-shadow: 0 0 22px rgba(255, 90, 44, 0.75);
+}
+
+.theme-toggle:focus-visible .theme-toggle-track {
+  outline: 2px solid var(--accent-glow);
+  outline-offset: 3px;
+}
+
+/* ── Animated theme switch: a brief dip to the new background colour ── */
+.theme-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  pointer-events: none;
+  opacity: 0;
+  background: var(--page-bg);
+}
+
+.theme-veil.is-active {
+  animation: themeVeil 0.7s ease;
+}
+
+@keyframes themeVeil {
+  0% { opacity: 0; }
+  45% { opacity: 0.92; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-veil.is-active { animation: none; }
+}
+
+/* ════════════════════════════════════════════════════════
+   Unified text + liquid-glass system — token-driven, identical
+   structure in both themes so colours stay consistent everywhere.
+   ════════════════════════════════════════════════════════ */
+
+/* text colour roles */
+.experience-container,
+.thesis-container,
+.about-container,
+.projects-page,
+.contact-content { color: var(--text); }
+
+.about-text h2,
+.experience-header h2,
+.thesis-copy h2,
+.projects-header h2,
+.contact-header h2,
+.experience-title,
+.experience-tab-title,
+.thesis-card-title { color: var(--heading); }
+
+.about-text p,
+.experience-header p,
+.experience-company,
+.experience-tab-company,
+.experience-bullets,
+.thesis-copy p,
+.thesis-authors,
+.thesis-media-body p,
+.contact-header p { color: var(--text-soft); }
+
+.experience-dates,
+.experience-tab-dates,
+.thesis-card-meta,
+.thesis-media-card figcaption,
+.contact-field span,
+.contact-footer,
+.contact-hint { color: var(--text-faint); }
+
+/* liquid glass — frosted panels behind text in BOTH themes */
+.about-text,
+.thesis-copy,
+.experience-resume,
+.experience-body,
+.thesis-media-card,
+.contact-card,
+.projects-header {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+/* bare text columns get real panel padding + a clear boundary */
+.about-text,
+.thesis-copy {
+  padding: 1.7rem 2rem;
+  border-radius: 18px;
+}
+.projects-header {
+  padding: 0.9rem 1.4rem;
+  border-radius: 14px;
+}
+
+/* logos sit on a light chip so they read on any glass */
+.experience-logo,
+.experience-tab-logo {
+  mix-blend-mode: normal;
+  background: #f4f1eb;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+/* contact inputs as glass */
+.contact-field input,
+.contact-field textarea {
+  background: var(--panel-bg);
+  border-color: var(--panel-border);
+  color: var(--text) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.contact-field input::placeholder,
+.contact-field textarea::placeholder { color: var(--text-faint); }
+
+.contact-actions button {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.contact-actions button:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent-glow);
+}
+
+/* dish gets a soft violet halo in dark (CSS glow keeps the canvas transparent) */
+.wireframe-tower-canvas.is-dark {
+  filter: drop-shadow(0 0 10px rgba(196, 77, 255, 0.18));
+}
+
+/* ── Dark-mode CRT: scanlines + RGB sub-pixel + rolling band + flicker ── */
+:root[data-theme='dark'] .App::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  background-image:
+    /* horizontal scanlines (gentle on text — the 3D carries the heavy pixelation) */
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.26) 0px, rgba(0, 0, 0, 0.26) 1px, transparent 1px, transparent 3px),
+    /* faint RGB sub-pixel shimmer */
+    repeating-linear-gradient(90deg, rgba(255, 0, 170, 0.05) 0px, rgba(0, 225, 255, 0.05) 1px, transparent 1px, transparent 3px);
+  background-size: 100% 3px, 3px 100%;
+  opacity: 0.45;
+  mix-blend-mode: multiply;
+  animation: crtFlicker 2.4s steps(60) infinite;
+}
+
+/* low-res CRT: render the 3D at low resolution and upscale with hard pixels */
+:root[data-theme='dark'] canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* CRT tube curvature. The background field bows via a WebGL barrel SHADER
+   (BarrelEffect.jsx); the section content bows via an SVG displacement barrel
+   (CrtFilter.jsx). The displacement map bakes in overscan so the corners stay
+   pinned to the frame (no shrink) and the whole image moves together — so it
+   reads as a curved screen, never an off-centre object. There is NO CSS scale
+   (that was what shifted 3D objects off-centre). */
+/* The barrel is a single CRT-screen post-process over ALL the content at once,
+   applied to the always-visible deck container — NOT per-section (stamping it on
+   each hidden deck layer made Chrome mis-paint a section's 3D on first reveal).
+   The footer and the side-nav are siblings outside this container, so they're
+   correctly excluded. */
+:root[data-theme='dark'] .sections-container {
+  filter: url(#crtBarrel);
+}
+
+/* photos/screenshots must stay crisp and clearly visible */
+img,
+video,
+iframe {
+  image-rendering: auto;
+}
+
+/* CRT tube curvature: vignette + a slow rolling refresh band */
+:root[data-theme='dark'] .App::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 59;
+  background:
+    linear-gradient(rgba(200, 150, 255, 0) 0%, rgba(200, 150, 255, 0.06) 50%, rgba(200, 150, 255, 0) 100%),
+    radial-gradient(135% 135% at 50% 50%, transparent 42%, rgba(0, 0, 0, 0.85) 100%);
+  background-size: 100% 38%, 100% 100%;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 220px rgba(0, 0, 0, 0.85);
+  border-radius: 18px;
+  animation: crtRoll 4.5s linear infinite;
+}
+
+@keyframes crtFlicker {
+  0%, 100% { opacity: 0.55; }
+  48% { opacity: 0.5; }
+  50% { opacity: 0.64; }
+  52% { opacity: 0.5; }
+}
+
+@keyframes crtRoll {
+  0% { background-position: 0 -50%, 0 0; }
+  100% { background-position: 0 150%, 0 0; }
+}
+
+/* chromatic-aberration RGB split on headings — CRT/synthwave signature */
+:root[data-theme='dark'] .about-text h2,
+:root[data-theme='dark'] .experience-header h2,
+:root[data-theme='dark'] .thesis-copy h2,
+:root[data-theme='dark'] .projects-header h2,
+:root[data-theme='dark'] .contact-header h2 {
+  text-shadow: -1.5px 0 rgba(255, 0, 170, 0.5), 1.5px 0 rgba(0, 225, 255, 0.5);
+  letter-spacing: 0.01em;
+}
+
+/* company logos take a synthwave tint in dark instead of a cream chip */
+:root[data-theme='dark'] .experience-logo,
+:root[data-theme='dark'] .experience-tab-logo {
+  background: transparent;
+  padding: 0;
+  filter: grayscale(1) brightness(1.45) sepia(1) hue-rotate(238deg) saturate(3.4);
+}
+
+/* synthwave nebula tint over the starfield (soft, no hard shapes) */
+:root[data-theme='dark'] .space-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 55% at 16% 20%, rgba(196, 77, 255, 0.16), transparent 70%),
+    radial-gradient(55% 50% at 84% 80%, rgba(47, 217, 255, 0.12), transparent 70%),
+    radial-gradient(50% 45% at 62% 48%, rgba(217, 77, 255, 0.08), transparent 72%);
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html, body, #root, .sections-container, .section, .theme-toggle-thumb {
+    transition: none !important;
+  }
+  :root[data-theme='dark'] .App::before { animation: none; }
+}
+
+/* ════════════════════════════════════════════════════════
+   MOBILE — the SAME experience adapted to phone sizes: 3D + synthwave +
+   scanlines kept, native scroll-snap for the section feel, only the
+   expensive barrel displacement filter is dropped.
+   ════════════════════════════════════════════════════════ */
+@media (max-width: 820px) {
+  /* Lock the page and give ONE element (.App) the job of scrolling. Snapping a
+     real scroll container is reliable on mobile; snapping the document root is
+     not. */
+  html, body, #root { height: 100%; min-height: 0; overflow: hidden; }
+  body { display: block; }
+
+  .App {
+    height: 100dvh;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior-y: contain;
+  }
+
+  .sections-container { transform: none !important; height: auto; transition: none; }
+
+  /* Undo the desktop layered-deck: sections return to normal document flow and
+     stack inside the scroller, each one a full-height snap target. overflow:hidden
+     still clips a tall 3D canvas so it can't bleed into its neighbour. */
+  .section {
+    position: relative;
+    inset: auto;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 5.5rem 1.15rem 4rem;
+    overflow: hidden;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* the barrel displacement is too heavy for phones; the SVG filter also won't
+     exist (CrtFilter is off), so a leftover url() ref must not blank the canvas.
+     Scanlines + vignette (cheap CSS) stay for the CRT vibe. */
+  :root[data-theme='dark'] .sections-container,
+  :root[data-theme='dark'] .section,
+  :root[data-theme='dark'] .space-bg canvas { filter: none !important; }
+  :root[data-theme='dark'] .about-text h2,
+  :root[data-theme='dark'] .experience-header h2,
+  :root[data-theme='dark'] .thesis-title,
+  :root[data-theme='dark'] .projects-header h2,
+  :root[data-theme='dark'] .contact-header h2 { text-shadow: none; }
+
+  /* On touch devices the full-screen WebGL canvases swallow the swipe, so the
+     page can't scroll at all. Let vertical swipes pass through every canvas
+     (orbit/drag is sacrificed for scrolling; tapping nodes still works). */
+  .section canvas,
+  .hero-canvas,
+  .projects-galaxy canvas { touch-action: pan-y !important; }
+
+  /* hero */
+  .hero { min-height: 100vh; min-height: 100dvh; padding: 0; }
+  .hero-overlay { padding-bottom: 9vh; gap: 1rem; }
+  .hero-role { flex-wrap: wrap; justify-content: center; text-align: center; padding: 0 1rem; }
+
+  /* about — text then brain, stacked */
+  .about-container { height: auto; padding: 0; }
+  .about-layout { grid-template-columns: 1fr; gap: 1.4rem; height: auto; }
+  .about-text { max-width: 100%; }
+  .brain-panel { height: 300px; }
+
+  /* experience timeline stacks (full mobile layout lives in Experience.css) */
+  .experience-container { height: auto; padding: 0; }
+
+  /* thesis paper stacks (full mobile layout lives in Thesis.css) */
+  .thesis-container { height: auto; }
+
+  /* projects — constellation in a box you can scroll past */
+  .projects-page { height: auto; position: relative; }
+  .projects-header { position: static; max-width: 100%; margin-bottom: 1rem; }
+  .projects-galaxy {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 56vh;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--panel-border);
+  }
+
+  /* contact */
+  .contact-content { height: auto; }
+  .contact-shell { width: 100%; }
+
+  .footer-container { position: static; height: auto; scroll-snap-align: start; }
 }
