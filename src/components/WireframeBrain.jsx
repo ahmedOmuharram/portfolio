@@ -2,8 +2,10 @@ import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import { useTheme } from '../ThemeProvider'
+import { useIsMobile } from '../useIsMobile'
 
-function BrainModel() {
+function BrainModel({ isDark }) {
   const gltf = useLoader(GLTFLoader, '/models/brain_hologram.glb')
   const groupRef = useRef(null)
   const { gl } = useThree()
@@ -20,13 +22,14 @@ function BrainModel() {
     main.traverse((child) => {
       if (child.isMesh) {
         child.material = new THREE.MeshStandardMaterial({
-          color: new THREE.Color('#EC3107'),
+          color: new THREE.Color(isDark ? '#b94dff' : '#EC3107'),
           roughness: 0.45,
           metalness: 0.15,
-          emissive: new THREE.Color('#EC3107'),
-          emissiveIntensity: 1,
+          emissive: new THREE.Color(isDark ? '#b94dff' : '#EC3107'),
+          emissiveIntensity: isDark ? 1.0 : 1,
           transparent: false,
           opacity: 1,
+          toneMapped: !isDark,
         })
         child.castShadow = true
       }
@@ -36,9 +39,10 @@ function BrainModel() {
       if (child.isMesh) {
         child.material = new THREE.MeshBasicMaterial({
           wireframe: true,
-          color: 0xFFD3C7,
+          color: isDark ? 0xd9a8ff : 0xFFD3C7,
           transparent: true,
-          opacity: 0.9,
+          opacity: isDark ? 0.95 : 0.9,
+          toneMapped: !isDark,
         })
       }
     })
@@ -49,7 +53,7 @@ function BrainModel() {
     wire.position.set(-center.x, -center.y, -center.z)
 
     return { mainScene: main, wireScene: wire }
-  }, [gltf])
+  }, [gltf, isDark])
 
   useEffect(() => {
     const canvas = gl.domElement
@@ -121,17 +125,22 @@ function BrainModel() {
 }
 
 const WireframeBrain = () => {
+  const { theme } = useTheme()
+  const isMobile = useIsMobile()
+  const isDark = theme === 'dark'
+
   return (
     <Canvas
       camera={{ position: [0, 0, 4.2], fov: 45, near: 0.1, far: 100 }}
       style={{ width: '100%', height: '100%', background: 'transparent', cursor: 'grab' }}
       shadows
+      dpr={isMobile ? 0.45 : isDark ? 0.62 : [1, 2]}
     >
-      <ambientLight intensity={0.85} />
+      <ambientLight intensity={isDark ? 0.5 : 0.85} />
       <directionalLight position={[4, 6, 6]} intensity={1.4} castShadow />
       <directionalLight position={[-5, -3, 4]} intensity={0.6} />
-      <pointLight position={[-3, -1, 4]} intensity={0.9} color="#EC3107" />
-      <BrainModel />
+      <pointLight position={[-3, -1, 4]} intensity={0.9} color={isDark ? '#b94dff' : '#EC3107'} />
+      <BrainModel isDark={isDark} />
     </Canvas>
   )
 }

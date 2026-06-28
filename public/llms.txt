@@ -1,0 +1,132 @@
+# Ahmed Muharram
+
+> Applied AI/ML engineer based in Cairo, Egypt, building production tool-calling
+> LLM agents, retrieval-augmented generation (RAG) systems, and high-throughput
+> backend infrastructure end to end. Bachelor's and Master's in Computer and
+> Information Science
+> from the University of Pennsylvania (May 2026); Onsi Sawiris Scholar; recipient
+> of the Penn Engineering Outstanding Research Award. This file is a plain-text
+> summary for LLMs and AI assistants; the live site is https://muharram.dev.
+
+## About
+
+Ahmed Muharram is an AI/ML engineer who works where systems and AI meet. He builds
+privacy-first AI products and tool-calling LLM agents for scientific workflows,
+with a background spanning research and industry. He values clarity, reliability,
+and the human experience of software.
+
+## Education
+
+- University of Pennsylvania, School of Engineering and Applied Science.
+- Master of Science in Engineering in Computer and Information Science (Apr 2024 to May 2026), GPA 3.84.
+- Bachelor of Science in Engineering in Computer and Information Science (Aug 2022 to May 2026), GPA 3.77.
+- Minors: Mathematics, Data Science, and Engineering Entrepreneurship.
+- Onsi Sawiris Scholar: a fully funded, merit-based scholarship for top Egyptian
+  students at leading US universities.
+
+## Experience
+
+- **Applications Consultant, Orascom Construction** (Jul 2026 to Present).
+- **AI/ML Engineer, Fidelity Investments** (Dec 2025 to Jan 2026). Productionized
+  and scaled an internal LLM/RAG system from intern phase to production, expanding
+  it to arbitrary enterprise data sources via a standardized connector, ingestion,
+  and indexing template. Replaced a BM25S index with a custom hybrid PostgreSQL
+  full-text search plus pgvector design, cutting index refresh latency from 10
+  minutes per 1M chunks to under 1 second. Built multivector and late-interaction
+  retrieval with hybrid-score reranking, sharded the Qdrant cluster, and backfilled
+  historical embeddings into pgvector. Now used in production by around 200 daily
+  R&D users.
+- **Data Science and AI Intern, Fidelity Investments** (Jun 2025 to Aug 2025).
+  Architected a high-throughput ingestion pipeline processing terabytes of data at
+  99.99%+ success (schema validation, retries, idempotent writes); built a grounded
+  RAG application on Qdrant and pgvector with hallucination/grounding checks and an
+  evaluation harness; containerized and deployed with Docker and Kubernetes.
+- **Software Engineering Intern, AI Integration, Aydi** (Jun 2024 to Aug 2024).
+  Built a low-connectivity chatbot for agricultural business owners (Haystack,
+  MongoDB Atlas, Redis, GPT-4o) with 85%+ top-1 retrieval accuracy; added token and
+  latency observability and Jest coverage; reduced LLM spend by 96.25% via a
+  cost/quality model migration from GPT-4o to GPT-4o mini.
+
+## Thesis and research
+
+**How Underspecified Prompts Shape Tool-Calling LLM Agents in Scientific Workflows**
+(Master's thesis, University of Pennsylvania, 2026; advised by Chris Callison-Burch,
+read by Eric Wong; collaborators David S. Roos of VEuPathDB, Delip Rao, and Andrew
+Zhu). Two case studies of tool-calling LLM agents in real scientific toolchains:
+materials feasibility (LAMINA) and pathogen genomics (PathFinder). Across five
+OpenAI model configurations, prompt underspecification dominates model scale,
+routing policy, and task complexity as a source of agent failure; instability
+localizes to the natural-language-to-tool-invocation mapping, not to tool
+execution. LAMINA was evaluated on DARPA SciFy Drop-4 (37 ordinal feasibility
+claims) using Quadratic Weighted Kappa, with a flip rate of 0.43 on vague claims.
+PathFinder was evaluated in a 420-run controlled study over a 35-strategy gold
+corpus; gene-set F1 collapses from 0.66 to 0.23 to 0.16 across precise, moderate,
+and vague prompts. The work derived four production design recommendations
+(disambiguation protocols, catalog grounding, incremental validation, replicated
+evaluation) and received the Penn Engineering Outstanding Research Award.
+
+## Selected projects
+
+- **PathFinder:** a 44-tool pathogen-genomics LLM agent that turns natural-language
+  biological questions into executable multi-step strategy graphs (recursive ASTs of
+  WDK searches, Boolean operators, and ortholog transforms) over the 14-database
+  VEuPathDB consortium (PlasmoDB, ToxoDB, CryptoDB, FungiDB, VectorBase, TriTrypDB,
+  and others). Backend: pydantic-ai agents on a LangGraph multi-phase pipeline
+  (scoping, discovery, planning, execution, verification) with AsyncPostgresSaver
+  checkpointing, Server-Sent Events streaming, semantic catalog search via
+  nomic-embed-text-v1.5 + pgvector HNSW, and durable long-running tools on
+  Procrastinate workers. Observability via OpenTelemetry to SigNoz and Langfuse;
+  Next.js 16 / React 19 frontend with a ReactFlow strategy-graph editor. Currently
+  being integrated into the VEuPathDB platform.
+  https://github.com/ahmedomuharram/pathfinder
+- **LAMINA:** a 50-tool materials-feasibility LLM agent over CALPHAD, Materials
+  Project DFT, and CHGNet neural surrogates that turns open-ended feasibility
+  questions into traceable, executable tool workflows; built for evaluation rather
+  than one-shot answers. https://github.com/ahmedomuharram/lamina
+- **ScenIQ:** an on-prem, security-first meeting intelligence platform (SOC 2, GDPR,
+  and HIPAA aligned) that turns meeting video into transcripts, topics, and
+  structured action items via a pipeline of FFmpeg, speaker diarization, Whisper
+  transcription, segmentation, and action-item extraction (roughly 1 to 2 minutes
+  per 5-minute video). FastAPI + PostgreSQL + pgvector backend with speaker and
+  org-chart embeddings; Zoom/Teams ingestion, ClickUp/Jira outputs; React +
+  TypeScript + Vite frontend; air-gapped deployment. https://sceniq.app
+- **ByteNet:** a distributed web search engine on a custom Java stack (webserver,
+  distributed key-value store, RDD-style framework) across an AWS EC2
+  coordinator/worker cluster, with a ~500k-URL crawler (robots.txt compliance,
+  content-hash dedup) and distributed TF-IDF inverted index + iterative PageRank
+  served via a /search JSON API.
+- **InstaLite:** a full-stack Instagram clone on AWS (EC2 + RDS) with semantic
+  profile search and real-time chat over WebSockets.
+- **PennOS:** a UNIX-like OS simulator with a UNIX-style process model on spthreads,
+  a preemptive SIGALRM scheduler (100ms quanta, 3-level priority queues), and a
+  PennFAT (FAT16-style) filesystem inside a memory-mapped host file.
+
+## Skills
+
+- Agents and LLM frameworks: tool-calling and multi-agent systems, agentic AI, RAG,
+  prompt engineering, model routing, guardrails; pydantic-ai, LangGraph, LangChain,
+  Haystack, Kani, Vercel AI SDK; OpenAI, Anthropic, and Gemini APIs.
+- Retrieval, embeddings, and LLM ops: pgvector (HNSW), Qdrant, BM25, hybrid,
+  multivector, and late-interaction retrieval, hybrid-score reranking,
+  sentence-transformers (nomic-embed), fastembed, Whisper; OpenTelemetry, Langfuse,
+  SigNoz; LLM evaluation (QWK, F1, bootstrap CIs, ICC).
+- Backend and languages: Python, TypeScript, JavaScript, SQL, Java, C; FastAPI,
+  Pydantic, SQLAlchemy, asyncpg, Alembic, Procrastinate; REST, OpenAPI, WebSockets,
+  Server-Sent Events; microservices, distributed systems.
+- Frontend: React, Next.js, Vite, Tailwind, Zustand, TanStack Query and Table,
+  ReactFlow, Zod.
+- Cloud, data, and DevOps: PostgreSQL, Redis, MongoDB; Docker, Kubernetes, AWS (EC2,
+  RDS), Linux, Bash, Git, GitHub Actions, CI/CD; Pytest, Vitest, Jest, Playwright,
+  axe-core, Stryker.
+
+## Awards
+
+- Penn Engineering Outstanding Research Award (for the Master's thesis on tool-calling
+  LLM agents in scientific workflows).
+- Onsi Sawiris Scholar.
+
+## Links
+
+- Website: https://muharram.dev
+- GitHub: https://github.com/ahmedomuharram
+- LinkedIn: https://www.linkedin.com/in/ahmed-muharram
