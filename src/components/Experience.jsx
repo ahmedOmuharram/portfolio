@@ -7,7 +7,7 @@ import publicResume from '../assets/public_resume.pdf'
 
 const experienceData = [
   {
-    title: 'Applications Consultant',
+    title: 'R&D Software Developer',
     company: 'Orascom Construction',
     dates: 'Jul 2026 — Present',
     logo: orascom,
