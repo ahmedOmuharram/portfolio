@@ -17,8 +17,8 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <link rel="canonical" href="https://muharram.dev/" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0a0612" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#f4f1eb" />
+    <meta name="color-scheme" content="light dark" />
 
     <!-- Icons / manifest -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png" />
@@ -156,13 +156,13 @@
     </script>
 
     <script>
-      // Set theme before paint to avoid a flash. Dark is the default.
+      // Set theme before paint to avoid a flash. Light is the default.
       (function () {
         try {
           var t = localStorage.getItem('pf-theme');
-          document.documentElement.dataset.theme = t === 'light' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = t === 'dark' ? 'dark' : 'light';
         } catch (e) {
-          document.documentElement.dataset.theme = 'dark';
+          document.documentElement.dataset.theme = 'light';
         }
       })();
     </script>
