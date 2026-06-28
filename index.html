@@ -2,17 +2,379 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
-    <link rel="icon" type="image/png" href="/favicons/favicon.png" />
-    <link rel="apple-touch-icon" href="/favicons/apple-touch-icon.png" />
-    <link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.ico" />
+
+    <!-- Primary meta -->
+    <title>Ahmed Muharram, AI/ML Engineer building LLM agents</title>
+    <meta
+      name="description"
+      content="Ahmed Muharram, AI/ML engineer building tool-calling LLM agents and retrieval (RAG) systems. University of Pennsylvania Bachelor's and Master's; Onsi Sawiris Scholar."
+    />
+    <meta
+      name="keywords"
+      content="Ahmed Muharram, AI engineer, ML engineer, LLM agents, tool calling, retrieval augmented generation, RAG, pydantic-ai, LangGraph, pgvector, Qdrant, vector search, University of Pennsylvania, Onsi Sawiris Scholar, software engineer"
+    />
+    <meta name="author" content="Ahmed Muharram" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <link rel="canonical" href="https://muharram.dev/" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ᗩᕼᗰEᗪ ᗰᑌᕼᗩᖇᖇᗩᗰ</title>
-    <script type="module" crossorigin src="/assets/main-Bnv2PFYL.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/client-Bye7wquK.js">
-    <link rel="stylesheet" crossorigin href="/assets/main-ghJ7og3E.css">
+    <meta name="theme-color" content="#0a0612" />
+    <meta name="color-scheme" content="dark light" />
+
+    <!-- Icons / manifest -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png" />
+    <link rel="shortcut icon" href="/favicons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
+    <link rel="manifest" href="/favicons/site.webmanifest" />
+
+    <!-- Open Graph (link previews in iMessage, Slack, Discord, LinkedIn, Facebook) -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="Ahmed Muharram" />
+    <meta property="og:title" content="Ahmed Muharram, AI/ML Engineer" />
+    <meta
+      property="og:description"
+      content="AI/ML engineer building tool-calling LLM agents and retrieval (RAG) systems for scientific workflows. University of Pennsylvania Bachelor's and Master's; Onsi Sawiris Scholar."
+    />
+    <meta property="og:url" content="https://muharram.dev/" />
+    <meta property="og:image" content="https://muharram.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ahmed Muharram, AI/ML Engineer" />
+    <meta property="profile:first_name" content="Ahmed" />
+    <meta property="profile:last_name" content="Muharram" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Ahmed Muharram, AI/ML Engineer" />
+    <meta
+      name="twitter:description"
+      content="AI/ML engineer building tool-calling LLM agents and retrieval (RAG) systems for scientific workflows."
+    />
+    <meta name="twitter:image" content="https://muharram.dev/og-image.png" />
+
+    <!-- Structured data: helps Google's knowledge panel and lets LLMs extract
+         a clean, machine-readable profile without running JavaScript. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://muharram.dev/#person",
+            "name": "Ahmed Muharram",
+            "alternateName": "Ahmed O. Muharram",
+            "url": "https://muharram.dev/",
+            "image": "https://muharram.dev/og-image.png",
+            "jobTitle": "AI/ML Engineer",
+            "description": "AI/ML engineer building production tool-calling LLM agents, retrieval-augmented generation (RAG) systems, and high-throughput backend infrastructure.",
+            "worksFor": { "@type": "Organization", "name": "Orascom Construction" },
+            "alumniOf": {
+              "@type": "CollegeOrUniversity",
+              "name": "University of Pennsylvania"
+            },
+            "knowsAbout": [
+              "Tool-calling LLM agents",
+              "Multi-agent systems",
+              "Retrieval-augmented generation (RAG)",
+              "Prompt engineering",
+              "pydantic-ai",
+              "LangGraph",
+              "FastAPI",
+              "pgvector",
+              "Qdrant",
+              "Hybrid and late-interaction retrieval",
+              "Vector search",
+              "Machine learning",
+              "Information retrieval",
+              "Distributed systems",
+              "PostgreSQL",
+              "Docker and Kubernetes",
+              "Next.js and React",
+              "Scientific computing"
+            ],
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Cairo",
+              "addressCountry": "EG"
+            },
+            "nationality": { "@type": "Country", "name": "Egypt" },
+            "award": [
+              "Penn Engineering Outstanding Research Award",
+              "Onsi Sawiris Scholar"
+            ],
+            "sameAs": [
+              "https://github.com/ahmedomuharram",
+              "https://www.linkedin.com/in/ahmed-muharram"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://muharram.dev/#website",
+            "url": "https://muharram.dev/",
+            "name": "Ahmed Muharram",
+            "description": "Portfolio of Ahmed Muharram, an AI/ML engineer building LLM agents and retrieval systems for scientific workflows.",
+            "publisher": { "@id": "https://muharram.dev/#person" },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "Thesis",
+            "name": "How Underspecified Prompts Shape Tool-Calling LLM Agents in Scientific Workflows",
+            "author": { "@id": "https://muharram.dev/#person" },
+            "datePublished": "2026",
+            "inLanguage": "en",
+            "url": "https://muharram.dev/#thesis",
+            "publisher": { "@type": "CollegeOrUniversity", "name": "University of Pennsylvania" },
+            "about": [
+              "LLM agents",
+              "Tool calling",
+              "Retrieval-augmented generation",
+              "Materials informatics",
+              "Pathogen genomics",
+              "Evaluation"
+            ]
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "name": "PathFinder",
+            "author": { "@id": "https://muharram.dev/#person" },
+            "codeRepository": "https://github.com/ahmedomuharram/pathfinder",
+            "programmingLanguage": ["Python", "TypeScript"],
+            "about": ["Tool-calling LLM agent", "Pathogen genomics", "VEuPathDB", "pydantic-ai", "LangGraph"],
+            "description": "A 44-tool pathogen-genomics LLM agent that compiles natural-language questions into executable WDK strategy graphs across the 14-database VEuPathDB consortium; built on pydantic-ai and LangGraph with pgvector catalog grounding."
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "name": "LAMINA",
+            "author": { "@id": "https://muharram.dev/#person" },
+            "codeRepository": "https://github.com/ahmedomuharram/lamina",
+            "programmingLanguage": ["Python", "TypeScript"],
+            "about": ["Tool-calling LLM agent", "Materials science", "Materials informatics", "CALPHAD", "DFT"],
+            "description": "A 50-tool materials-feasibility LLM agent over CALPHAD, Materials Project DFT, and CHGNet neural surrogates."
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      // Set theme before paint to avoid a flash. Dark is the default.
+      (function () {
+        try {
+          var t = localStorage.getItem('pf-theme');
+          document.documentElement.dataset.theme = t === 'light' ? 'light' : 'dark';
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script>
+
+    <!-- Visually-hidden text mirror of the page. Real DOM content (not a
+         <noscript>, which extractors often strip), so JS-free crawlers (most
+         AI/LLM bots) and screen readers get the full profile. The WebGL app
+         renders over it for sighted users. -->
+    <style>
+      .sr-only {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Orbitron:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/assets/main-Dc7E3qiO.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/client-C_eF-9CV.js">
+    <link rel="stylesheet" crossorigin href="/assets/main-BHVvrYA7.css">
   </head>
   <body>
+    <div class="sr-only">
+      <h1>Ahmed Muharram</h1>
+      <p>
+        AI/ML Engineer based in Cairo, Egypt. I build production tool-calling LLM
+        agents, retrieval-augmented generation (RAG) systems, and high-throughput
+        backend infrastructure end to end, with a focus on systems and scientific
+        LLM agents.
+      </p>
+
+      <h2>About</h2>
+      <p>
+        I'm a recent graduate of the University of Pennsylvania (Bachelor's and
+        Master's in Computer and Information Science, May 2026) and an Onsi Sawiris
+        Scholar. I care about clarity, reliability, and the human experience of
+        software, and I work where systems and AI meet, bringing rigor to complex
+        problems while keeping people at the center. I build privacy-first AI
+        products and tool-calling LLM agents for scientific workflows, with a
+        background that spans research and industry.
+      </p>
+
+      <h2>Education</h2>
+      <ul>
+        <li>
+          University of Pennsylvania, Master of Science in Engineering in Computer
+          and Information Science (Apr 2024 to May 2026).
+        </li>
+        <li>
+          University of Pennsylvania, Bachelor of Science in Engineering in Computer
+          and Information Science (Aug 2022 to May 2026), with minors in
+          Mathematics, Data Science, and Engineering Entrepreneurship.
+        </li>
+        <li>
+          Onsi Sawiris Scholar: a fully funded, merit-based scholarship awarded to
+          top Egyptian students for study at leading US universities.
+        </li>
+      </ul>
+
+      <h2>Experience</h2>
+      <ul>
+        <li>
+          <strong>Applications Consultant, Orascom Construction</strong> (Jul 2026
+          to Present).
+        </li>
+        <li>
+          <strong>AI/ML Engineer, Fidelity Investments</strong> (Dec 2025 to Jan
+          2026). Productionized and scaled an internal LLM/RAG system, expanding it
+          to arbitrary enterprise data sources via a standardized connector,
+          ingestion, and indexing template. Replaced a BM25S index with a custom
+          hybrid PostgreSQL full-text search + pgvector design, cutting refresh
+          latency from 10 minutes per 1M chunks to under 1 second; built
+          multivector and late-interaction retrieval with hybrid-score reranking
+          and a sharded Qdrant cluster. Now used in production by around 200 daily
+          R&amp;D users.
+        </li>
+        <li>
+          <strong>Data Science and AI Intern, Fidelity Investments</strong> (Jun
+          2025 to Aug 2025). Architected a high-throughput ingestion pipeline for
+          terabytes of data at 99.99%+ success (schema validation, retries,
+          idempotent writes); built a grounded RAG application on Qdrant and
+          pgvector with hallucination checks and an evaluation harness;
+          containerized with Docker and Kubernetes.
+        </li>
+        <li>
+          <strong>Software Engineering Intern (AI Integration), Aydi</strong> (Jun
+          2024 to Aug 2024). Built a low-connectivity chatbot for agricultural
+          business owners (Haystack, MongoDB Atlas, Redis, GPT-4o) with 85%+ top-1
+          retrieval accuracy; reduced LLM spend by 96.25% via a cost and quality
+          model migration.
+        </li>
+      </ul>
+
+      <h2 id="thesis">Master's Thesis (University of Pennsylvania, 2026)</h2>
+      <p>
+        <strong
+          >How Underspecified Prompts Shape Tool-Calling LLM Agents in Scientific
+          Workflows</strong
+        >, advised by Chris Callison-Burch and read by Eric Wong. Through two
+        open-source case studies on the Kani framework (LAMINA, a 50-tool
+        materials-feasibility agent, and PathFinder, a 44-tool pathogen-genomics
+        agent), it finds that prompt underspecification dominates model scale,
+        routing policy, and task complexity as a source of agent failure, with
+        instability localizing to the natural-language-to-tool-invocation mapping
+        rather than to tool execution. This work received the Penn Engineering
+        Outstanding Research Award.
+      </p>
+
+      <h2>Selected Projects</h2>
+      <ul>
+        <li>
+          <strong>PathFinder:</strong> a 44-tool pathogen-genomics LLM agent on a
+          pydantic-ai and LangGraph pipeline (scoping, discovery, planning,
+          execution, verification) that compiles natural-language questions into
+          executable WDK strategy graphs across the 14-database VEuPathDB consortium
+          (PlasmoDB, ToxoDB, CryptoDB, VectorBase, and others), with pgvector
+          catalog grounding; now being integrated into the VEuPathDB platform.
+          https://github.com/ahmedomuharram/pathfinder
+        </li>
+        <li>
+          <strong>LAMINA:</strong> a 50-tool materials-feasibility LLM agent over
+          CALPHAD, Materials Project DFT, and CHGNet neural surrogates that turns
+          open-ended feasibility questions into traceable, executable tool
+          workflows. https://github.com/ahmedomuharram/lamina
+        </li>
+        <li>
+          <strong>ScenIQ:</strong> on-prem, security-first meeting intelligence
+          (SOC 2, GDPR, and HIPAA aligned) that turns meeting video into
+          transcripts, topics, and action items via FFmpeg, speaker diarization,
+          Whisper transcription, segmentation, and action-item extraction; FastAPI,
+          PostgreSQL + pgvector, Zoom/Teams ingestion, and ClickUp/Jira outputs.
+          https://sceniq.app
+        </li>
+        <li>
+          <strong>ByteNet:</strong> a distributed web search engine on a custom Java
+          stack (webserver, distributed key-value store, RDD-style framework) with a
+          ~500k-URL crawler and distributed TF-IDF + iterative PageRank on AWS EC2.
+        </li>
+        <li>
+          <strong>InstaLite:</strong> a full-stack Instagram clone on AWS with
+          semantic profile search and real-time chat over WebSockets.
+        </li>
+        <li>
+          <strong>PennOS:</strong> a UNIX-like OS simulator with a preemptive
+          SIGALRM scheduler (priority queues) and a PennFAT (FAT16-style)
+          filesystem.
+        </li>
+      </ul>
+
+      <h2>Skills</h2>
+      <ul>
+        <li>
+          Agents and LLM frameworks: tool-calling and multi-agent systems, RAG,
+          prompt engineering, model routing, guardrails; pydantic-ai, LangGraph,
+          LangChain, Haystack, Kani, Vercel AI SDK; OpenAI, Anthropic, and Gemini
+          APIs.
+        </li>
+        <li>
+          Retrieval, embeddings, and LLM ops: pgvector (HNSW), Qdrant, BM25, hybrid,
+          multivector, and late-interaction retrieval, reranking, nomic-embed,
+          Whisper; OpenTelemetry, Langfuse, SigNoz; LLM evaluation (QWK, F1,
+          bootstrap CIs).
+        </li>
+        <li>
+          Backend and languages: Python, TypeScript, SQL, Java, C; FastAPI,
+          Pydantic, SQLAlchemy, asyncpg; REST, OpenAPI, WebSockets, Server-Sent
+          Events; distributed systems.
+        </li>
+        <li>
+          Frontend: React, Next.js, Vite, Tailwind, Zustand, TanStack Query,
+          ReactFlow.
+        </li>
+        <li>
+          Cloud and DevOps: PostgreSQL, Redis, MongoDB; Docker, Kubernetes, AWS (EC2,
+          RDS); GitHub Actions, CI/CD; Pytest, Vitest, Playwright.
+        </li>
+      </ul>
+
+      <h2>Awards</h2>
+      <ul>
+        <li>
+          Penn Engineering Outstanding Research Award, for the Master's thesis on
+          tool-calling LLM agents in scientific workflows.
+        </li>
+        <li>Onsi Sawiris Scholar.</li>
+      </ul>
+
+      <h2>Links</h2>
+      <ul>
+        <li>GitHub: https://github.com/ahmedomuharram</li>
+        <li>LinkedIn: https://www.linkedin.com/in/ahmed-muharram</li>
+        <li>Website: https://muharram.dev</li>
+      </ul>
+    </div>
+
     <div id="root"></div>
+    <noscript>
+      Ahmed Muharram. AI/ML Engineer building tool-calling LLM agents and retrieval
+      (RAG) systems for scientific workflows. University of Pennsylvania Bachelor's
+      and Master's, Onsi Sawiris Scholar. GitHub: https://github.com/ahmedomuharram.
+      LinkedIn: https://www.linkedin.com/in/ahmed-muharram
+    </noscript>
   </body>
 </html>
