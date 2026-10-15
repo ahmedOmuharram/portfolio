@@ -18,11 +18,11 @@ function ReadySignal({ onReady }) {
   return null
 }
 
-export default function Scene({ quality = 'high', fixedCamera, onReady }) {
+export default function Scene({ quality = 'high', fixedCamera, onReady, dpr, children }) {
   return (
     <Canvas
       shadows={quality !== 'low' ? { type: PCFSoftShadowMap } : false}
-      dpr={quality === 'high' ? [1, 1.75] : [1, 1.25]}
+      dpr={dpr || (quality === 'high' ? [1, 1.75] : [1, 1.25])}
       gl={{ antialias: false, powerPreference: 'high-performance', outputColorSpace: SRGBColorSpace, toneMapping: NoToneMapping, stencil: false }}
       camera={{ fov: 42, near: 0.05, far: 200, position: [2.6, 1.55, 2.8] }}
     >
@@ -36,6 +36,7 @@ export default function Scene({ quality = 'high', fixedCamera, onReady }) {
           <CameraRig fixed={fixedCamera} />
           <Effects quality={quality} />
           <ReadySignal onReady={onReady} />
+          {children}
         </Suspense>
       </SkyProvider>
     </Canvas>

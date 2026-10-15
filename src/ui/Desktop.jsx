@@ -106,6 +106,10 @@ export default function Desktop({ quality }) {
   }, [go])
 
   useEffect(() => {
+    if (slug) ui.set({ section: SECTION_IDS.indexOf('writing') })
+  }, [slug])
+
+  useEffect(() => {
     const el = panelRefs.current[SECTION_IDS[section]]
     if (el) el.scrollTop = 0
   }, [section])
