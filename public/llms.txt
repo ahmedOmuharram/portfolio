@@ -125,6 +125,11 @@ evaluation) and received the Penn Engineering Outstanding Research Award.
   LLM agents in scientific workflows).
 - Onsi Sawiris Scholar.
 
+## Writing
+
+Essays and notes on LLM agents, retrieval, and building software are listed at
+https://muharram.dev/#writing, with each post at https://muharram.dev/writing/<slug>/.
+
 ## Links
 
 - Website: https://muharram.dev

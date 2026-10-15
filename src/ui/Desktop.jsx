@@ -1,5 +1,6 @@
-import { lazy, Suspense, useCallback, useEffect, useRef } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { ui } from '../lib/store'
+import { canvasFontsReady } from '../lib/fonts'
 import { navigate, postSlugFromPath, usePath } from '../lib/router'
 import { SECTION_IDS } from '../scene/shots'
 import { Footer, HoverLabel, Loader, Rail, TopBar } from './Chrome'
@@ -43,6 +44,15 @@ export default function Desktop({ quality }) {
   const slug = postSlugFromPath(path)
   const cooldown = useRef(0)
   const panelRefs = useRef({})
+  const [fonts, setFonts] = useState(false)
+
+  useEffect(() => {
+    let live = true
+    canvasFontsReady().then(() => live && setFonts(true))
+    return () => {
+      live = false
+    }
+  }, [])
 
   const go = useCallback((i) => {
     const next = Math.max(0, Math.min(SECTION_IDS.length - 1, i))
@@ -121,10 +131,12 @@ export default function Desktop({ quality }) {
 
   return (
     <div className={`desktop section-${SECTION_IDS[section]}`}>
-      <div className="stage">
-        <Suspense fallback={null}>
-          <Scene quality={quality} onReady={() => setTimeout(() => ui.set({ ready: true }), 350)} />
-        </Suspense>
+      <div className="stage" aria-hidden="true">
+        {fonts && (
+          <Suspense fallback={null}>
+            <Scene quality={quality} onReady={() => setTimeout(() => ui.set({ ready: true }), 350)} />
+          </Suspense>
+        )}
       </div>
       <div className="shade" aria-hidden="true" />
       <TopBar onHome={() => go(0)} />
