@@ -4,6 +4,7 @@ import { PlaneGeometry } from 'three'
 import { useMaterials } from './materials'
 import { rugTexture } from './textures'
 import { ROOM } from './layout'
+import Hotspot from './Hotspot'
 
 function Box({ args, position, material, cast = true, receive = true, rotation }) {
   return (
@@ -93,6 +94,13 @@ export default function Room() {
           <Box key={`m${i}`} args={[0.025, 0.52, 0.08]} position={[win.x0 + paneW * (i + 0.5), 2.44, bz]} material={m.steel} />
         ))}
       </group>
+
+      <Hotspot id="about" position={[winCx, (win.y0 + win.y1) / 2, -3.06]}>
+        <mesh>
+          <planeGeometry args={[winW, win.y1 - win.y0]} />
+          <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
+        </mesh>
+      </Hotspot>
 
       <Box args={[winW + 0.36, 0.05, 0.5]} position={[winCx, win.y0 + 0.005, -d / 2 + 0.05]} material={m.woodDark} />
 
