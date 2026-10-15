@@ -3,7 +3,7 @@ import './Experience.css'
 import fidInvst from '../assets/fid-invst.png'
 import aydi from '../assets/aydi.png'
 import orascom from '../assets/orascom.png'
-import publicResume from '../assets/public_resume.pdf'
+import publicResume from '../assets/Public_Resume.pdf'
 
 const experienceData = [
   {
