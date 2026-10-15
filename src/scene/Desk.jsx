@@ -10,6 +10,7 @@ import { LAMPS } from './layout'
 import { useLive } from './live'
 import { LeafyPlant, Pot } from './Plants'
 import Hotspot from './Hotspot'
+import Clawd from './Clawd'
 
 const TOP = 0.78
 
@@ -284,6 +285,7 @@ export default function Desk() {
         <Pot radius={0.06} height={0.09} material={m.ceramic} />
         <LeafyPlant kind="heart" count={10} height={0.08} spread={0.08} size={0.75} base={0.08} seed={31} droop={0.5} stems={false} color="#4b8650" />
       </group>
+      <Clawd position={[0.34, TOP, -2.48]} rotation={[0, 0.25, 0]} scale={1.25} />
       <PcTower />
       <Chair />
     </group>

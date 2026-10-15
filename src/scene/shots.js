@@ -5,7 +5,7 @@ export const SHOTS = {
   research: { pos: [-0.6, 1.48, -1.3], target: [0.25, 0.85, -2.45] },
   projects: { pos: [-0.15, 1.25, -1.45], target: [0.42, 1.05, -2.55], fov: 42 },
   writing: { pos: [-1.0, 1.42, 0.35], target: [-3.5, 1.2, 1.1] },
-  contact: { pos: [1.0, 1.28, 0.95], target: [3.4, 0.82, -1.2] },
+  contact: { pos: [1.0, 1.3, 0.9], target: [3.4, 0.85, -1.6], fov: 48 },
 }
 
 export const SECTION_IDS = Object.keys(SHOTS)

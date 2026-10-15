@@ -459,6 +459,11 @@ h1 em {
   animation: pop 0.3s var(--ease);
 }
 
+.desktop.section-contact .radio-card {
+  bottom: auto;
+  top: 78px;
+}
+
 .radio-video {
   width: 200px;
   aspect-ratio: 16 / 9;
@@ -728,6 +733,21 @@ h1 em {
 
 .rail button:hover .rail-dot {
   border-color: var(--paper);
+}
+
+.clawd-bubble {
+  padding: 6px 11px;
+  border-radius: 12px 12px 12px 3px;
+  background: #f4ede0;
+  color: #2a221b;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  animation: pop 0.3s var(--ease);
+  pointer-events: none;
+  user-select: none;
 }
 
 .hover-label {
@@ -2238,6 +2258,7 @@ h1 em {
 }
 
 .mobile .radio-card {
+  top: auto;
   left: 12px;
   right: 12px;
   bottom: 12px;

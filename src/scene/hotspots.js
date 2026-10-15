@@ -12,6 +12,7 @@ export const HOTSPOT_LABELS = {
   guitar: 'Strum',
   cat: 'Pet the cat',
   catSill: 'Pet the cat',
+  clawd: 'Say hi to Clawd',
 }
 
 export function activate(id, action) {

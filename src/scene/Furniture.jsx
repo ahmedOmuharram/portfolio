@@ -4,6 +4,7 @@ import Music from './Music'
 import Board from './Board'
 import Cats from './Cats'
 import StringLights from './StringLights'
+import Dust from './Dust'
 import { Bookshelf, WallShelf } from './Shelves'
 import { HangingPlanter, LeafyPlant, Pot, SnakePlant } from './Plants'
 import { useMaterials } from './materials'
@@ -20,6 +21,7 @@ export default function Furniture() {
       <WallShelf />
       <StringLights />
       <Cats />
+      <Dust />
       <group position={[-3.05, 0, -2.66]}>
         <Pot radius={0.24} height={0.42} material={m.potDark} />
         <LeafyPlant kind="monstera" count={11} height={1.1} spread={0.5} size={0.95} base={0.4} seed={4} droop={0.35} color="#2f5a37" />

@@ -1,5 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import Mobile from './ui/Mobile'
+import { ui } from './lib/store'
+import { PRESETS } from './lib/time'
 
 const Desktop = lazy(() => import('./ui/Desktop'))
 
@@ -25,6 +27,9 @@ function detect() {
   const memory = navigator.deviceMemory || 8
   return { mode: '3d', quality: cores <= 4 || memory <= 4 ? 'medium' : 'high' }
 }
+
+const timeParam = new URLSearchParams(window.location.search).get('time')
+if (PRESETS.some((p) => p.id === timeParam)) ui.set({ timeMode: timeParam })
 
 export default function App() {
   const [env, setEnv] = useState(detect)
