@@ -187,59 +187,6 @@ function NearLeaves() {
   )
 }
 
-function City() {
-  const live = useLive()
-  const winMat = useRef()
-  const { buildings, windows } = useMemo(() => {
-    const r = rng(1234)
-    const b = []
-    const w = []
-    let x = -40
-    while (x < 40) {
-      const width = 2 + r() * 4
-      const height = 3 + r() * 9 + (Math.abs(x) < 10 ? 4 : 0)
-      b.push({ x: x + width / 2, width, height })
-      for (let wy = 1; wy < height - 0.5; wy += 1.1) {
-        for (let wx = 0.5; wx < width - 0.4; wx += 0.9) {
-          if (r() < 0.32) w.push([x + wx, -4 + wy, -44.6, r()])
-        }
-      }
-      x += width + 0.2 + r() * 1.5
-    }
-    return { buildings: b, windows: w }
-  }, [])
-  const windowGeo = useMemo(() => {
-    const g = new BufferGeometry()
-    const pos = []
-    const col = []
-    windows.forEach(([x, y, z, v]) => {
-      pos.push(x, y, z)
-      const warm = v > 0.3
-      col.push(warm ? 1 : 0.7, warm ? 0.72 : 0.8, warm ? 0.42 : 1)
-    })
-    g.setAttribute('position', new Float32BufferAttribute(pos, 3))
-    g.setAttribute('color', new Float32BufferAttribute(col, 3))
-    return g
-  }, [windows])
-  const bodyMat = useMemo(() => new MeshBasicMaterial({ color: '#1a1d2a', fog: false }), [])
-  useFrame(() => {
-    winMat.current.opacity = live.city
-    bodyMat.color.copy(live.fog).lerp(live.skyBottom, 0.45).multiplyScalar(0.5 + 0.3 * (1 - live.stars))
-  })
-  return (
-    <group>
-      {buildings.map((b, i) => (
-        <mesh key={i} position={[b.x, -4 + b.height / 2, -45]} material={bodyMat}>
-          <boxGeometry args={[b.width, b.height, 1]} />
-        </mesh>
-      ))}
-      <points geometry={windowGeo}>
-        <pointsMaterial ref={winMat} size={0.32} vertexColors transparent depthWrite={false} sizeAttenuation fog={false} />
-      </points>
-    </group>
-  )
-}
-
 function Fireflies() {
   const live = useLive()
   const ref = useRef()
@@ -278,7 +225,6 @@ export default function Outside() {
       <Canopy />
       <Trunks />
       <NearLeaves />
-      <City />
       <Fireflies />
     </group>
   )
