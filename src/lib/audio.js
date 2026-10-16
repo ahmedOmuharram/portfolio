@@ -389,36 +389,84 @@ export function flick(on) {
 
 let lastSip = 0
 
+function noiseBuffer(ac, dur, shape) {
+  const sr = ac.sampleRate
+  const len = Math.round(sr * dur)
+  const buffer = ac.createBuffer(1, len, sr)
+  const data = buffer.getChannelData(0)
+  let b0 = 0
+  let b1 = 0
+  let b2 = 0
+  for (let i = 0; i < len; i++) {
+    const w = Math.random() * 2 - 1
+    b0 = 0.99765 * b0 + w * 0.099046
+    b1 = 0.963 * b1 + w * 0.2965164
+    b2 = 0.57 * b2 + w * 1.0526913
+    data[i] = (b0 + b1 + b2 + w * 0.1848) * 0.2 * shape(i / sr, i)
+  }
+  return buffer
+}
+
+function pop(ac, at, freq, gain) {
+  const osc = ac.createOscillator()
+  osc.type = 'sine'
+  osc.frequency.setValueAtTime(freq, at)
+  osc.frequency.exponentialRampToValueAtTime(freq * 1.6, at + 0.018)
+  const g = ac.createGain()
+  g.gain.setValueAtTime(gain, at)
+  g.gain.exponentialRampToValueAtTime(0.0001, at + 0.025)
+  osc.connect(g).connect(bus)
+  osc.start(at)
+  osc.stop(at + 0.03)
+}
+
 export function sip(empty) {
   const now = performance.now()
   if (now - lastSip < 350) return
   lastSip = now
   const ac = audio()
   if (!ac) return
-  const sr = ac.sampleRate
-  const dur = empty ? 0.75 : 0.42
-  const len = Math.round(sr * dur)
-  const buffer = ac.createBuffer(1, len, sr)
-  const data = buffer.getChannelData(0)
-  let lp = 0
-  let bubble = 0
-  for (let i = 0; i < len; i++) {
-    const t = i / sr
-    const env = Math.sin(Math.PI * Math.min(1, t / dur)) ** 0.6
-    lp += ((Math.random() * 2 - 1) - lp) * (empty ? 0.5 : 0.22)
-    if (Math.random() < (empty ? 0.004 : 0.0016)) bubble = 1
-    bubble *= empty ? 0.9965 : 0.9985
-    const rattle = empty ? 0.6 + 0.4 * Math.sign(Math.sin(t * 2 * Math.PI * (22 + 18 * Math.sin(t * 9)))) : 1
-    data[i] = lp * env * (0.35 + bubble * 0.9) * rattle
+  const t0 = ac.currentTime + 0.01
+  if (!empty) {
+    const dur = 0.34
+    const rate = 18 + Math.random() * 6
+    const src = ac.createBufferSource()
+    src.buffer = noiseBuffer(ac, dur, (t) => Math.min(1, t / 0.05) * Math.min(1, (dur - t) / 0.1) * (0.8 + 0.2 * Math.sin(t * rate * Math.PI * 2)))
+    const bp = ac.createBiquadFilter()
+    bp.type = 'bandpass'
+    bp.frequency.setValueAtTime(700, t0)
+    bp.frequency.linearRampToValueAtTime(950, t0 + dur)
+    bp.Q.value = 1.1
+    const lp = ac.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 2200
+    const g = ac.createGain()
+    g.gain.value = 0.26
+    src.connect(bp).connect(lp).connect(g).connect(bus)
+    src.start(t0)
+    return
   }
+  const dur = 0.5
+  let gate = 0
+  let smooth = 0
+  let next = 0
+  const sr = ac.sampleRate
   const src = ac.createBufferSource()
-  src.buffer = buffer
+  src.buffer = noiseBuffer(ac, dur, (t, i) => {
+    if (i >= next) {
+      gate = Math.random() < 0.65 ? 0.45 + Math.random() * 0.55 : 0.15
+      next = i + Math.round(sr * (0.015 + Math.random() * 0.03))
+    }
+    smooth += (gate - smooth) * 0.004
+    return smooth * Math.min(1, t / 0.05) * Math.min(1, (dur - t) / 0.15)
+  })
   const bp = ac.createBiquadFilter()
   bp.type = 'bandpass'
-  bp.frequency.value = empty ? 1400 : 900
+  bp.frequency.value = 1100
   bp.Q.value = 0.9
   const g = ac.createGain()
-  g.gain.value = empty ? 0.5 : 0.65
+  g.gain.value = 0.24
   src.connect(bp).connect(g).connect(bus)
-  src.start(ac.currentTime + 0.01)
+  src.start(t0)
+  for (let k = 0; k < 3; k++) pop(ac, t0 + 0.06 + Math.random() * (dur - 0.2), 450 + Math.random() * 400, 0.025 + Math.random() * 0.025)
 }

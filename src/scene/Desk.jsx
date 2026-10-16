@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { RoundedBox } from '@react-three/drei'
-import { AdditiveBlending, CanvasTexture, DoubleSide, LatheGeometry, MeshBasicMaterial, MeshStandardMaterial, SRGBColorSpace, Vector2 } from 'three'
+import { AdditiveBlending, CanvasTexture, CylinderGeometry, DoubleSide, LatheGeometry, MeshBasicMaterial, MeshStandardMaterial, SRGBColorSpace, Vector2 } from 'three'
 import { useMaterials } from './materials'
 import { paperTexture } from './textures'
 import { createTerminal } from './terminal'
@@ -137,6 +137,8 @@ function stickerTexture() {
 
 const CUP = { h: 0.15, top: 0.047, bottom: 0.035 }
 const FULL = 0.118
+const cupRadius = (y) => CUP.bottom + (CUP.top - CUP.bottom) * (y / CUP.h) - 0.002
+const liquidGeometry = (h) => new CylinderGeometry(cupRadius(h + 0.003), cupRadius(0.003), h, 36, 1)
 const ICE = [
   [0.016, 0.01, 0.4, 0.2],
   [-0.017, 0.006, 1.1, 0.9],
@@ -150,6 +152,8 @@ function IcedLatte({ position }) {
   const target = useRef(FULL)
   const emptyAt = useRef(0)
   const liquid = useRef()
+  const built = useRef(FULL)
+  const liquidGeo = useMemo(() => liquidGeometry(FULL), [])
   const top = useRef()
   const ice = useRef([])
   const tex = useMemo(() => latteTexture(), [])
@@ -167,8 +171,14 @@ function IcedLatte({ position }) {
     }
     level.current += (target.current - level.current) * Math.min(1, dt * (target.current > level.current ? 0.8 : 6))
     const h = level.current
-    const r = CUP.bottom + (CUP.top - CUP.bottom) * ((h + 0.004) / CUP.h) - 0.002
-    liquid.current.scale.set(1, h / FULL, 1)
+    const r = cupRadius(h + 0.004)
+    if (Math.abs(h - built.current) > 0.0004) {
+      const old = liquid.current.geometry
+      liquid.current.geometry = liquidGeometry(h)
+      if (old !== liquidGeo) old.dispose()
+      built.current = h
+    }
+    liquid.current.position.y = 0.003 + h / 2
     top.current.position.y = h + 0.004
     top.current.scale.setScalar(r / 0.044)
     ice.current.forEach((m, i) => {
@@ -208,11 +218,7 @@ function IcedLatte({ position }) {
       <mesh position={[0, 0.002, 0]} rotation={[-Math.PI / 2, 0, 0]} material={cupMat}>
         <circleGeometry args={[CUP.bottom, 32]} />
       </mesh>
-      <group ref={liquid} position={[0, 0.003, 0]}>
-        <mesh position={[0, FULL / 2, 0]} material={liquidMat} castShadow>
-          <cylinderGeometry args={[CUP.bottom + (CUP.top - CUP.bottom) * (FULL / CUP.h) - 0.002, CUP.bottom - 0.002, FULL, 36, 1]} />
-        </mesh>
-      </group>
+      <mesh ref={liquid} geometry={liquidGeo} position={[0, 0.003 + FULL / 2, 0]} material={liquidMat} castShadow />
       <mesh ref={top} rotation={[-Math.PI / 2, 0, 0]}>
         <circleGeometry args={[0.044, 36]} />
         <meshStandardMaterial color="#6a3f20" roughness={0.18} />
