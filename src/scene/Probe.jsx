@@ -6,6 +6,7 @@ const a = ARMCHAIR.rotation
 const SPOTS = {
   cat: [ARMCHAIR.position[0] + Math.sin(a) * 0.08, 0.62, ARMCHAIR.position[2] + Math.cos(a) * 0.08],
   catSill: [-1.0, 1.1, -2.88],
+  catFloor: [0.75, 0.16, -0.95],
   radio: [CREDENZA.x - 0.02, CREDENZA.height + 0.1, CREDENZA.z - 0.2],
   guitar: [3.05, 0.45, 0.1],
 }

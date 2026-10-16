@@ -41,7 +41,7 @@ async function main() {
   }
   await browser.close()
   if (Object.keys(spots).length) {
-    const labels = { cat: 'Pet the sleeping cat', catSill: 'Pet the window cat', radio: 'Play the radio', guitar: 'Strum the guitar' }
+    const labels = { cat: 'Pet the sleeping cat', catSill: 'Pet the window cat', catFloor: 'Pet the fluffy cat', radio: 'Play the radio', guitar: 'Strum the guitar' }
     for (const k of Object.keys(spots)) spots[k] = spots[k].map((s) => ({ ...s, label: labels[s.id] }))
     fs.writeFileSync(path.join(OUT, 'spots.json'), JSON.stringify(spots, null, 2) + '\n')
   }

@@ -4,7 +4,7 @@ import { toggleRadio } from '../lib/radio'
 
 const PHASES = ['night', 'dawn', 'day', 'golden', 'dusk']
 const VARIANTS = ['night', 'golden']
-const ACTIONS = { cat: () => petCat('cat'), catSill: () => petCat('sill'), radio: toggleRadio, guitar: strum }
+const ACTIONS = { cat: () => petCat('cat'), catSill: () => petCat('sill'), catFloor: () => petCat('floor'), radio: toggleRadio, guitar: strum }
 
 let spotsPromise = null
 function loadSpots() {

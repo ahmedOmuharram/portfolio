@@ -12,6 +12,7 @@ export const HOTSPOT_LABELS = {
   guitar: 'strum',
   cat: 'pet the cat',
   catSill: 'pet the cat',
+  catFloor: 'pet the cat',
   clawd: 'say hi to clawd',
   lampDesk: 'the lamp',
   lampFloor: 'the lamp',

@@ -106,6 +106,7 @@ function makePurr(ac) {
 const VOICES = {
   sill: { pitch: 640, purrRate: 1.06, size: 1 },
   cat: { pitch: 470, purrRate: 0.94, size: 1.15 },
+  floor: { pitch: 560, purrRate: 1.0, size: 1.08 },
 }
 
 const cats = {}
