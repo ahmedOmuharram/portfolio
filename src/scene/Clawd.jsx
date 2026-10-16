@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { Html, RoundedBox } from '@react-three/drei'
 import { MeshStandardMaterial } from 'three'
 import Hotspot from './Hotspot'
+import { chirp } from '../lib/audio'
 
 const LINES = ['hi! ✦', 'shipping it?', 'the cats approve', 'one more commit…', 'lofi + code', 'nice room :)', 'thanks for having me']
 
@@ -20,6 +21,7 @@ export default function Clawd({ position = [0.34, 0.78, -2.48], rotation = [0, 0
   const dark = useMemo(() => new MeshStandardMaterial({ color: '#1b1411', roughness: 0.4 }), [])
 
   const poke = () => {
+    chirp()
     hop.current = 1
     setLine(LINES[Math.floor(Math.random() * LINES.length)])
     clearTimeout(timer.current)

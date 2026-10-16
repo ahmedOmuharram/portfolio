@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { CanvasTexture, CapsuleGeometry, LatheGeometry, MeshStandardMaterial, Quaternion, SplineCurve, Vector2, Vector3 } from 'three'
 import { ui } from '../lib/store'
-import { purr } from '../lib/audio'
+import { petCat } from '../lib/audio'
 import Hotspot from './Hotspot'
 import { ARMCHAIR } from './layout'
 
@@ -105,20 +105,23 @@ function SillCat() {
   const head = useRef()
   const last = useRef(0)
   const react = useRef(0)
+  const annoyed = useRef(0)
   const tailPts = useRef(Array.from({ length: 12 }, () => new Vector3()))
   useFrame(({ clock }, dt) => {
     const t = clock.elapsedTime
-    const p = ui.get().purr
-    if (p !== last.current) {
-      last.current = p
-      react.current = 1
+    const p = ui.get().pet
+    if (p && p.n !== last.current) {
+      last.current = p.n
+      if (p.id === 'sill' && p.kind === 'annoyed') annoyed.current = 1
+      else if (p.id === 'sill' && p.kind !== 'ignore') react.current = 1
     }
     react.current = Math.max(0, react.current - dt * 0.4)
+    annoyed.current = Math.max(0, annoyed.current - dt * 0.22)
     torso.current.scale.set(1 + Math.sin(t * 1.6) * 0.012, 1 + Math.sin(t * 1.6) * 0.018, 1)
-    head.current.rotation.y = Math.sin(t * 0.23) * 0.35 + Math.sin(t * 2.1) * 0.02 + react.current * Math.sin(t * 3) * 0.2
+    head.current.rotation.y = Math.sin(t * 0.23) * 0.35 + Math.sin(t * 2.1) * 0.02 + react.current * Math.sin(t * 3) * 0.2 + annoyed.current * 0.9
     head.current.rotation.x = -0.12 + Math.sin(t * 0.31) * 0.06 - react.current * 0.25
     const pts = tailPts.current
-    const swish = Math.sin(t * 1.2) * 0.5 + Math.sin(t * 0.37) * 0.3
+    const swish = (Math.sin(t * 1.2) * 0.5 + Math.sin(t * 0.37) * 0.3) * (1 + annoyed.current * 1.6) + annoyed.current * Math.sin(t * 7) * 0.5
     for (let i = 0; i < pts.length; i++) {
       const k = i / (pts.length - 1)
       const overEdge = Math.max(0, k - 0.3) / 0.7
@@ -130,7 +133,7 @@ function SillCat() {
     }
   })
   return (
-    <Hotspot id="catSill" action={purr} position={[-1.02, 0.83, -2.9]} rotation={[0, 0.25, 0]} scale={1.3}>
+    <Hotspot id="catSill" action={() => petCat('sill')} position={[-1.02, 0.83, -2.9]} rotation={[0, 0.25, 0]} scale={1.3}>
       <group ref={torso} scale={[1, 1, 1]}>
         <mesh geometry={body} material={fur} scale={[1, 1, 0.86]} rotation={[0.08, 0, 0]} castShadow receiveShadow />
       </group>
@@ -170,21 +173,24 @@ function CurledCat() {
   const head = useRef()
   const last = useRef(0)
   const react = useRef(0)
+  const annoyed = useRef(0)
   const tailPts = useRef(Array.from({ length: 12 }, () => new Vector3()))
   useFrame(({ clock }, dt) => {
     const t = clock.elapsedTime
-    const p = ui.get().purr
-    if (p !== last.current) {
-      last.current = p
-      react.current = 1
+    const p = ui.get().pet
+    if (p && p.n !== last.current) {
+      last.current = p.n
+      if (p.id === 'cat' && p.kind === 'annoyed') annoyed.current = 1
+      else if (p.id === 'cat' && p.kind !== 'ignore') react.current = 1
     }
     react.current = Math.max(0, react.current - dt * 0.35)
+    annoyed.current = Math.max(0, annoyed.current - dt * 0.22)
     const breath = Math.sin(t * 1.3)
     body.current.scale.set(1 + breath * 0.012, 1 + breath * 0.035, 1 + breath * 0.012)
     head.current.rotation.x = -react.current * 0.6
     head.current.position.y = 0.075 + react.current * 0.05
     const pts = tailPts.current
-    const flick = Math.sin(t * 0.8) * 0.15 * (0.5 + 0.5 * Math.sin(t * 0.21))
+    const flick = Math.sin(t * 0.8) * 0.15 * (0.5 + 0.5 * Math.sin(t * 0.21)) + Math.sin(t * 9) * 0.35 * annoyed.current
     for (let i = 0; i < pts.length; i++) {
       const k = i / (pts.length - 1)
       const a = -0.6 + k * 2.2
@@ -193,7 +199,7 @@ function CurledCat() {
   })
   return (
     <group position={ARMCHAIR.position} rotation={[0, ARMCHAIR.rotation, 0]}>
-      <Hotspot id="cat" action={purr} position={[0.02, 0.54, 0.08]} rotation={[0, -0.4, 0]} scale={1.15}>
+      <Hotspot id="cat" action={() => petCat('cat')} position={[0.02, 0.54, 0.08]} rotation={[0, -0.4, 0]} scale={1.15}>
         <group ref={body}>
           <mesh material={fur} rotation={[-Math.PI / 2, 0, 0.6]} scale={[1, 1, 0.75]} castShadow receiveShadow>
             <torusGeometry args={[0.1, 0.075, 20, 40, Math.PI * 1.6]} />

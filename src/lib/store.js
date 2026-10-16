@@ -25,6 +25,6 @@ export const ui = createStore({
   station: 0,
   timeMode: 'live',
   ready: false,
-  purr: 0,
+  pet: null,
   strum: 0,
 })

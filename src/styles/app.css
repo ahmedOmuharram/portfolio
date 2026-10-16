@@ -491,8 +491,82 @@ h1 em {
 
 .radio-name {
   font-family: var(--serif);
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-style: italic;
+  line-height: 1.25;
+  max-width: 210px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.radio-volume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.icon-btn {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(236, 228, 214, 0.04);
+  cursor: pointer;
+  padding: 0;
+}
+
+.icon-btn:hover {
+  border-color: var(--line-2);
+}
+
+.icon-btn svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: var(--paper);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.radio-volume input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 150px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--amber) 0 var(--fill, 50%), rgba(236, 228, 214, 0.16) var(--fill, 50%) 100%);
+  outline: none;
+  cursor: pointer;
+}
+
+.radio-volume input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 0;
+  box-shadow: 0 0 0 3px rgba(232, 168, 90, 0.25);
+}
+
+.radio-volume input[type='range']::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 0;
+}
+
+.radio-volume input[type='range']:focus-visible {
+  box-shadow: 0 0 0 3px rgba(232, 168, 90, 0.35);
 }
 
 .radio-actions {
@@ -685,7 +759,13 @@ h1 em {
   margin: 0;
   padding: 0;
   display: grid;
+  justify-items: end;
   gap: 4px;
+}
+
+.rail li {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .rail button {
@@ -2159,6 +2239,17 @@ h1 em {
   animation: beacon 2.6s ease-out infinite;
 }
 
+.still-spot span.is-annoyed::after {
+  content: '!' !important;
+  color: #f08a6a !important;
+  font-weight: 800;
+}
+
+.still-spot span.is-ignore::after {
+  content: '\2026' !important;
+  color: rgba(236, 228, 214, 0.7) !important;
+}
+
 .still-spot span.is-pulsing::after {
   content: '\2665';
   position: absolute;
@@ -2266,7 +2357,17 @@ h1 em {
 }
 
 .mobile .radio-video {
-  width: 120px;
+  width: 112px;
+}
+
+.mobile .radio-volume input[type='range'] {
+  width: 100%;
+  min-width: 90px;
+}
+
+.mobile .radio-info {
+  min-width: 0;
+  flex: 1;
 }
 
 .mobile .project-grid {
