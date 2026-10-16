@@ -6,23 +6,27 @@ import { ROOM } from './layout'
 
 const vertex = `
 varying vec2 vUv;
+varying float vFacing;
 void main() {
   vUv = uv;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  vec4 mv = modelViewMatrix * vec4(position, 1.0);
+  vFacing = abs(dot(normalize(normalMatrix * normal), normalize(-mv.xyz)));
+  gl_Position = projectionMatrix * mv;
 }
 `
 
 const fragment = `
 uniform vec3 uColor;
 uniform float uIntensity;
-uniform float uTime;
 varying vec2 vUv;
+varying float vFacing;
 void main() {
   float along = vUv.y;
-  float edge = smoothstep(0.0, 0.18, vUv.x) * smoothstep(1.0, 0.82, vUv.x);
-  float fade = pow(along, 1.6);
-  float shimmer = 0.85 + 0.15 * sin(vUv.x * 18.0 + uTime * 0.6 + along * 6.0);
-  gl_FragColor = vec4(uColor * uIntensity * edge * fade * shimmer, 1.0);
+  float edge = smoothstep(0.0, 0.3, vUv.x) * smoothstep(1.0, 0.7, vUv.x);
+  float fade = pow(along, 1.6) * smoothstep(1.0, 0.78, along) * mix(0.55, 1.0, smoothstep(0.0, 0.25, vFacing));
+  float shimmer = 0.88 + 0.12 * sin(vUv.x * 18.0 + along * 6.0);
+  float dither = (fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) / 255.0;
+  gl_FragColor = vec4(max(vec3(0.0), uColor * uIntensity * edge * fade * shimmer + dither), 1.0);
 }
 `
 
@@ -35,7 +39,10 @@ function Beam({ origin, width, height, uniforms }) {
   const geoB = useMemo(() => new PlaneGeometry(height, 4.2, 1, 1).translate(0, -2.1, 0), [height])
   const q = useMemo(() => new Quaternion(), [])
   const dir = useMemo(() => new Vector3(), [])
+  const aimed = useMemo(() => new Vector3(), [])
   useFrame(() => {
+    if (aimed.lengthSq() > 0 && aimed.angleTo(live.dir) < 0.004) return
+    aimed.copy(live.dir)
     dir.copy(live.dir).multiplyScalar(-1).normalize()
     q.setFromUnitVectors(down, dir)
     ref.current.quaternion.copy(q)
@@ -54,7 +61,7 @@ function Beam({ origin, width, height, uniforms }) {
 
 export default function SunBeams() {
   const live = useLive()
-  const uniforms = useMemo(() => ({ uColor: { value: new Color() }, uIntensity: { value: 0 }, uTime: { value: 0 } }), [])
+  const uniforms = useMemo(() => ({ uColor: { value: new Color() }, uIntensity: { value: 0 } }), [])
   const { win } = ROOM
   const paneW = (win.x1 - win.x0) / 3
   const beams = useMemo(
@@ -70,8 +77,7 @@ export default function SunBeams() {
     const sun = live.facing * Math.min(1, live.sunIntensity / 3) * (1 - live.stars)
     const moon = live.stars * live.facing * 0.35
     uniforms.uColor.value.copy(live.sun)
-    uniforms.uIntensity.value = sun * 0.09 + moon * 0.05
-    uniforms.uTime.value = live.time
+    uniforms.uIntensity.value = sun * 0.115 + moon * 0.05
   })
   return (
     <group>

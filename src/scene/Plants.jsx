@@ -177,8 +177,8 @@ export function HangingPlanter({ position, length = 0.75 }) {
   const m = useMaterials()
   const ref = useRef()
   useFrame(({ clock }) => {
-    ref.current.rotation.z = Math.sin(clock.elapsedTime * 0.5) * 0.015
-    ref.current.rotation.x = Math.sin(clock.elapsedTime * 0.37) * 0.012
+    ref.current.rotation.z = Math.sin(clock.elapsedTime * 0.4) * 0.008
+    ref.current.rotation.x = Math.sin(clock.elapsedTime * 0.29) * 0.006
   })
   const vines = useMemo(
     () => [

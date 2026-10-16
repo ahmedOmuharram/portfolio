@@ -17,7 +17,7 @@ const custom = q.get('cam')
 
 createRoot(document.getElementById('root')).render(
   <div style={{ position: 'fixed', inset: 0 }}>
-    <Scene quality={q.get('q') || 'high'} fixedCamera={custom || SHOTS[shot]} dpr={q.get('dpr') ? +q.get('dpr') : undefined}>
+    <Scene quality={q.get('q') || 'high'} fixedCamera={custom || SHOTS[shot]} dpr={q.get('dpr') ? +q.get('dpr') : undefined} frameloop={q.get('manual') ? 'never' : 'always'} grain={!q.get('nograin')} ao={!q.get('noao')}>
       <Probe />
     </Scene>
   </div>,

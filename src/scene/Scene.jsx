@@ -18,9 +18,10 @@ function ReadySignal({ onReady }) {
   return null
 }
 
-export default function Scene({ quality = 'high', fixedCamera, onReady, dpr, children }) {
+export default function Scene({ quality = 'high', fixedCamera, onReady, dpr, frameloop = 'always', grain = true, ao = true, children }) {
   return (
     <Canvas
+      frameloop={frameloop}
       shadows={quality !== 'low' ? { type: PCFSoftShadowMap } : false}
       dpr={dpr || (quality === 'high' ? [1, 1.75] : [1, 1.25])}
       gl={{ antialias: false, powerPreference: 'high-performance', outputColorSpace: SRGBColorSpace, toneMapping: NoToneMapping, stencil: false }}
@@ -34,7 +35,7 @@ export default function Scene({ quality = 'high', fixedCamera, onReady, dpr, chi
           <Furniture quality={quality} />
           <Lights quality={quality} />
           <CameraRig fixed={fixedCamera} />
-          <Effects quality={quality} />
+          <Effects quality={quality} grain={grain} ao={ao} />
           <ReadySignal onReady={onReady} />
           {children}
         </Suspense>

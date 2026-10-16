@@ -31,12 +31,12 @@ function Curtain({ x }) {
     return g
   }, [])
   useFrame(({ clock }) => {
-    ref.current.rotation.x = Math.sin(clock.elapsedTime * 0.6 + x) * 0.012
-    ref.current.rotation.y = Math.sin(clock.elapsedTime * 0.4 + x) * 0.03
+    ref.current.rotation.x = Math.sin(clock.elapsedTime * 0.45 + x) * 0.006
+    ref.current.rotation.y = Math.sin(clock.elapsedTime * 0.3 + x) * 0.015
   })
   return (
     <group position={[x, 2.86, -2.86]}>
-      <mesh ref={ref} geometry={geo} material={m.curtain} position={[0, -1.31, 0]} castShadow receiveShadow />
+      <mesh ref={ref} geometry={geo} material={m.curtain} position={[0, -1.31, 0]} castShadow />
     </group>
   )
 }

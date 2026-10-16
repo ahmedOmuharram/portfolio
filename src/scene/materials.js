@@ -25,7 +25,7 @@ export function getMaterials() {
     fabric: new MeshStandardMaterial({ color: '#5a3b2e', roughness: 1 }),
     fabricGreen: new MeshStandardMaterial({ color: '#2e4636', roughness: 1 }),
     cream: new MeshStandardMaterial({ color: '#d9cdb6', roughness: 0.9 }),
-    curtain: new MeshStandardMaterial({ color: '#d8ccb4', roughness: 1, side: DoubleSide, transparent: true, opacity: 0.88 }),
+    curtain: new MeshStandardMaterial({ color: '#d2c6ae', roughness: 1, side: DoubleSide }),
     brass: new MeshStandardMaterial({ color: '#b08a4a', roughness: 0.35, metalness: 0.85 }),
     leaf: new MeshStandardMaterial({ color: '#3d6b3f', roughness: 0.7, side: DoubleSide }),
     leafDark: new MeshStandardMaterial({ color: '#2a4d30', roughness: 0.7, side: DoubleSide }),

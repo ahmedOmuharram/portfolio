@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
-import { Object3D } from 'three'
+import { Object3D, Vector3 } from 'three'
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js'
 import { useLive } from './live'
 import { LAMPS } from './layout'
@@ -19,6 +19,7 @@ export default function Lights({ quality }) {
   const strings = useRef()
   const monitor = useRef()
   const pc = useRef()
+  const sunDir = useMemo(() => new Vector3(), [])
   const sunTarget = useMemo(() => {
     const o = new Object3D()
     o.position.set(0, 0.4, -1.2)
@@ -37,7 +38,10 @@ export default function Lights({ quality }) {
 
   useFrame(() => {
     const lamps = live.lamps
-    sun.current.position.copy(sunTarget.position).addScaledVector(live.dir, 14)
+    if (sunDir.angleTo(live.dir) > 0.004 || sunDir.lengthSq() === 0) {
+      sunDir.copy(live.dir)
+      sun.current.position.copy(sunTarget.position).addScaledVector(sunDir, 14)
+    }
     sun.current.color.copy(live.sun)
     sun.current.intensity = live.sunIntensity * live.facing * 3
     hemi.current.color.copy(live.skyMid).lerp(live.ambient, 0.5)

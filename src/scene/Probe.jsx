@@ -1,4 +1,4 @@
-import { useThree } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { Vector3 } from 'three'
 import { ARMCHAIR, CREDENZA } from './layout'
 
@@ -11,8 +11,25 @@ const SPOTS = {
   guitar: [3.05, 0.45, 0.1],
 }
 
+const grab = { left: 0, frames: [] }
+
 export default function Probe() {
   const camera = useThree((s) => s.camera)
+  window.__grab = (n) => {
+    grab.left = n
+    grab.frames = []
+  }
+  window.__grabbed = () => grab.frames
+  const advance = useThree((s) => s.advance)
+  window.__step = (n, from) => {
+    for (let i = 0; i < n; i++) advance(from + i / 60)
+    return from + n / 60
+  }
+  useFrame(({ gl }) => {
+    if (grab.left <= 0) return
+    grab.frames.push(gl.domElement.toDataURL('image/png'))
+    grab.left -= 1
+  }, 2)
   window.__spots = () => {
     camera.updateMatrixWorld()
     return Object.entries(SPOTS)
