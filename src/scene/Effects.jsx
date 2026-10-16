@@ -13,11 +13,11 @@ export default function Effects({ quality }) {
   }
   return (
     <EffectComposer multisampling={0}>
-      <N8AO aoRadius={0.45} intensity={2.2} distanceFalloff={0.6} quality={quality === 'high' ? 'medium' : 'low'} halfRes />
-      <Bloom mipmapBlur intensity={0.85} luminanceThreshold={0.82} luminanceSmoothing={0.25} radius={0.75} />
+      <N8AO aoRadius={0.45} intensity={2.2} distanceFalloff={0.6} quality={quality === 'high' ? 'medium' : 'low'} halfRes={quality !== 'high'} />
+      <Bloom mipmapBlur intensity={0.8} luminanceThreshold={0.85} luminanceSmoothing={0.35} radius={0.75} />
       <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
       <Vignette offset={0.22} darkness={0.7} />
-      <Noise blendFunction={BlendFunction.OVERLAY} opacity={0.18} />
+      <Noise blendFunction={BlendFunction.OVERLAY} opacity={0.1} />
       <SMAA />
     </EffectComposer>
   )

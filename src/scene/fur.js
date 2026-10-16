@@ -69,11 +69,15 @@ export function furMaterial(map, { length = 0.2, layers = 14, density = [60, 30]
         [
           '#include <clipping_planes_fragment>',
           'vec2 furG = vMapUv * uDensity;',
+          'vec2 furW = fwidth(furG);',
+          'float furLod = max(furW.x, furW.y);',
           'vec2 furId = floor(furG);',
           'vec2 furF = fract(furG) - 0.5;',
           'float furR = fract(sin(dot(furId, vec2(12.9898, 78.233))) * 43758.5453);',
           'furF += (vec2(fract(furR * 7.13), fract(furR * 3.71)) - 0.5) * 0.35;',
-          'if (length(furF) * 2.0 > (1.0 - vFurH * vFurH) * 1.25 || furR < vFurH * 0.85) discard;',
+          'bool furCut = length(furF) * 2.0 > (1.0 - vFurH * vFurH) * 1.25 || furR < vFurH * 0.85;',
+          'if (furLod > 0.45) furCut = vFurH > mix(0.6, 0.4, smoothstep(0.45, 1.2, furLod));',
+          'if (furCut) discard;',
         ].join('\n'),
       )
       .replace('#include <map_fragment>', '#include <map_fragment>\ndiffuseColor.rgb *= mix(0.72, 1.06, vFurH);')

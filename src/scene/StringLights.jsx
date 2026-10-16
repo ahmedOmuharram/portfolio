@@ -50,9 +50,9 @@ function Strand({ anchors, sag, bulbs, seed }) {
   useFrame(() => {
     const t = live.time
     const on = lampLevel('lampStrings')
-    const base = 0.05 + on * (0.3 + live.lamps * 2.6)
+    const base = 0.05 + on * (0.3 + live.lamps * 1.9)
     items.forEach((it, i) => {
-      const tw = 0.75 + 0.25 * Math.sin(t * it.speed + it.phase)
+      const tw = 0.9 + 0.1 * Math.sin(t * it.speed * 0.6 + it.phase)
       color.setRGB(1, 0.72, 0.4).multiplyScalar(base * tw)
       ref.current.setColorAt(i, color)
     })
@@ -64,7 +64,7 @@ function Strand({ anchors, sag, bulbs, seed }) {
         <meshStandardMaterial color="#1a1a1a" roughness={0.8} />
       </mesh>
       <instancedMesh ref={ref} args={[undefined, undefined, items.length]} frustumCulled={false}>
-        <sphereGeometry args={[0.014, 10, 8]} />
+        <sphereGeometry args={[0.016, 12, 10]} />
         <meshBasicMaterial toneMapped={false} />
       </instancedMesh>
       <mesh geometry={hit} visible={false} />
