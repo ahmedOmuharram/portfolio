@@ -11,6 +11,12 @@
       "x": 0.514,
       "y": 0.4367,
       "label": "Pet the window cat"
+    },
+    {
+      "id": "catFloor",
+      "x": 0.6783,
+      "y": 0.6376,
+      "label": "Pet the fluffy cat"
     }
   ]
 }
