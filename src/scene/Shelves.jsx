@@ -8,6 +8,7 @@ import { useLive } from './live'
 import { spineTexture } from './textures'
 import { LeafyPlant, Pot, Vine, SnakePlant } from './Plants'
 import Hotspot from './Hotspot'
+import { lampLevel, toggleLamp } from './lamps'
 
 const PALETTE = ['#7a3b2e', '#c08a3e', '#3f5b4a', '#26364a', '#d6c7a8', '#5b2333', '#8a6a4a', '#2f2f35', '#9a5a3c', '#46604f', '#b8a27a', '#4c3a5e']
 
@@ -88,11 +89,12 @@ function ShelfLamp({ position }) {
   const bulb = useRef()
   const shade = useMemo(() => new MeshStandardMaterial({ color: '#2e4a3c', roughness: 0.5, metalness: 0.3, side: 2 }), [])
   useFrame(() => {
-    light.current.intensity = 0.5 + live.lamps * 4
-    bulb.current.color.setRGB(1, 0.78, 0.5).multiplyScalar(1 + live.lamps * 4)
+    const on = lampLevel('lampShelf')
+    light.current.intensity = on * (0.5 + live.lamps * 4)
+    bulb.current.color.setRGB(1, 0.78, 0.5).multiplyScalar(0.12 + on * (0.9 + live.lamps * 4))
   })
   return (
-    <group position={position}>
+    <Hotspot id="lampShelf" action={() => toggleLamp('lampShelf')} position={position}>
       <mesh position={[0, 0.012, 0]} material={m.brass} castShadow>
         <cylinderGeometry args={[0.05, 0.055, 0.024, 24]} />
       </mesh>
@@ -106,7 +108,7 @@ function ShelfLamp({ position }) {
         <meshBasicMaterial ref={bulb} toneMapped={false} />
       </mesh>
       <pointLight ref={light} position={[0, 0.05, 0.3]} color="#ffb06a" distance={3.2} decay={2} />
-    </group>
+    </Hotspot>
   )
 }
 

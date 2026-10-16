@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { RoundedBox } from '@react-three/drei'
-import { AdditiveBlending, CanvasTexture, LatheGeometry, MeshStandardMaterial, SRGBColorSpace, Vector2 } from 'three'
+import { AdditiveBlending, CanvasTexture, LatheGeometry, MeshBasicMaterial, MeshStandardMaterial, SRGBColorSpace, Vector2 } from 'three'
 import { useMaterials } from './materials'
 import { paperTexture } from './textures'
 import { createTerminal } from './terminal'
@@ -10,6 +10,7 @@ import { LAMPS } from './layout'
 import { useLive } from './live'
 import { LeafyPlant, Pot } from './Plants'
 import Hotspot from './Hotspot'
+import { lampLevel, toggleLamp } from './lamps'
 import Clawd from './Clawd'
 
 const TOP = 0.78
@@ -144,10 +145,11 @@ function DeskLamp() {
   const head = LAMPS.desk.pos
   const shadeMat = useMemo(() => new MeshStandardMaterial({ color: '#2e4a3c', roughness: 0.5, metalness: 0.3, side: 2 }), [])
   useFrame(() => {
-    bulb.current.color.setRGB(1, 0.78, 0.52).multiplyScalar(2 + live.lamps * 5)
+    const on = lampLevel('lampDesk')
+    bulb.current.color.setRGB(1, 0.78, 0.52).multiplyScalar(0.12 + on * (1.9 + live.lamps * 5))
   })
   return (
-    <group>
+    <Hotspot id="lampDesk" action={() => toggleLamp('lampDesk')}>
       <mesh position={[base[0], TOP + 0.012, base[2]]} castShadow material={shadeMat}>
         <cylinderGeometry args={[0.07, 0.08, 0.024, 24]} />
       </mesh>
@@ -165,7 +167,7 @@ function DeskLamp() {
           <meshBasicMaterial ref={bulb} toneMapped={false} />
         </mesh>
       </group>
-    </group>
+    </Hotspot>
   )
 }
 
@@ -205,12 +207,9 @@ function Headphones() {
 function PcTower() {
   const m = useMaterials()
   const live = useLive()
-  const glow = useRef()
-  const fans = useRef([])
-  useFrame((_, dt) => {
-    const k = 0.7 + live.lamps * 0.6
-    glow.current.color.setRGB(0.45, 1.1, 0.95).multiplyScalar(k)
-    fans.current.forEach((f) => f && (f.rotation.z += dt * 4))
+  const glow = useMemo(() => new MeshBasicMaterial({ toneMapped: false }), [])
+  useFrame(() => {
+    glow.color.setRGB(0.32, 0.78, 0.68).multiplyScalar(0.55 + live.lamps * 0.35)
   })
   return (
     <group position={[2.22, 0, -2.42]}>
@@ -220,11 +219,16 @@ function PcTower() {
         <planeGeometry args={[0.4, 0.38]} />
         <meshStandardMaterial color="#0b0d10" roughness={0.08} metalness={0.4} transparent opacity={0.85} />
       </mesh>
-      {[0.36, 0.2].map((y, i) => (
-        <mesh key={y} ref={(el) => (fans.current[i] = el)} position={[0.09, y, 0.221]}>
-          <ringGeometry args={[0.045, 0.06, 24]} />
-          <meshBasicMaterial ref={i === 0 ? glow : undefined} color="#7fe0cf" toneMapped={false} />
-        </mesh>
+      {[0.38, 0.315].map((y) => (
+        <group key={y} position={[0.04, y, 0.221]}>
+          <mesh position={[0, 0, -0.0005]}>
+            <circleGeometry args={[0.027, 32]} />
+            <meshStandardMaterial color="#0d0f12" roughness={0.6} />
+          </mesh>
+          <mesh material={glow}>
+            <ringGeometry args={[0.022, 0.0245, 40]} />
+          </mesh>
+        </group>
       ))}
       <Block size={[0.006, 0.3, 0.006]} position={[-0.09, 0.28, 0.222]} cast={false}>
         <meshBasicMaterial color={[0.6, 1.4, 1.2]} toneMapped={false} />

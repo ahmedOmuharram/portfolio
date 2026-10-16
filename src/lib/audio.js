@@ -349,3 +349,39 @@ export function chirp() {
     osc.stop(at + step * 1.7)
   })
 }
+
+let lastFlick = 0
+
+export function flick(on) {
+  const now = performance.now()
+  if (now - lastFlick < 60) return
+  lastFlick = now
+  const ac = audio()
+  if (!ac) return
+  const t = ac.currentTime + 0.005
+  const sr = ac.sampleRate
+  const len = Math.round(sr * 0.03)
+  const buffer = ac.createBuffer(1, len, sr)
+  const data = buffer.getChannelData(0)
+  for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (sr * 0.0025))
+  const src = ac.createBufferSource()
+  src.buffer = buffer
+  const bp = ac.createBiquadFilter()
+  bp.type = 'bandpass'
+  bp.frequency.value = on ? 3200 : 2500
+  bp.Q.value = 1.4
+  const g = ac.createGain()
+  g.gain.value = 0.5
+  src.connect(bp).connect(g).connect(bus)
+  src.start(t)
+  const osc = ac.createOscillator()
+  osc.type = 'sine'
+  osc.frequency.setValueAtTime(on ? 190 : 150, t)
+  osc.frequency.exponentialRampToValueAtTime(70, t + 0.04)
+  const og = ac.createGain()
+  og.gain.setValueAtTime(0.22, t)
+  og.gain.exponentialRampToValueAtTime(0.0001, t + 0.05)
+  osc.connect(og).connect(bus)
+  osc.start(t)
+  osc.stop(t + 0.06)
+}

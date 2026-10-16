@@ -4,6 +4,7 @@ import { Object3D } from 'three'
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js'
 import { useLive } from './live'
 import { LAMPS } from './layout'
+import { lampLevel } from './lamps'
 
 RectAreaLightUniformsLib.init()
 
@@ -44,8 +45,8 @@ export default function Lights({ quality }) {
     hemi.current.intensity = 0.55 + live.ambientIntensity * 2.2
     windowFill.current.color.copy(live.skyBottom).lerp(live.skyMid, 0.5)
     windowFill.current.intensity = 2.5 + live.ambientIntensity * 9
-    deskLamp.current.intensity = 6 + lamps * 22
-    floorLamp.current.intensity = lamps * 9
+    deskLamp.current.intensity = (6 + lamps * 22) * lampLevel('lampDesk')
+    floorLamp.current.intensity = lamps * 9 * lampLevel('lampFloor')
     strings.current.intensity = 0.4 + lamps * 2.2
     monitor.current.intensity = 1.6 + lamps * 1.2
     pc.current.intensity = 0.25 + lamps * 0.5

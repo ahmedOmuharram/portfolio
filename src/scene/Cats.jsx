@@ -174,6 +174,7 @@ function CurledCat() {
   const last = useRef(0)
   const react = useRef(0)
   const annoyed = useRef(0)
+  const wag = useRef(0)
   const tailPts = useRef(Array.from({ length: 12 }, () => new Vector3()))
   useFrame(({ clock }, dt) => {
     const t = clock.elapsedTime
@@ -189,12 +190,18 @@ function CurledCat() {
     body.current.scale.set(1 + breath * 0.012, 1 + breath * 0.035, 1 + breath * 0.012)
     head.current.rotation.x = -react.current * 0.6
     head.current.position.y = 0.075 + react.current * 0.05
+    const ph = t % 6.8
+    const twitch = ph < 1.5 ? Math.sin((ph / 1.5) * Math.PI) * Math.sin(ph * 6.5) * 0.3 : 0
+    const target = twitch + Math.sin(t * 0.5) * 0.06 + react.current * Math.sin(t * 2.4) * 0.25 + annoyed.current * Math.sin(t * 6) * 0.5
+    wag.current += (target - wag.current) * Math.min(1, dt * 8)
+    const w = wag.current
     const pts = tailPts.current
-    const flick = Math.sin(t * 0.8) * 0.15 * (0.5 + 0.5 * Math.sin(t * 0.21)) + Math.sin(t * 9) * 0.35 * annoyed.current
     for (let i = 0; i < pts.length; i++) {
       const k = i / (pts.length - 1)
-      const a = -0.6 + k * 2.2
-      pts[i].set(Math.cos(a) * 0.15 + Math.sin(k * 3) * flick * k, 0.035 + Math.sin(k * Math.PI) * 0.015, Math.sin(a) * 0.15 + 0.03)
+      const tip = k * k
+      const a = -0.6 + k * 2.2 + w * tip * 0.7
+      const r = 0.15 + Math.abs(w) * tip * 0.03
+      pts[i].set(Math.cos(a) * r, 0.035 + Math.sin(k * Math.PI) * 0.015 + Math.abs(w) * tip * 0.05, Math.sin(a) * r + 0.03)
     }
   })
   return (

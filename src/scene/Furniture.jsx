@@ -28,7 +28,7 @@ export default function Furniture() {
         <Pot radius={0.24} height={0.42} material={m.potDark} />
         <LeafyPlant kind="monstera" count={11} height={1.1} spread={0.5} size={0.95} base={0.4} seed={4} droop={0.35} color="#2f5a37" />
       </group>
-      <group position={[-1.9, 0.83, -2.86]}>
+      <group position={[-1.5, 0.83, -2.93]}>
         <Pot radius={0.08} height={0.13} />
         <SnakePlant height={0.42} base={0.12} count={9} />
       </group>

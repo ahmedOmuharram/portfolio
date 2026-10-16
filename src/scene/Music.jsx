@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { RoundedBox } from '@react-three/drei'
-import { CanvasTexture, ExtrudeGeometry, MeshStandardMaterial, Shape, SRGBColorSpace } from 'three'
+import { CanvasTexture, CylinderGeometry, ExtrudeGeometry, MeshStandardMaterial, Shape, SRGBColorSpace, Vector3 } from 'three'
 import { useMaterials } from './materials'
 import { Block, Segment } from './parts'
 import { vinylLabelTexture, woodTexture } from './textures'
@@ -10,6 +10,7 @@ import { useLive } from './live'
 import { toggleRadio } from '../lib/radio'
 import { strum } from '../lib/audio'
 import Hotspot from './Hotspot'
+import { lampLevel, toggleLamp } from './lamps'
 import { CREDENZA } from './layout'
 
 function coverTexture(seed, a, b, c) {
@@ -114,13 +115,14 @@ function TableLamp({ position }) {
   const light = useRef()
   const bulb = useRef()
   useFrame(() => {
-    shade.emissiveIntensity = 0.2 + live.lamps * 1.4
-    light.current.intensity = 0.6 + live.lamps * 4.5
-    bulb.current.color.setRGB(1, 0.78, 0.5).multiplyScalar(1 + live.lamps * 4)
+    const on = lampLevel('lampTable')
+    shade.emissiveIntensity = on * (0.2 + live.lamps * 1.4)
+    light.current.intensity = on * (0.6 + live.lamps * 4.5)
+    bulb.current.color.setRGB(1, 0.78, 0.5).multiplyScalar(0.12 + on * (0.9 + live.lamps * 4))
   })
   const m = useMaterials()
   return (
-    <group position={position}>
+    <Hotspot id="lampTable" action={() => toggleLamp('lampTable')} position={position}>
       <mesh position={[0, 0.03, 0]} material={m.ceramic} castShadow>
         <cylinderGeometry args={[0.06, 0.07, 0.06, 28]} />
       </mesh>
@@ -133,7 +135,7 @@ function TableLamp({ position }) {
         <meshBasicMaterial ref={bulb} toneMapped={false} />
       </mesh>
       <pointLight ref={light} position={[-0.06, 0.26, 0]} color="#ffad62" distance={4.5} decay={2} />
-    </group>
+    </Hotspot>
   )
 }
 
@@ -196,28 +198,68 @@ function guitarShape() {
   return s
 }
 
+const STRINGS = [-2.5, -1.5, -0.5, 0.5, 1.5, 2.5].map((o) => {
+  const a = new Vector3(o * 0.0075, 0.2, 0.1)
+  const b = new Vector3(o * 0.0065, 1.06, 0.082)
+  const geometry = new CylinderGeometry(0.0007, 0.0007, 1, 4, 24, true)
+  geometry.translate(0, 0.5, 0)
+  const base = geometry.attributes.position.array.slice()
+  const along = b.clone().sub(a)
+  const side = new Vector3(1, 0, 0)
+  const normal = new Vector3().crossVectors(along.clone().normalize(), side).normalize()
+  return { a, along, side, normal, geometry, base }
+})
+
+function bendString(st, amp) {
+  const pos = st.geometry.attributes.position
+  const arr = pos.array
+  const { a, along, side, normal, base } = st
+  for (let i = 0; i < arr.length; i += 3) {
+    const x = base[i]
+    const v = base[i + 1]
+    const z = base[i + 2]
+    const d = x + Math.sin(Math.PI * v) * amp
+    arr[i] = a.x + along.x * v + side.x * d + normal.x * z
+    arr[i + 1] = a.y + along.y * v + side.y * d + normal.y * z
+    arr[i + 2] = a.z + along.z * v + side.z * d + normal.z * z
+  }
+  pos.needsUpdate = true
+}
+
+STRINGS.forEach((st) => {
+  bendString(st, 0)
+  st.geometry.computeBoundingSphere()
+})
+
 function Guitar() {
   const m = useMaterials()
   const group = useRef()
-  const strings = useRef([])
+  const resting = useRef(true)
   const last = useRef(0)
-  const kick = useRef(0)
+  const hit = useRef(-10)
   const body = useMemo(() => new ExtrudeGeometry(guitarShape(), { depth: 0.085, bevelEnabled: true, bevelThickness: 0.006, bevelSize: 0.006, bevelSegments: 3, curveSegments: 36 }), [])
   const top = useMemo(() => new MeshStandardMaterial({ map: woodTexture(23, [196, 150, 96]), roughness: 0.35 }), [])
   const sides = useMemo(() => new MeshStandardMaterial({ map: woodTexture(29, [92, 52, 30]), roughness: 0.4 }), [])
-  useFrame((_, dt) => {
+  useFrame(() => {
+    const t = performance.now() / 1000
     const s = ui.get().strum
     if (s !== last.current) {
       last.current = s
-      kick.current = 1
+      hit.current = t
     }
-    kick.current = Math.max(0, kick.current - dt * 0.9)
-    const k = kick.current
-    const t = performance.now() / 1000
-    group.current.rotation.z = Math.sin(t * 9) * 0.012 * k
-    strings.current.forEach((st, i) => {
-      if (st) st.scale.x = st.scale.z = 1 + Math.abs(Math.sin(t * (60 + i * 7))) * 2.5 * k
-    })
+    const age = t - hit.current
+    group.current.rotation.z = age < 3 ? Math.sin(age * 13) * Math.exp(-age * 3.5) * 0.007 : 0
+    if (age < 2.5) {
+      resting.current = false
+      STRINGS.forEach((st, i) => {
+        const local = age - 0.02 - i * 0.028
+        const amp = local > 0 ? Math.exp(-local * 2.4) * Math.sin(local * 38 + i) * 0.0024 : 0
+        bendString(st, amp)
+      })
+    } else if (!resting.current) {
+      resting.current = true
+      STRINGS.forEach((st) => bendString(st, 0))
+    }
   })
   return (
     <Hotspot id="guitar" action={strum} position={[3.1, 0, 0.12]} rotation={[0, -Math.PI / 2 - 0.25, 0]}>
@@ -235,15 +277,15 @@ function Guitar() {
         <Block size={[0.05, 0.46, 0.028]} position={[0, 0.83, 0.06]} material={sides} />
         <Block size={[0.046, 0.46, 0.006]} position={[0, 0.83, 0.077]} material={m.woodDark} />
         <Block size={[0.07, 0.16, 0.02]} position={[0, 1.13, 0.05]} rotation={[0.18, 0, 0]} material={m.woodDark} />
-        {[-2.5, -1.5, -0.5, 0.5, 1.5, 2.5].map((o, i) => (
-          <group key={o} ref={(el) => (strings.current[i] = el)}>
-            <Segment a={[o * 0.0075, 0.2, 0.1]} b={[o * 0.0065, 1.06, 0.082]} radius={0.0007} material={m.brass} radialSegments={3} cast={false} />
-          </group>
+        {STRINGS.map((st, i) => (
+          <mesh key={i} geometry={st.geometry} material={m.brass} />
         ))}
       </group>
       <Segment a={[0, 0.22, 0.03]} b={[0, 0.02, -0.2]} radius={0.01} material={m.steel} />
       <Segment a={[-0.12, 0.25, 0.03]} b={[0.12, 0.25, 0.03]} radius={0.01} material={m.steel} />
-      <Segment a={[0, 0.25, 0.03]} b={[0, 0.72, -0.12]} radius={0.01} material={m.steel} />
+      <Segment a={[0, 0.06, -0.155]} b={[0, 0.93, -0.25]} radius={0.01} material={m.steel} />
+      <Segment a={[0, 0.93, -0.25]} b={[0, 0.94, -0.215]} radius={0.008} material={m.steel} />
+      <Segment a={[-0.035, 0.94, -0.212]} b={[0.035, 0.94, -0.212]} radius={0.009} material={m.black} />
       {[-1, 1].map((s) => (
         <Segment key={s} a={[s * 0.12, 0.25, 0.03]} b={[s * 0.18, 0, 0.12]} radius={0.01} material={m.steel} />
       ))}

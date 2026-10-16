@@ -6,6 +6,8 @@ import { useMaterials } from './materials'
 import { Segment } from './parts'
 import { ARMCHAIR, LAMPS } from './layout'
 import { useLive } from './live'
+import Hotspot from './Hotspot'
+import { lampLevel, toggleLamp } from './lamps'
 
 function Armchair() {
   const m = useMaterials()
@@ -42,11 +44,12 @@ function FloorLamp() {
   const shadeGeo = useMemo(() => new CylinderGeometry(0.17, 0.22, 0.28, 40, 1, true), [])
   const shadeMat = useMemo(() => new MeshStandardMaterial({ color: '#e8d9bc', roughness: 1, side: DoubleSide, emissive: '#ffb66b', emissiveIntensity: 0 }), [])
   useFrame(() => {
-    shadeMat.emissiveIntensity = 0.15 + live.lamps * 1.6
-    bulb.current.color.setRGB(1, 0.8, 0.55).multiplyScalar(1 + live.lamps * 6)
+    const on = lampLevel('lampFloor')
+    shadeMat.emissiveIntensity = on * (0.15 + live.lamps * 1.6)
+    bulb.current.color.setRGB(1, 0.8, 0.55).multiplyScalar(0.12 + on * (0.9 + live.lamps * 6))
   })
   return (
-    <group>
+    <Hotspot id="lampFloor" action={() => toggleLamp('lampFloor')}>
       {[0, 1, 2].map((i) => {
         const a = (i / 3) * Math.PI * 2 + 0.3
         return <Segment key={i} a={[x, 1.0, z]} b={[x + Math.cos(a) * 0.26, 0, z + Math.sin(a) * 0.26]} radius={0.014} material={m.wood} />
@@ -57,7 +60,7 @@ function FloorLamp() {
         <sphereGeometry args={[0.04, 16, 12]} />
         <meshBasicMaterial ref={bulb} toneMapped={false} />
       </mesh>
-    </group>
+    </Hotspot>
   )
 }
 

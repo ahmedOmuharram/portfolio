@@ -27,4 +27,5 @@ export const ui = createStore({
   ready: false,
   pet: null,
   strum: 0,
+  lampsOff: {},
 })

@@ -44,6 +44,7 @@ export function Rail({ section, onGo }) {
 
 export function HoverLabel() {
   const hovered = ui.use((s) => s.hovered)
+  const lampsOff = ui.use((s) => s.lampsOff)
   const ref = useRef()
   useEffect(() => {
     const move = (e) => {
@@ -54,7 +55,7 @@ export function HoverLabel() {
   }, [])
   return (
     <div ref={ref} className={`hover-label${hovered ? ' is-visible' : ''}`} aria-hidden="true">
-      {hovered ? HOTSPOT_LABELS[hovered] : ''}
+      {hovered ? (HOTSPOT_LABELS[hovered] === 'lamp' ? `turn ${lampsOff[hovered] ? 'on' : 'off'} the lamp` : HOTSPOT_LABELS[hovered]) : ''}
     </div>
   )
 }
