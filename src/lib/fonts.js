@@ -1,4 +1,4 @@
-const FACES = ['600 46px "Pixelify Sans"', '500 30px "Pixelify Sans"', '600 34px "Pixelify Sans"', '22px DotGothic16']
+const FACES = ['600 46px "Pixelify Sans"', '500 30px "Pixelify Sans"', '600 34px "Pixelify Sans"', '22px "Departure Mono"']
 
 let ready = null
 

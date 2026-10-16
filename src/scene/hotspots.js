@@ -14,6 +14,7 @@ export const HOTSPOT_LABELS = {
   catSill: 'pet',
   catFloor: 'pet',
   clawd: 'say hi',
+  coffee: 'sip',
   lampDesk: 'the lamp',
   lampFloor: 'the lamp',
   lampTable: 'the lamp',

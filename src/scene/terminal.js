@@ -5,7 +5,7 @@ const SCRIPT = [
   { t: 'ahmed muharram — ai/ml engineer · systems · scientific llm agents' },
   { p: true, t: 'cat now.txt' },
   { t: 'r&d software developer @ orascom construction' },
-  { t: 'listening: lofi + jazz · drinking: coffee · cats: asleep' },
+  { t: 'listening: lofi + jazz · drinking: iced latte · cats: asleep' },
   { p: true, t: 'ls ~/projects' },
   { t: 'pathfinder/  lamina/  sceniq/  bytenet/  instalite/  pennos/' },
   { t: 'mini-minecraft/  rv32im/  prodosphere/  btc-sentiment/' },
@@ -46,9 +46,9 @@ export function createTerminal() {
       g.fill()
     })
     g.fillStyle = 'rgba(236,228,214,0.45)'
-    g.font = '20px "DotGothic16", monospace'
+    g.font = '20px "Departure Mono", monospace'
     g.fillText('~/late-night — zsh', 430, 23)
-    g.font = '22px "DotGothic16", monospace'
+    g.font = '22px "Departure Mono", monospace'
     const rows = [...done]
     const cur = SCRIPT[line]
     if (cur) rows.push({ ...cur, t: cur.t.slice(0, char), live: true })

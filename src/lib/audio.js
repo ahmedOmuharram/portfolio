@@ -386,3 +386,39 @@ export function flick(on) {
   osc.start(t)
   osc.stop(t + 0.06)
 }
+
+let lastSip = 0
+
+export function sip(empty) {
+  const now = performance.now()
+  if (now - lastSip < 350) return
+  lastSip = now
+  const ac = audio()
+  if (!ac) return
+  const sr = ac.sampleRate
+  const dur = empty ? 0.75 : 0.42
+  const len = Math.round(sr * dur)
+  const buffer = ac.createBuffer(1, len, sr)
+  const data = buffer.getChannelData(0)
+  let lp = 0
+  let bubble = 0
+  for (let i = 0; i < len; i++) {
+    const t = i / sr
+    const env = Math.sin(Math.PI * Math.min(1, t / dur)) ** 0.6
+    lp += ((Math.random() * 2 - 1) - lp) * (empty ? 0.5 : 0.22)
+    if (Math.random() < (empty ? 0.004 : 0.0016)) bubble = 1
+    bubble *= empty ? 0.9965 : 0.9985
+    const rattle = empty ? 0.6 + 0.4 * Math.sign(Math.sin(t * 2 * Math.PI * (22 + 18 * Math.sin(t * 9)))) : 1
+    data[i] = lp * env * (0.35 + bubble * 0.9) * rattle
+  }
+  const src = ac.createBufferSource()
+  src.buffer = buffer
+  const bp = ac.createBiquadFilter()
+  bp.type = 'bandpass'
+  bp.frequency.value = empty ? 1400 : 900
+  bp.Q.value = 0.9
+  const g = ac.createGain()
+  g.gain.value = empty ? 0.5 : 0.65
+  src.connect(bp).connect(g).connect(bus)
+  src.start(ac.currentTime + 0.01)
+}

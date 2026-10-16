@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { RoundedBox } from '@react-three/drei'
-import { AdditiveBlending, CanvasTexture, LatheGeometry, MeshBasicMaterial, MeshStandardMaterial, SRGBColorSpace, Vector2 } from 'three'
+import { AdditiveBlending, CanvasTexture, DoubleSide, LatheGeometry, MeshBasicMaterial, MeshStandardMaterial, SRGBColorSpace, Vector2 } from 'three'
 import { useMaterials } from './materials'
 import { paperTexture } from './textures'
 import { createTerminal } from './terminal'
@@ -12,6 +12,7 @@ import { LeafyPlant, Pot } from './Plants'
 import Hotspot from './Hotspot'
 import { lampLevel, toggleLamp } from './lamps'
 import Clawd from './Clawd'
+import { sip } from '../lib/audio'
 
 const TOP = 0.78
 
@@ -76,63 +77,153 @@ function Keyboard() {
   )
 }
 
-function steamTexture() {
+function latteTexture() {
   const c = document.createElement('canvas')
-  c.width = c.height = 64
+  c.width = 64
+  c.height = 256
   const g = c.getContext('2d')
-  const grd = g.createRadialGradient(32, 32, 0, 32, 32, 32)
-  grd.addColorStop(0, 'rgba(255,255,255,0.55)')
-  grd.addColorStop(1, 'rgba(255,255,255,0)')
+  const grd = g.createLinearGradient(0, 0, 0, 256)
+  grd.addColorStop(0, '#5c361c')
+  grd.addColorStop(0.28, '#7d4b26')
+  grd.addColorStop(0.5, '#b7895c')
+  grd.addColorStop(0.68, '#e3d2bb')
+  grd.addColorStop(1, '#f2ebe0')
   g.fillStyle = grd
-  g.fillRect(0, 0, 64, 64)
-  return new CanvasTexture(c)
+  g.fillRect(0, 0, 64, 256)
+  g.globalAlpha = 0.35
+  for (let i = 0; i < 18; i++) {
+    g.strokeStyle = i % 2 ? '#efe4d4' : '#6b4022'
+    g.lineWidth = 2 + (i % 4)
+    g.beginPath()
+    const y = 70 + i * 6
+    g.moveTo(0, y)
+    g.bezierCurveTo(20, y - 14, 44, y + 16, 64, y - 4)
+    g.stroke()
+  }
+  const tex = new CanvasTexture(c)
+  tex.colorSpace = SRGBColorSpace
+  return tex
 }
 
-function Mug({ position }) {
-  const live = useLive()
-  const steam = useRef([])
-  const tex = useMemo(() => steamTexture(), [])
-  const body = useMemo(() => {
-    const pts = [
-      new Vector2(0, 0),
-      new Vector2(0.038, 0),
-      new Vector2(0.041, 0.006),
-      new Vector2(0.043, 0.095),
-      new Vector2(0.039, 0.095),
-      new Vector2(0.037, 0.01),
-      new Vector2(0, 0.01),
-    ]
-    return new LatheGeometry(pts, 28)
-  }, [])
-  const mugMat = useMemo(() => new MeshStandardMaterial({ color: '#c8643f', roughness: 0.35 }), [])
-  const puffs = useMemo(() => Array.from({ length: 7 }, (_, i) => ({ offset: i / 7, drift: Math.random() * 6 })), [])
-  useFrame(() => {
-    const t = live.time
-    puffs.forEach((p, i) => {
-      const s = steam.current[i]
-      if (!s) return
-      const k = (t * 0.22 + p.offset) % 1
-      s.position.set(Math.sin(t * 0.9 + p.drift) * 0.018 * k * 2, 0.11 + k * 0.26, Math.cos(t * 0.7 + p.drift) * 0.012)
-      s.scale.setScalar(0.04 + k * 0.09)
-      s.material.opacity = Math.sin(k * Math.PI) * 0.22
+function stickerTexture() {
+  const c = document.createElement('canvas')
+  c.width = c.height = 128
+  const g = c.getContext('2d')
+  g.fillStyle = '#f3ede2'
+  g.beginPath()
+  g.arc(64, 64, 62, 0, Math.PI * 2)
+  g.fill()
+  g.strokeStyle = '#2f5a45'
+  g.lineWidth = 5
+  g.beginPath()
+  g.arc(64, 64, 52, 0, Math.PI * 2)
+  g.stroke()
+  g.fillStyle = '#2f5a45'
+  g.beginPath()
+  g.moveTo(42, 88)
+  g.lineTo(42, 54)
+  g.lineTo(50, 36)
+  g.lineTo(58, 50)
+  g.lineTo(70, 50)
+  g.lineTo(78, 36)
+  g.lineTo(86, 54)
+  g.lineTo(86, 88)
+  g.closePath()
+  g.fill()
+  const tex = new CanvasTexture(c)
+  tex.colorSpace = SRGBColorSpace
+  return tex
+}
+
+const CUP = { h: 0.15, top: 0.047, bottom: 0.035 }
+const FULL = 0.118
+const ICE = [
+  [0.016, 0.01, 0.4, 0.2],
+  [-0.017, 0.006, 1.1, 0.9],
+  [0.001, -0.019, 2.2, 0.4],
+  [-0.004, 0.018, 0.7, 1.6],
+  [0.019, -0.012, 1.8, 2.4],
+]
+
+function IcedLatte({ position }) {
+  const level = useRef(FULL)
+  const target = useRef(FULL)
+  const emptyAt = useRef(0)
+  const liquid = useRef()
+  const top = useRef()
+  const ice = useRef([])
+  const tex = useMemo(() => latteTexture(), [])
+  const cupMat = useMemo(() => new MeshStandardMaterial({ color: '#f4f8fa', roughness: 0.06, transparent: true, opacity: 0.2, side: DoubleSide, depthWrite: false }), [])
+  const iceMat = useMemo(() => new MeshStandardMaterial({ color: '#d6e9f2', roughness: 0.03, transparent: true, opacity: 0.7 }), [])
+  const liquidMat = useMemo(() => new MeshStandardMaterial({ map: tex, roughness: 0.25 }), [tex])
+  const strawMat = useMemo(() => new MeshStandardMaterial({ color: '#7fae86', roughness: 0.4 }), [])
+  const lidMat = useMemo(() => new MeshStandardMaterial({ color: '#f4f8fa', roughness: 0.08, transparent: true, opacity: 0.38, depthWrite: false }), [])
+  const stickerMat = useMemo(() => new MeshStandardMaterial({ map: stickerTexture(), roughness: 0.6, transparent: true, alphaTest: 0.5 }), [])
+  useFrame(({ clock }, dt) => {
+    const t = clock.elapsedTime
+    if (target.current <= 0.02 && emptyAt.current && performance.now() / 1000 - emptyAt.current > 9) {
+      target.current = FULL
+      emptyAt.current = 0
+    }
+    level.current += (target.current - level.current) * Math.min(1, dt * (target.current > level.current ? 0.8 : 6))
+    const h = level.current
+    const r = CUP.bottom + (CUP.top - CUP.bottom) * ((h + 0.004) / CUP.h) - 0.002
+    liquid.current.scale.set(1, h / FULL, 1)
+    top.current.position.y = h + 0.004
+    top.current.scale.setScalar(r / 0.044)
+    ice.current.forEach((m, i) => {
+      if (!m) return
+      const [x, z, a, b] = ICE[i]
+      const sink = Math.max(0.012, h + 0.003 - (i % 2) * 0.005)
+      m.position.set(x * Math.min(1, r / 0.04), sink + Math.sin(t * 0.8 + i) * 0.0012, z * Math.min(1, r / 0.04))
+      m.rotation.set(a + Math.sin(t * 0.3 + i) * 0.05, b, a * 0.5)
     })
   })
+  const sipIt = () => {
+    const empty = target.current <= 0.02
+    sip(empty)
+    if (empty) return
+    target.current = Math.max(0.02, target.current - 0.016)
+    if (target.current <= 0.02) emptyAt.current = performance.now() / 1000
+  }
   return (
-    <group position={position}>
-      <mesh geometry={body} material={mugMat} castShadow receiveShadow />
-      <mesh position={[0, 0.082, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[0.038, 24]} />
-        <meshStandardMaterial color="#2a160c" roughness={0.15} />
+    <Hotspot id="coffee" action={sipIt} position={position}>
+      <mesh position={[0, CUP.h / 2, 0]} material={cupMat} renderOrder={2}>
+        <cylinderGeometry args={[CUP.top, CUP.bottom, CUP.h, 40, 1, true]} />
       </mesh>
-      <mesh position={[0.05, 0.05, 0]} rotation={[0, 0, Math.PI / 2]} material={mugMat} castShadow>
-        <torusGeometry args={[0.022, 0.007, 8, 16, Math.PI]} />
+      <mesh position={[0, CUP.h + 0.004, 0]} material={lidMat} renderOrder={3}>
+        <cylinderGeometry args={[CUP.top + 0.002, CUP.top + 0.002, 0.007, 40]} />
       </mesh>
-      {puffs.map((_, i) => (
-        <sprite key={i} ref={(el) => (steam.current[i] = el)}>
-          <spriteMaterial map={tex} transparent depthWrite={false} blending={AdditiveBlending} color="#e9e2d6" />
-        </sprite>
+      <mesh position={[0, CUP.h + 0.006, 0]} rotation={[Math.PI / 2, 0, 0]} material={lidMat} renderOrder={3}>
+        <torusGeometry args={[CUP.top + 0.002, 0.0032, 8, 40]} />
+      </mesh>
+      <mesh position={[0, CUP.h + 0.009, 0]} rotation={[Math.PI / 2, 0, 0]} material={lidMat} renderOrder={3}>
+        <torusGeometry args={[0.03, 0.0022, 8, 36]} />
+      </mesh>
+      <group rotation={[0, 0.25, 0]}>
+        <mesh position={[0, 0.085, CUP.bottom + (CUP.top - CUP.bottom) * (0.085 / CUP.h) + 0.0008]} rotation={[-0.08, 0, 0]} material={stickerMat}>
+          <circleGeometry args={[0.016, 28]} />
+        </mesh>
+      </group>
+      <mesh position={[0, 0.002, 0]} rotation={[-Math.PI / 2, 0, 0]} material={cupMat}>
+        <circleGeometry args={[CUP.bottom, 32]} />
+      </mesh>
+      <group ref={liquid} position={[0, 0.003, 0]}>
+        <mesh position={[0, FULL / 2, 0]} material={liquidMat} castShadow>
+          <cylinderGeometry args={[CUP.bottom + (CUP.top - CUP.bottom) * (FULL / CUP.h) - 0.002, CUP.bottom - 0.002, FULL, 36, 1]} />
+        </mesh>
+      </group>
+      <mesh ref={top} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[0.044, 36]} />
+        <meshStandardMaterial color="#6a3f20" roughness={0.18} />
+      </mesh>
+      {ICE.map((_, i) => (
+        <mesh key={i} ref={(el) => (ice.current[i] = el)} material={iceMat} renderOrder={1}>
+          <boxGeometry args={[0.022, 0.02, 0.022]} />
+        </mesh>
       ))}
-    </group>
+      <Segment a={[0.006, 0.012, -0.004]} b={[-0.003, CUP.h + 0.075, 0.004]} radius={0.0042} material={strawMat} radialSegments={12} />
+    </Hotspot>
   )
 }
 
@@ -280,7 +371,7 @@ export default function Desk() {
       <Block size={[2.06, 0.03, 0.03]} position={[0.88, 0.12, -2.66]} material={m.steel} />
       <Monitor />
       <Keyboard />
-      <Mug position={[1.32, TOP, -2.2]} />
+      <IcedLatte position={[1.32, TOP, -2.2]} />
       <DeskLamp />
       <Papers />
       <Headphones />

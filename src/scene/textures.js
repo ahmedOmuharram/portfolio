@@ -190,12 +190,12 @@ export function noteTexture({ title, subtitle, meta, paper = '#efe6d2', ink = '#
       g.fillRect(r() * 512, r() * 420, 2, 2)
     }
     g.fillStyle = accent
-    g.font = '26px "DotGothic16", monospace'
+    g.font = '26px "Departure Mono", monospace'
     g.fillText(meta || '', 34, 64)
     g.fillStyle = ink
     g.font = '600 46px "Pixelify Sans", sans-serif'
     const y = wrap(g, title, 34, 134, 444, 52, 3)
-    g.font = '30px "DotGothic16", sans-serif'
+    g.font = '30px "Departure Mono", monospace'
     g.fillStyle = 'rgba(42,34,27,0.8)'
     wrap(g, subtitle || '', 34, y + 10, 444, 38, 3)
     return finish(c)
@@ -248,11 +248,11 @@ export function paperTexture(lines) {
     g.fillRect(0, 0, 512, 680)
     g.fillStyle = '#2b2620'
     g.textAlign = 'center'
-    g.font = '20px "DotGothic16", monospace'
+    g.font = '20px "Departure Mono", monospace'
     g.fillText('master’s thesis · penn · 2026', 256, 70)
     g.font = '600 34px "Pixelify Sans", sans-serif'
     let y = wrap(g, lines[0], 256, 140, 420, 42)
-    g.font = '24px "DotGothic16", sans-serif'
+    g.font = '24px "Departure Mono", monospace'
     y = wrap(g, lines[1], 256, y + 16, 420, 30)
     g.textAlign = 'left'
     g.fillStyle = 'rgba(43,38,32,0.35)'
@@ -300,7 +300,7 @@ export function vinylLabelTexture() {
     g.font = '600 15px "Pixelify Sans", sans-serif'
     g.textAlign = 'center'
     g.fillText('late night', 128, 122)
-    g.font = '10px "DotGothic16", monospace'
+    g.font = '10px "Departure Mono", monospace'
     g.fillText('side a', 128, 140)
     g.fillStyle = '#111'
     g.beginPath()
