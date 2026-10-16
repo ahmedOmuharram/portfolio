@@ -8,7 +8,7 @@ export default function Reader({ slug, onClose }) {
   const ref = useRef()
   useEffect(() => {
     const prev = document.title
-    document.title = post ? `${post.title} · Ahmed Muharram` : 'Not found · Ahmed Muharram'
+    document.title = post ? `${post.title} · ahmed muharram` : 'not found · ahmed muharram'
     ref.current?.focus({ preventScroll: true })
     const esc = (e) => e.key === 'Escape' && onClose()
     window.addEventListener('keydown', esc)

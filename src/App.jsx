@@ -2,6 +2,8 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import Mobile from './ui/Mobile'
 import { ui } from './lib/store'
 import { PRESETS } from './lib/time'
+import { useSky } from './lib/useSky'
+import { setFavicon } from './lib/favicon'
 
 const Desktop = lazy(() => import('./ui/Desktop'))
 
@@ -31,7 +33,30 @@ function detect() {
 const timeParam = new URLSearchParams(window.location.search).get('time')
 if (PRESETS.some((p) => p.id === timeParam)) ui.set({ timeMode: timeParam })
 
+const AWAY = ['come back, the cats miss you', 'the kettle is still on', 'still here, still lofi']
+
+function useTabDressing() {
+  const phase = useSky().state.phase
+  useEffect(() => setFavicon(phase), [phase])
+  useEffect(() => {
+    let saved = null
+    let n = 0
+    const change = () => {
+      if (document.hidden) {
+        saved = document.title
+        document.title = AWAY[n++ % AWAY.length]
+      } else if (saved) {
+        document.title = saved
+        saved = null
+      }
+    }
+    document.addEventListener('visibilitychange', change)
+    return () => document.removeEventListener('visibilitychange', change)
+  }, [])
+}
+
 export default function App() {
+  useTabDressing()
   const [env, setEnv] = useState(detect)
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 900px)')

@@ -53,8 +53,8 @@ function writingPages() {
         .filter((p) => p.draft !== 'true')
       for (const post of posts) {
         const url = `${SITE}/writing/${post.slug}/`
-        const title = `${post.title || post.slug} · Ahmed Muharram`
-        const description = post.summary || `Writing by Ahmed Muharram.`
+        const title = `${post.title || post.slug} · ahmed muharram`
+        const description = post.summary || `writing by ahmed muharram.`
         const html = shell
           .replace(/<title>[\s\S]*?<\/title>/, `<title>${escape(title)}</title>`)
           .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${escape(description)}$2`)
