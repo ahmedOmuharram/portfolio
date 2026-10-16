@@ -1,0 +1,16 @@
+{
+  "home": [
+    {
+      "id": "cat",
+      "x": 0.144,
+      "y": 0.4909,
+      "label": "Pet the sleeping cat"
+    },
+    {
+      "id": "catSill",
+      "x": 0.514,
+      "y": 0.4367,
+      "label": "Pet the window cat"
+    }
+  ]
+}
