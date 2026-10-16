@@ -92,12 +92,12 @@ export default function Secret({ armed }) {
       <audio ref={clickRef} src={click} preload="auto" />
       <audio ref={buzzRef} src={buzz} preload="auto" />
       <button type="button" className={`secret-button${visible ? ' is-visible' : ''}`} onClick={() => setOpen(true)} disabled={!visible}>
-        Looking for something?
+        looking for something?
       </button>
       {open && (
         <div className="secret-modal" onClick={() => setOpen(false)}>
           <div className="secret-card" onClick={(e) => e.stopPropagation()}>
-            <div className="secret-title">Secret code</div>
+            <div className="secret-title">secret code</div>
             <div className="secret-keypad">
               <div className="keypad-dpad">
                 {key('up', <Arrow d="M6 14l6-6 6 6" />)}
@@ -111,7 +111,7 @@ export default function Secret({ armed }) {
               </div>
             </div>
             <button type="button" className={`keypad-enter${ready ? ' is-ready' : ''}`} onClick={enter}>
-              <span>Enter</span>
+              <span>enter</span>
             </button>
           </div>
         </div>

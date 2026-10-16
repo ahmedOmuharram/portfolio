@@ -11,11 +11,11 @@ export const SHOTS = {
 export const SECTION_IDS = Object.keys(SHOTS)
 
 export const SECTION_LABELS = {
-  home: 'Home',
-  about: 'About',
-  experience: 'Experience',
-  research: 'Research',
-  projects: 'Projects',
-  writing: 'Writing',
-  contact: 'Contact',
+  home: 'home',
+  about: 'about',
+  experience: 'work',
+  research: 'research',
+  projects: 'projects',
+  writing: 'writing',
+  contact: 'say hi',
 }

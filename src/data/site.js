@@ -30,22 +30,22 @@ export const PROFILE = {
   resume,
   email: null,
   links: [
-    { label: 'GitHub', href: 'https://github.com/ahmedomuharram' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ahmed-muharram' },
+    { label: 'github', href: 'https://github.com/ahmedomuharram' },
+    { label: 'linkedin', href: 'https://www.linkedin.com/in/ahmed-muharram' },
   ],
 }
 
 export const ABOUT = {
   paragraphs: [
-    "I'm a recent graduate of the University of Pennsylvania (Bachelor's and Master's in Computer and Information Science, May 2026) and an Onsi Sawiris Scholar.",
-    'I care deeply about clarity, reliability, and the human experience of software. I like working where systems and AI meet, bringing rigor to complex problems while keeping people at the center.',
-    'I build privacy‑first AI products and tool‑calling LLM agents for scientific workflows. My background spans research and industry, and I gravitate toward teams that value depth, thoughtful design, and ambitious execution.',
+    "i finished my bachelor's and master's in computer and information science at penn in may 2026. i went there on the onsi sawiris scholarship.",
+    "most of my work sits where ai meets regular systems engineering. i care a lot about software being reliable and easy to understand for the people who actually use it.",
+    "lately that has meant tool-calling llm agents for scientific work, and ai products that keep people's data private. i've done both research and industry work, and i like teams that sweat the details but still aim big.",
   ],
   facts: [
-    { k: 'Now', v: 'R&D Software Developer @ Orascom Construction' },
-    { k: 'Studied', v: "UPenn · Bachelor's + Master's, CIS" },
-    { k: 'Scholar', v: 'Onsi Sawiris Scholar' },
-    { k: 'Award', v: 'Penn Engineering Outstanding Research Award' },
+    { k: 'now', v: 'r&d software developer at orascom construction' },
+    { k: 'school', v: "penn, bachelor's + master's in cis" },
+    { k: 'scholarship', v: 'onsi sawiris scholar' },
+    { k: 'award', v: 'penn engineering outstanding research award' },
   ],
 }
 
@@ -105,6 +105,8 @@ export const THESIS = {
   classes: 'cs.CL · cs.AI',
   byline: 'Advised by Chris Callison-Burch · read by Eric Wong · with David S. Roos (VEuPathDB), Delip Rao & Andrew Zhu',
   award: 'Penn Engineering Outstanding Research Award',
+  summary:
+    "the short version: when people ask an agent for something, they leave details out, and the agent fills the gaps by guessing. i built two agents to test how much that matters, lamina for materials science and pathfinder for pathogen genomics. vague prompts hurt them more than model size or anything else i tried. in pathfinder, gene-set f1 went from 0.66 with precise prompts down to 0.16 with vague ones, and bigger models didn't fix it.",
   abstract: [
     'Tool-calling LLM agents can translate natural-language instructions into structured invocations of scientific APIs and databases, but natural language is inherently underspecified: researchers routinely omit dataset identifiers, parameter thresholds, and success criteria that downstream tools require. When this happens, the agent must infer or default missing tool parameters. This thesis studies how prompt underspecification shapes the behavior of such agents through two case studies: LAMINA, a 50-tool materials-science agent evaluated on 37 feasibility claims across three models, and PathFinder, a 44-tool pathogen-genomics agent evaluated on 35 gold-standard search strategies at three vagueness levels across two models and 420 total runs. Both are built on the Kani framework and are open source.',
     "Prompt underspecification was the dominant source of output instability in both case studies, outweighing the effects of model size, routing policy, and task complexity within the ranges evaluated here. In LAMINA, vague claims induce a flip rate of 0.43, meaning that alternate plausible interpretations of the same claim often produce different final labels. In PathFinder, removing dataset-level specification collapses gene-set F1 from 0.664 to 0.227, and further vagueness reduces it to 0.158. The instability localizes to the natural-language-to-tool-invocation mapping: tools function correctly once given precise inputs, but the agent's translation from the prompt into tool choices and arguments is unreliable, and in multi-step tasks these early mistakes propagate through later operations. Within the range of models evaluated here, model scaling does not currently compensate.",
@@ -141,14 +143,14 @@ export const PUBLICATIONS = [
     kind: 'Thesis',
     year: 2026,
     title: THESIS.title,
-    venue: 'University of Pennsylvania · M.S.E. thesis',
-    authors: 'Ahmed Muharram',
+    venue: "penn, master's thesis",
+    authors: 'ahmed muharram',
     note: THESIS.award,
     links: [
-      { label: 'PDF', href: THESIS.paper },
-      { label: 'Defense talk', href: THESIS.defense },
-      { label: 'LAMINA', href: 'https://github.com/ahmedomuharram/lamina' },
-      { label: 'PathFinder', href: 'https://github.com/ahmedomuharram/pathfinder' },
+      { label: 'pdf', href: THESIS.paper },
+      { label: 'defense talk', href: THESIS.defense },
+      { label: 'lamina', href: 'https://github.com/ahmedomuharram/lamina' },
+      { label: 'pathfinder', href: 'https://github.com/ahmedomuharram/pathfinder' },
     ],
   },
 ]

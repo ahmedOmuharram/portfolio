@@ -4,11 +4,8 @@ import { PROFILE } from '../../data/site'
 export default function Contact() {
   return (
     <div className="content contact-content">
-      <p className="eyebrow">Contact</p>
-      <h2>
-        Pull up a chair, <em>say hello</em>.
-      </h2>
-      <p className="muted">Roles, research, collaborations, or just a good album recommendation. All inquiries welcome.</p>
+      <h2>say hi</h2>
+      <p className="muted">if you want to work together or just talk, send me a message.</p>
       <ContactForm />
       <div className="link-row">
         {PROFILE.links.map((l) => (

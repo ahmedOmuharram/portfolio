@@ -7,33 +7,18 @@ export default function Research() {
   const figure = THESIS.figures[fig]
   return (
     <div className="content research-content">
-      <p className="eyebrow">Research</p>
-      <div className="paper-meta">
-        <span className="tag">{THESIS.classes}</span>
-        <span className="muted mono">{THESIS.venue}</span>
-      </div>
-      <h2 className="paper-title">{THESIS.title}</h2>
-      <p className="paper-byline">
-        <strong>Ahmed Muharram</strong> · {THESIS.byline}
-      </p>
-      <p className="award">
-        <span aria-hidden="true">✦</span> {THESIS.award}
-      </p>
-      <div className="stats">
-        {THESIS.stats.map((s) => (
-          <div key={s.k} className="stat">
-            <span className="stat-v">{s.v}</span>
-            <span className="stat-k">{s.k}</span>
-          </div>
-        ))}
-      </div>
+      <h2>research</h2>
+      <p className="paper-meta muted">my master&apos;s thesis at penn, 2026</p>
+      <h3 className="paper-title">{THESIS.title}</h3>
+      <p className="paper-byline">advised by chris callison-burch and read by eric wong, with david s. roos (veupathdb), delip rao and andrew zhu. it won the penn engineering outstanding research award.</p>
+      <p>{THESIS.summary}</p>
       <div className={`abstract${abstractOpen ? ' is-open' : ''}`}>
         <p>
-          <span className="run-in">Abstract —</span> {THESIS.abstract[0]}
+          <span className="run-in">abstract:</span> {THESIS.abstract[0]}
         </p>
         {abstractOpen && THESIS.abstract.slice(1).map((p) => <p key={p.slice(0, 20)}>{p}</p>)}
         <button type="button" className="text-btn" onClick={() => setAbstractOpen((v) => !v)}>
-          {abstractOpen ? 'Show less' : 'Read the full abstract'}
+          {abstractOpen ? 'hide the abstract' : 'read the full abstract'}
         </button>
       </div>
       <figure className="figure">
@@ -43,7 +28,7 @@ export default function Research() {
           ))}
         </div>
         <figcaption>
-          <span className="mono">Fig. {fig + 1}.</span> <strong>{figure.name}</strong> — {figure.caption}
+          <span className="mono">fig. {fig + 1}</span> <strong>{figure.name}</strong>: {figure.caption}
         </figcaption>
         <p className="muted small">{figure.blurb}</p>
         <div className="figure-foot">
@@ -59,11 +44,11 @@ export default function Research() {
             </button>
           </div>
           <a href={figure.href} target="_blank" rel="noopener noreferrer">
-            {figure.name} on GitHub ↗
+            {figure.name.toLowerCase()} on github ↗
           </a>
         </div>
       </figure>
-      <h3 className="subhead">Publications</h3>
+      <h3 className="subhead">papers</h3>
       <ul className="pubs">
         {PUBLICATIONS.map((p) => (
           <li key={p.title}>

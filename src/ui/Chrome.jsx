@@ -11,7 +11,7 @@ export function TopBar({ onHome }) {
   return (
     <header className="topbar">
       <button type="button" className="wordmark" onClick={onHome}>
-        <span className="wordmark-name">Ahmed Muharram</span>
+        <span className="wordmark-name">ahmed muharram</span>
         <span className="wordmark-role mono">ai/ml engineer</span>
       </button>
       <div className="topbar-right">
@@ -62,7 +62,7 @@ export function HoverLabel() {
 export function Footer({ section }) {
   return (
     <footer className="footer">
-      <span className="small muted">© {new Date().getFullYear()} {PROFILE.name}</span>
+      <span className="small muted">© {new Date().getFullYear()} {PROFILE.name.toLowerCase()}</span>
       <Secret armed={SECTION_IDS[section] === 'contact'} />
       <div className="footer-links">
         <a href="https://github.com/ahmedomuharram" target="_blank" rel="noopener noreferrer" aria-label="GitHub">

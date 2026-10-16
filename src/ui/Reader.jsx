@@ -22,13 +22,13 @@ export default function Reader({ slug, onClose }) {
       <div className="reader-backdrop" onClick={onClose} />
       <article className="reader-sheet" ref={ref} tabIndex={-1}>
         <button type="button" className="reader-back" onClick={onClose}>
-          ← Back to the room
+          ← back to the room
         </button>
         {post ? (
           <>
             <header>
               <p className="eyebrow">
-                {formatDate(post.date)} · {post.minutes} min read{post.draft ? ' · draft' : ''}
+                {formatDate(post.date).toLowerCase()} · {post.minutes} min read{post.draft ? ' · draft' : ''}
               </p>
               <h1>{post.title}</h1>
               {post.summary && <p className="reader-summary">{post.summary}</p>}
@@ -45,16 +45,16 @@ export default function Reader({ slug, onClose }) {
             <div className="prose" dangerouslySetInnerHTML={{ __html: html }} />
             <footer className="reader-foot">
               <button type="button" className="text-btn" onClick={onClose}>
-                ← More writing
+                ← more writing
               </button>
             </footer>
           </>
         ) : (
           <div className="empty">
-            <h1>Lost between the shelves.</h1>
-            <p className="muted">That post doesn't exist, or it hasn't been written yet.</p>
+            <h1>this post doesn&apos;t exist (yet)</h1>
+            <p className="muted">it might have moved, or i haven&apos;t written it.</p>
             <button type="button" className="btn" onClick={() => navigate('/#writing')}>
-              Browse writing
+              see all writing
             </button>
           </div>
         )}

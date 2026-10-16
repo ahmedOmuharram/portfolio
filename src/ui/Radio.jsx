@@ -122,7 +122,7 @@ export default function RadioPlayer() {
       </div>
       <div className="radio-info">
         <span className="eyebrow">
-          Now playing · {index + 1}/{STATIONS.length}
+          now playing · {index + 1}/{STATIONS.length}
         </span>
         <span className="radio-name" title={title || station.name}>
           {title || station.name}
@@ -144,10 +144,10 @@ export default function RadioPlayer() {
         </div>
         <div className="radio-actions">
           <button type="button" className="text-btn" onClick={nextStation}>
-            Next station →
+            next station →
           </button>
           <button type="button" className="text-btn" onClick={toggleRadio}>
-            Stop
+            stop
           </button>
         </div>
       </div>

@@ -52,7 +52,7 @@ export default function Mobile() {
   return (
     <div className="mobile">
       <header className="m-top">
-        <span className="wordmark-name">Ahmed Muharram</span>
+        <span className="wordmark-name">ahmed muharram</span>
         <div className="topbar-right">
           <RadioButton />
           <Clock />

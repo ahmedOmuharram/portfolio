@@ -20,14 +20,9 @@ export default function Experience() {
   return (
     <div className="content experience-content">
       <div className="content-head">
-        <div>
-          <p className="eyebrow">Experience</p>
-          <h2>
-            Where I've <em>built</em> things.
-          </h2>
-        </div>
+        <h2>work</h2>
         <a className="btn btn-small" href={PROFILE.resume} target="_blank" rel="noopener noreferrer">
-          Résumé ↗
+          résumé ↗
         </a>
       </div>
       <ol className="timeline">
@@ -44,7 +39,7 @@ export default function Experience() {
                   <span className="job-company">{job.company}</span>
                 </span>
                 <span className="job-dates">
-                  {job.current && <span className="badge">Now</span>}
+                  {job.current && <span className="badge">now</span>}
                   {job.dates}
                 </span>
               </button>

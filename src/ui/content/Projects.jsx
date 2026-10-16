@@ -71,10 +71,10 @@ export function ProjectDialog({ project, onClose }) {
               <div className="dialog-actions">
                 {project.link ? (
                   <a className="btn btn-solid" href={project.link} target="_blank" rel="noreferrer">
-                    Visit project ↗
+                    visit ↗
                   </a>
                 ) : (
-                  <span className="muted small">{project.repoStatus === 'private' ? 'Private repo, available on request' : 'Link coming soon'}</span>
+                  <span className="muted small">{project.repoStatus === 'private' ? "the code is private, but i'm happy to share it if you ask" : 'link coming soon'}</span>
                 )}
               </div>
             </>
@@ -89,11 +89,8 @@ export default function Projects() {
   const [active, setActive] = useState(null)
   return (
     <div className="content projects-content">
-      <p className="eyebrow">Projects</p>
-      <h2>
-        Things I've <em>made</em>.
-      </h2>
-      <p className="muted">Systems, search, graphics, games. Open any of them for details, demos, and write-ups.</p>
+      <h2>projects</h2>
+      <p className="muted">some things i&apos;ve built. click one to see more.</p>
       <div className="project-grid">
         {PROJECTS.map((p) => (
           <button key={p.title} type="button" className={`project-card${p.featured ? ' is-featured' : ''}`} onClick={() => setActive(p)}>

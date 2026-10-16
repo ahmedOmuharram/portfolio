@@ -39,7 +39,7 @@ function coverTexture(seed, a, b, c) {
       g.stroke()
     }
     g.fillStyle = c
-    g.font = 'italic 600 28px Georgia, serif'
+    g.font = '600 28px "Pixelify Sans", sans-serif'
     g.fillText('blue', 24, 236)
   }
   const t = new CanvasTexture(cv)

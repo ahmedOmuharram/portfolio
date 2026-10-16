@@ -46,9 +46,9 @@ export function createTerminal() {
       g.fill()
     })
     g.fillStyle = 'rgba(236,228,214,0.45)'
-    g.font = '18px "JetBrains Mono", monospace'
+    g.font = '20px "DotGothic16", monospace'
     g.fillText('~/late-night — zsh', 430, 23)
-    g.font = '21px "JetBrains Mono", monospace'
+    g.font = '22px "DotGothic16", monospace'
     const rows = [...done]
     const cur = SCRIPT[line]
     if (cur) rows.push({ ...cur, t: cur.t.slice(0, char), live: true })

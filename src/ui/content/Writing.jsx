@@ -4,13 +4,10 @@ import { navigate } from '../../lib/router'
 export default function Writing() {
   return (
     <div className="content writing-content">
-      <p className="eyebrow">Writing</p>
-      <h2>
-        Notes from the <em>desk</em>.
-      </h2>
+      <h2>writing</h2>
       {POSTS.length === 0 ? (
         <div className="empty">
-          <p>The shelf is still filling up. The first notes on agents, retrieval, and building things slowly are on the way.</p>
+          <p>nothing here yet. i&apos;ll start posting soon.</p>
         </div>
       ) : (
         <ul className="posts">
@@ -25,7 +22,7 @@ export default function Writing() {
                 }}
               >
                 <span className="post-meta mono">
-                  {formatDate(p.date)} · {p.minutes} min{p.draft ? ' · draft' : ''}
+                  {formatDate(p.date).toLowerCase()} · {p.minutes} min{p.draft ? ' · draft' : ''}
                 </span>
                 <span className="post-title">{p.title}</span>
                 {p.summary && <span className="post-summary">{p.summary}</span>}

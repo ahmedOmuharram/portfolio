@@ -31,8 +31,8 @@ export default function ContactForm() {
 
   const submit = async (e) => {
     e.preventDefault()
-    if (!form.name || !form.email || !form.message) return setError('Please fill in every field.')
-    if (!EMAIL.test(form.email)) return setError('That email address looks off.')
+    if (!form.name || !form.email || !form.message) return setError('please fill in everything.')
+    if (!EMAIL.test(form.email)) return setError("that email doesn't look right.")
     setError('')
     setStatus('sending')
     try {
@@ -46,11 +46,11 @@ export default function ContactForm() {
         wipe(form)
       } else {
         setStatus('idle')
-        setError('Couldn’t send. Try again in a moment.')
+        setError("couldn't send. try again in a bit.")
       }
     } catch {
       setStatus('idle')
-      setError('Couldn’t send. Check your connection and try again.')
+      setError("couldn't send. check your connection and try again.")
     }
   }
 
@@ -65,26 +65,26 @@ export default function ContactForm() {
     <form className={`contact-form${busy ? ' is-busy' : ''}`} onSubmit={submit} noValidate>
       <div className="field-row">
         <label className="field">
-          <span>Name</span>
-          <input name="name" value={form.name} onChange={change} placeholder="Your name" disabled={busy} autoComplete="name" />
+          <span>name</span>
+          <input name="name" value={form.name} onChange={change} placeholder="your name" disabled={busy} autoComplete="name" />
         </label>
         <label className="field">
-          <span>Email</span>
-          <input name="email" type="email" value={form.email} onChange={change} placeholder="name@email.com" disabled={busy} autoComplete="email" />
+          <span>email</span>
+          <input name="email" type="email" value={form.email} onChange={change} placeholder="you@email.com" disabled={busy} autoComplete="email" />
         </label>
       </div>
       <label className="field">
         <span>
-          Message <em className="count">{form.message.length ? `${form.message.length}/${LIMIT}` : ''}</em>
+          message <em className="count">{form.message.length ? `${form.message.length}/${LIMIT}` : ''}</em>
         </span>
-        <textarea name="message" rows={4} value={form.message} onChange={change} placeholder="I'm interested in…" disabled={busy} maxLength={LIMIT} />
+        <textarea name="message" rows={4} value={form.message} onChange={change} placeholder="what's up?" disabled={busy} maxLength={LIMIT} />
       </label>
       <div className="form-foot">
         <button type="submit" className="btn btn-solid" disabled={busy}>
-          {status === 'sending' ? 'Sending…' : status === 'sent' ? 'Sent ✓' : 'Send message'}
+          {status === 'sending' ? 'sending…' : status === 'sent' ? 'sent ✓' : 'send'}
         </button>
         <span className={`form-note${error ? ' is-error' : ''}`} role="status">
-          {error || (status === 'sent' ? 'Thanks! I’ll get back to you soon.' : '')}
+          {error || (status === 'sent' ? "thanks! i'll get back to you." : '')}
         </span>
       </div>
     </form>

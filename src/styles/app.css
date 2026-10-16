@@ -12,9 +12,9 @@
   --amber-2: #f3c88d;
   --sage: #8fb39a;
   --rust: #c4553a;
-  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --serif: 'Pixelify Sans', 'DotGothic16', system-ui, sans-serif;
+  --sans: 'DotGothic16', 'Pixelify Sans', system-ui, sans-serif;
+  --mono: 'DotGothic16', ui-monospace, monospace;
   --radius: 18px;
   --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
   color-scheme: dark;
@@ -26,6 +26,10 @@
   box-sizing: border-box;
 }
 
+html {
+  font-synthesis: none;
+}
+
 html,
 body {
   margin: 0;
@@ -33,7 +37,7 @@ body {
   color: var(--paper);
   font-family: var(--sans);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -78,14 +82,12 @@ img {
 }
 
 em {
-  font-style: italic;
 }
 
 .eyebrow {
   font-family: var(--mono);
   font-size: 0.7rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--amber);
   margin: 0 0 0.9rem;
 }
@@ -100,10 +102,9 @@ h2,
 h3 {
   font-family: var(--serif);
   font-weight: 400;
-  letter-spacing: -0.015em;
+  letter-spacing: 0;
   line-height: 1.08;
   margin: 0;
-  font-variation-settings: 'SOFT' 50, 'WONK' 0;
 }
 
 h2 {
@@ -111,10 +112,8 @@ h2 {
   margin-bottom: 1.1rem;
 }
 
-h2 em,
-h1 em {
+h1 span {
   color: var(--amber-2);
-  font-variation-settings: 'SOFT' 100, 'WONK' 1;
 }
 
 .btn {
@@ -195,7 +194,7 @@ h1 em {
   display: inline-block;
   font-family: var(--mono);
   font-size: 0.68rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.02em;
   padding: 0.22rem 0.55rem;
   border-radius: 999px;
   border: 1px solid var(--line-2);
@@ -289,15 +288,13 @@ h1 em {
 .wordmark-name {
   font-family: var(--serif);
   font-size: 1.12rem;
-  font-style: italic;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   line-height: 1.1;
 }
 
 .wordmark-role {
   font-size: 0.66rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--muted);
 }
 
@@ -492,7 +489,6 @@ h1 em {
 .radio-name {
   font-family: var(--serif);
   font-size: 1.02rem;
-  font-style: italic;
   line-height: 1.25;
   max-width: 210px;
   display: -webkit-box;
@@ -661,12 +657,12 @@ h1 em {
 .hero-name {
   font-size: clamp(3.4rem, 7vw, 6.4rem);
   line-height: 0.95;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
   margin: 0 0 1.4rem;
   text-shadow: 0 6px 40px rgba(0, 0, 0, 0.4);
 }
 
-.hero-name em {
+.hero-name span {
   display: inline-block;
   padding-right: 0.05em;
 }
@@ -699,8 +695,7 @@ h1 em {
   z-index: 15;
   color: var(--muted);
   font-size: 0.68rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   animation: fade-in 1.2s 1.4s both;
 }
 
@@ -981,8 +976,7 @@ h1 em {
 .facts dt {
   font-family: var(--mono);
   font-size: 0.64rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.02em;
   color: var(--sage);
   margin-bottom: 0.15rem;
 }
@@ -1069,8 +1063,7 @@ h1 em {
 
 .badge {
   font-size: 0.6rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: #17130f;
   background: var(--amber);
   border-radius: 999px;
@@ -1121,8 +1114,7 @@ h1 em {
   gap: 0.7rem;
   margin-bottom: 0.9rem;
   font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .paper-title {
@@ -1186,7 +1178,6 @@ h1 em {
 
 .run-in {
   font-family: var(--serif);
-  font-style: italic;
   color: var(--paper);
 }
 
@@ -1579,8 +1570,7 @@ h1 em {
 .field > span {
   font-family: var(--mono);
   font-size: 0.64rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--muted);
   display: flex;
   justify-content: space-between;
@@ -1699,7 +1689,6 @@ h1 em {
 
 .reader-summary {
   font-family: var(--serif);
-  font-style: italic;
   font-size: 1.15rem;
   color: #5a4c3c;
   margin: 0 0 1rem;
@@ -1715,7 +1704,6 @@ h1 em {
   font-family: var(--serif);
   font-size: 1.12rem;
   line-height: 1.75;
-  font-variation-settings: 'opsz' 14;
 }
 
 .prose h2,
@@ -1736,7 +1724,6 @@ h1 em {
   padding-left: 1.2rem;
   border-left: 3px solid #d79a5a;
   color: #5a4c3c;
-  font-style: italic;
 }
 
 .prose code {
@@ -1787,8 +1774,7 @@ h1 em {
   background: none;
   border: 0;
   font-size: 0.6rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: rgba(236, 228, 214, 0.28);
   cursor: pointer;
   opacity: 0;
@@ -1830,8 +1816,7 @@ h1 em {
   text-align: center;
   font-family: var(--mono);
   font-size: 0.72rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--muted);
 }
 
@@ -1922,8 +1907,7 @@ h1 em {
   background: #0a0c0b;
   font-family: var(--mono);
   font-size: 0.7rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   cursor: pointer;
 }
 
@@ -2418,4 +2402,26 @@ h1 em {
   .prose {
     font-size: 1.05rem;
   }
+}
+
+.btn,
+.text-btn,
+.inline-link,
+.chip,
+.wordmark-name,
+.rail-label,
+.hover-label,
+.job-title,
+.project-name,
+.post-title,
+.pub-title,
+.radio-name,
+.stat-v,
+.badge,
+.keypad-enter,
+.m-tabs button,
+.clawd-bubble,
+strong,
+b {
+  font-family: var(--serif);
 }

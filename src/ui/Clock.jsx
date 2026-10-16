@@ -40,14 +40,12 @@ export default function Clock() {
         <PhaseIcon phase={sky.state.phase} />
         <span className="mono">{formatClock(live ? sky.now.decimal : sky.hour)}</span>
         <span className="chip-sub">
-          {CITY} · {PHASE_LABEL[sky.state.phase]}
+          {CITY.toLowerCase()} · {PHASE_LABEL[sky.state.phase]}
         </span>
       </button>
       {open && (
         <div className="menu" role="menu">
-          <p className="menu-note">
-            The room follows {CITY} time. Peek at another hour:
-          </p>
+          <p className="menu-note">the room follows {CITY.toLowerCase()} time. want to see it at a different time of day?</p>
           {PRESETS.map((p) => (
             <button
               key={p.id}
@@ -60,7 +58,7 @@ export default function Clock() {
                 setOpen(false)
               }}
             >
-              {p.id === 'live' ? `Live · ${formatClock(sky.now.decimal)}` : p.label}
+              {p.id === 'live' ? `right now · ${formatClock(sky.now.decimal)}` : p.label.toLowerCase()}
             </button>
           ))}
         </div>

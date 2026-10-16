@@ -190,12 +190,12 @@ export function noteTexture({ title, subtitle, meta, paper = '#efe6d2', ink = '#
       g.fillRect(r() * 512, r() * 420, 2, 2)
     }
     g.fillStyle = accent
-    g.font = '600 26px "JetBrains Mono", monospace'
+    g.font = '26px "DotGothic16", monospace'
     g.fillText(meta || '', 34, 64)
     g.fillStyle = ink
-    g.font = 'italic 600 46px "Fraunces", Georgia, serif'
+    g.font = '600 46px "Pixelify Sans", sans-serif'
     const y = wrap(g, title, 34, 134, 444, 52, 3)
-    g.font = '400 30px "Manrope", sans-serif'
+    g.font = '30px "DotGothic16", sans-serif'
     g.fillStyle = 'rgba(42,34,27,0.8)'
     wrap(g, subtitle || '', 34, y + 10, 444, 38, 3)
     return finish(c)
@@ -234,7 +234,7 @@ export function polaroidTexture(src, caption) {
     }
     img.src = src
     g.fillStyle = '#3a3128'
-    g.font = 'italic 30px "Fraunces", Georgia, serif'
+    g.font = '500 30px "Pixelify Sans", sans-serif'
     g.textAlign = 'center'
     g.fillText(caption, 200, 432)
     return tex
@@ -248,11 +248,11 @@ export function paperTexture(lines) {
     g.fillRect(0, 0, 512, 680)
     g.fillStyle = '#2b2620'
     g.textAlign = 'center'
-    g.font = '500 20px "JetBrains Mono", monospace'
-    g.fillText('MASTER’S THESIS · PENN · 2026', 256, 70)
-    g.font = '600 34px "Fraunces", Georgia, serif'
+    g.font = '20px "DotGothic16", monospace'
+    g.fillText('master’s thesis · penn · 2026', 256, 70)
+    g.font = '600 34px "Pixelify Sans", sans-serif'
     let y = wrap(g, lines[0], 256, 140, 420, 42)
-    g.font = 'italic 24px "Fraunces", Georgia, serif'
+    g.font = '24px "DotGothic16", sans-serif'
     y = wrap(g, lines[1], 256, y + 16, 420, 30)
     g.textAlign = 'left'
     g.fillStyle = 'rgba(43,38,32,0.35)'
@@ -297,10 +297,10 @@ export function vinylLabelTexture() {
     g.arc(128, 128, 44, 0, Math.PI * 2)
     g.fill()
     g.fillStyle = '#f0dcc0'
-    g.font = 'italic 600 15px Georgia, serif'
+    g.font = '600 15px "Pixelify Sans", sans-serif'
     g.textAlign = 'center'
     g.fillText('late night', 128, 122)
-    g.font = '10px monospace'
+    g.font = '10px "DotGothic16", monospace'
     g.fillText('side a', 128, 140)
     g.fillStyle = '#111'
     g.beginPath()

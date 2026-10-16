@@ -2,17 +2,17 @@ import { ui } from '../lib/store'
 import { SECTION_IDS } from './shots'
 
 export const HOTSPOT_LABELS = {
-  projects: 'Open projects',
-  research: 'Read the research',
-  experience: 'The moodboard',
-  writing: 'Writing',
-  about: 'Look outside',
-  contact: 'Say hello',
-  radio: 'Play the radio',
-  guitar: 'Strum',
-  cat: 'Pet the cat',
-  catSill: 'Pet the cat',
-  clawd: 'Say hi to Clawd',
+  projects: 'projects',
+  research: 'my thesis',
+  experience: 'work',
+  writing: 'writing',
+  about: 'about me',
+  contact: 'say hi',
+  radio: 'play the radio',
+  guitar: 'strum',
+  cat: 'pet the cat',
+  catSill: 'pet the cat',
+  clawd: 'say hi to clawd',
 }
 
 export function activate(id, action) {
