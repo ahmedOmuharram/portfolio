@@ -39,7 +39,7 @@ export const ABOUT = {
   paragraphs: [
     "i finished my bachelor's and master's in computer and information science at penn in may 2026. i went there on the onsi sawiris scholarship.",
     "most of my work sits where ai meets regular systems engineering. i care a lot about software being reliable and easy to understand for the people who actually use it.",
-    "lately that has meant tool-calling llm agents for scientific work, and ai products that keep people's data private. i've done both research and industry work, and i like teams that sweat the details but still aim big.",
+    "lately that has meant tool-calling llm agents for scientific work, and ai products that keep people's data private. i've worked in both research and industry, and i like working with people who care about doing things well.",
   ],
   facts: [
     { k: 'now', v: 'r&d software developer at orascom construction' },

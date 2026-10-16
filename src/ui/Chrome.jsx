@@ -55,7 +55,7 @@ export function HoverLabel() {
   }, [])
   return (
     <div ref={ref} className={`hover-label${hovered ? ' is-visible' : ''}`} aria-hidden="true">
-      {hovered ? (HOTSPOT_LABELS[hovered] === 'lamp' ? `turn ${lampsOff[hovered] ? 'on' : 'off'} the lamp` : HOTSPOT_LABELS[hovered]) : ''}
+      {hovered ? (hovered.startsWith('lamp') ? `turn ${lampsOff[hovered] ? 'on' : 'off'} ${HOTSPOT_LABELS[hovered]}` : HOTSPOT_LABELS[hovered]) : ''}
     </div>
   )
 }

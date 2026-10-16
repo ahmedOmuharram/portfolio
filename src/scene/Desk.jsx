@@ -191,7 +191,7 @@ function Headphones() {
   const m = useMaterials()
   const pad = useMemo(() => new MeshStandardMaterial({ color: '#2b2622', roughness: 0.8 }), [])
   return (
-    <group position={[-0.02, TOP + 0.03, -2.12]} rotation={[-Math.PI / 2 + 0.25, 0, 0.5]}>
+    <group position={[-0.04, TOP + 0.046, -2.15]} rotation={[-Math.PI / 2 + 0.25, 0, 0.5]}>
       <mesh material={m.plastic} castShadow>
         <torusGeometry args={[0.085, 0.009, 8, 24, Math.PI]} />
       </mesh>

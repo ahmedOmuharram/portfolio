@@ -266,7 +266,7 @@ h1 span {
   align-items: center;
   justify-content: space-between;
   padding: 22px 28px;
-  z-index: 20;
+  z-index: 40;
   pointer-events: none;
 }
 
@@ -456,9 +456,10 @@ h1 span {
   animation: pop 0.3s var(--ease);
 }
 
-.desktop.section-contact .radio-card {
-  bottom: auto;
-  top: 78px;
+.desktop.section-about .radio-card,
+.desktop.section-research .radio-card {
+  right: auto;
+  left: 24px;
 }
 
 .radio-video {

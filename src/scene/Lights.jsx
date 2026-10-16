@@ -47,7 +47,7 @@ export default function Lights({ quality }) {
     windowFill.current.intensity = 2.5 + live.ambientIntensity * 9
     deskLamp.current.intensity = (6 + lamps * 22) * lampLevel('lampDesk')
     floorLamp.current.intensity = lamps * 9 * lampLevel('lampFloor')
-    strings.current.intensity = 0.4 + lamps * 2.2
+    strings.current.intensity = (0.4 + lamps * 2.2) * lampLevel('lampStrings')
     monitor.current.intensity = 1.6 + lamps * 1.2
     pc.current.intensity = 0.25 + lamps * 0.5
     gl.toneMappingExposure = live.exposure

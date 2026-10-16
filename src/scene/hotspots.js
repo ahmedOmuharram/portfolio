@@ -13,10 +13,11 @@ export const HOTSPOT_LABELS = {
   cat: 'pet the cat',
   catSill: 'pet the cat',
   clawd: 'say hi to clawd',
-  lampDesk: 'lamp',
-  lampFloor: 'lamp',
-  lampTable: 'lamp',
-  lampShelf: 'lamp',
+  lampDesk: 'the lamp',
+  lampFloor: 'the lamp',
+  lampTable: 'the lamp',
+  lampShelf: 'the lamp',
+  lampStrings: 'the string lights',
 }
 
 export function activate(id, action) {

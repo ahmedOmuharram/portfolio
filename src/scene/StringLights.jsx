@@ -2,6 +2,8 @@ import { useLayoutEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { CatmullRomCurve3, Color, Object3D, TubeGeometry, Vector3 } from 'three'
 import { useLive } from './live'
+import Hotspot from './Hotspot'
+import { lampLevel, toggleLamp } from './lamps'
 
 const dummy = new Object3D()
 
@@ -31,6 +33,7 @@ function Strand({ anchors, sag, bulbs, seed }) {
   const ref = useRef()
   const curve = useMemo(() => strand(anchors, sag), [anchors, sag])
   const wire = useMemo(() => new TubeGeometry(curve, 160, 0.0025, 4), [curve])
+  const hit = useMemo(() => new TubeGeometry(curve, 60, 0.07, 6), [curve])
   const items = useMemo(() => Array.from({ length: bulbs }, (_, i) => ({ t: (i + 0.5) / bulbs, phase: (i * 1.7 + seed) % 6.28, speed: 0.6 + ((i * 7) % 5) * 0.25 })), [bulbs, seed])
   const tmp = useMemo(() => new Vector3(), [])
   const color = useMemo(() => new Color(), [])
@@ -46,7 +49,8 @@ function Strand({ anchors, sag, bulbs, seed }) {
   }, [items, curve, tmp])
   useFrame(() => {
     const t = live.time
-    const base = 0.35 + live.lamps * 2.6
+    const on = lampLevel('lampStrings')
+    const base = 0.05 + on * (0.3 + live.lamps * 2.6)
     items.forEach((it, i) => {
       const tw = 0.75 + 0.25 * Math.sin(t * it.speed + it.phase)
       color.setRGB(1, 0.72, 0.4).multiplyScalar(base * tw)
@@ -63,16 +67,17 @@ function Strand({ anchors, sag, bulbs, seed }) {
         <sphereGeometry args={[0.014, 10, 8]} />
         <meshBasicMaterial toneMapped={false} />
       </instancedMesh>
+      <mesh geometry={hit} visible={false} />
     </group>
   )
 }
 
 export default function StringLights() {
   return (
-    <group>
+    <Hotspot id="lampStrings" action={() => toggleLamp('lampStrings')}>
       {STRANDS.map((s, i) => (
         <Strand key={i} {...s} seed={i * 3.1} />
       ))}
-    </group>
+    </Hotspot>
   )
 }

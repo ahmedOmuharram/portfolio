@@ -5,7 +5,7 @@ import { MeshStandardMaterial } from 'three'
 import Hotspot from './Hotspot'
 import { chirp } from '../lib/audio'
 
-const LINES = ['hi! ✦', 'shipping it?', 'the cats approve', 'one more commit…', 'lofi + code', 'nice room :)', 'thanks for having me']
+const LINES = ['hi! ✦', 'shipping it?', 'the cats approve', 'one more commit…', 'lofi + code', 'nice room :)', 'i live here now']
 
 export default function Clawd({ position = [0.34, 0.78, -2.48], rotation = [0, 0.25, 0], scale = 1 }) {
   const body = useRef()
