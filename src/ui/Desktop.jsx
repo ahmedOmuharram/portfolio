@@ -82,16 +82,29 @@ export default function Desktop({ quality }) {
       cooldown.current = now + 950
       go(ui.get().section + dir)
     }
+    const gesture = { last: 0, locked: false, push: 0 }
     const onWheel = (e) => {
       if (blocked()) return
+      const now = performance.now()
+      if (now - gesture.last > 240) {
+        gesture.locked = false
+        gesture.push = 0
+      }
+      gesture.last = now
       const dir = Math.sign(e.deltaY)
-      if (!dir || Math.abs(e.deltaY) < 8) return
+      if (!dir) return
       const scroller = e.target.closest?.('.panel-scroll')
       if (scroller && canScroll(scroller, dir)) {
-        cooldown.current = performance.now() + 450
+        gesture.locked = true
         return
       }
       e.preventDefault()
+      if (gesture.locked || Math.abs(e.deltaY) < 8) return
+      if (scroller && scroller.scrollHeight > scroller.clientHeight + 4) {
+        gesture.push += Math.abs(e.deltaY)
+        if (gesture.push < 160) return
+      }
+      gesture.locked = true
       step(dir)
     }
     const onKey = (e) => {
