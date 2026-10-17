@@ -48,7 +48,7 @@ export default function Research() {
           </a>
         </div>
       </figure>
-      <h3 className="subhead">papers</h3>
+      <h3 className="subhead">publications</h3>
       <ul className="pubs">
         {PUBLICATIONS.map((p) => (
           <li key={p.title}>

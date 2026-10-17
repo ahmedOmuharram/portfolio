@@ -140,6 +140,17 @@ export const THESIS = {
 
 export const PUBLICATIONS = [
   {
+    kind: 'Preprint',
+    year: 2026,
+    title: 'Same Claim, Different Interpretations: How LLM Agents Resolve Ambiguity in Scientific Claims',
+    venue: 'arxiv preprint',
+    authors: 'delip rao, ahmed muharram, chris callison-burch',
+    links: [
+      { label: 'arxiv', href: 'https://arxiv.org/abs/2610.20457' },
+      { label: 'pdf', href: 'https://arxiv.org/pdf/2610.20457' },
+    ],
+  },
+  {
     kind: 'Thesis',
     year: 2026,
     title: THESIS.title,
