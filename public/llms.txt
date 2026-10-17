@@ -125,6 +125,11 @@ evaluation) and received the Penn Engineering Outstanding Research Award.
   LLM agents in scientific workflows).
 - Onsi Sawiris Scholar.
 
+## Certifications
+
+- Microsoft Certified: Azure AI Apps and Agents Developer Associate, issued by Microsoft
+  (credential ID 3042DD403A41366D): https://learn.microsoft.com/en-gb/users/ahmedmuharram/credentials/3042dd403a41366d
+
 ## Writing
 
 Essays and notes on LLM agents, retrieval, and building software are listed at
