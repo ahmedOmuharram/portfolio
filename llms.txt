@@ -65,6 +65,19 @@ and vague prompts. The work derived four production design recommendations
 (disambiguation protocols, catalog grounding, incremental validation, replicated
 evaluation) and received the Penn Engineering Outstanding Research Award.
 
+## Publications
+
+- Delip Rao, Ahmed Muharram, Chris Callison-Burch. **Same Claim, Different Interpretations: How LLM Agents Resolve Ambiguity in Scientific Claims**. arXiv preprint
+  arXiv:2610.20457 [cs.CL], October 2026. https://arxiv.org/abs/2610.20457
+  Introduces Claim Cards, which make an LLM agent's interpretation of an underspecified
+  scientific claim explicit before it gathers evidence. Across 900 GPT-5.4 agent runs on
+  60 expert-labeled materials-science and biomedical claims, a deliberate change to one
+  field of a frozen card (a universal quantifier or a stricter threshold for support)
+  changed the verdict on about a third of claims, against about one in seven expected by
+  chance.
+- Ahmed Muharram. **How Underspecified Prompts Shape Tool-Calling LLM Agents in
+  Scientific Workflows**. Master's thesis, University of Pennsylvania, 2026.
+
 ## Selected projects
 
 - **PathFinder:** a 44-tool pathogen-genomics LLM agent that turns natural-language
