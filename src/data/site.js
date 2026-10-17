@@ -57,7 +57,11 @@ export const EXPERIENCE = [
     dates: 'Jul 2026 — Present',
     logo: orascom,
     current: true,
-    note: 'Current position; more to come.',
+    bullets: [
+      "Sole developer and technical lead on the rewrite of corporate IT's work-management system, moving a 2012 ASP.NET WebForms app to .NET 10, Angular, EF Core, and PostgreSQL: a service desk with typed request forms, multi-step approval chains, delivery tracking, and reporting, now in user acceptance testing.",
+      'Migrated the legacy data, tens of thousands of requests with their comments and attachments, from SQL Server to PostgreSQL.',
+      "Designed, built, and own the AWS platform that hosts the company's R&D applications: ECS on Graviton, shared RDS, and S3 with CloudFront behind WAF, all in CloudFormation, with reusable GitHub Actions deploy workflows that sign in through OIDC and hold no secrets.",
+    ],
   },
   {
     title: 'AI / ML Engineer',
