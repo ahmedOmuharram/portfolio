@@ -26,7 +26,7 @@ and the human experience of software.
 
 ## Experience
 
-- **R&D Software Developer, Orascom Construction** (Jul 2026 to Present).
+- **R&D Software Developer, Orascom Construction** (Jul 2026 to Present). Sole developer and technical lead on the rewrite of corporate IT's work-management system from ASP.NET WebForms to .NET 10, Angular, EF Core, and PostgreSQL, including migrating the legacy data from SQL Server. Designed, built, and owns the AWS platform that hosts the company's R&D applications (ECS on Graviton, RDS, CloudFront, WAF, CloudFormation), with reusable GitHub Actions deploy workflows that use OIDC.
 - **AI/ML Engineer, Fidelity Investments** (Dec 2025 to Jan 2026). Productionized
   and scaled an internal LLM/RAG system from intern phase to production, expanding
   it to arbitrary enterprise data sources via a standardized connector, ingestion,
