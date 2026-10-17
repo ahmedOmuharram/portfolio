@@ -1055,6 +1055,11 @@ h1 span {
   font-size: 0.92rem;
 }
 
+.job-aka {
+  display: block;
+  font-size: 0.78rem;
+}
+
 .job-company {
   font-size: 0.8rem;
   color: var(--muted);

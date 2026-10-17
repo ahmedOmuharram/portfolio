@@ -4,7 +4,7 @@ const SCRIPT = [
   { p: true, t: 'whoami' },
   { t: 'ahmed muharram — ai/ml engineer · systems · scientific llm agents' },
   { p: true, t: 'cat now.txt' },
-  { t: 'r&d software developer @ orascom construction' },
+  { t: 'software engineer @ orascom construction' },
   { t: 'listening: lofi + jazz · drinking: iced latte · cats: asleep' },
   { p: true, t: 'ls ~/projects' },
   { t: 'pathfinder/  lamina/  sceniq/  bytenet/  instalite/  pennos/' },

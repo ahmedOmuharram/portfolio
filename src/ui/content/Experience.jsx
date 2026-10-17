@@ -35,7 +35,10 @@ export default function Experience() {
                   <img src={job.logo} alt="" />
                 </span>
                 <span className="job-titles">
-                  <span className="job-title">{job.title}</span>
+                  <span className="job-title">
+                    {job.title}
+                    {job.aka && <span className="job-aka"> ({job.aka})</span>}
+                  </span>
                   <span className="job-company">{job.company}</span>
                 </span>
                 <span className="job-dates">

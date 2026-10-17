@@ -42,7 +42,7 @@ export const ABOUT = {
     "lately that has meant tool-calling llm agents for scientific work, and ai products that keep people's data private. i've worked in both research and industry, and i like working with people who care about doing things well.",
   ],
   facts: [
-    { k: 'now', v: 'r&d software developer at orascom construction' },
+    { k: 'now', v: 'software engineer at orascom construction' },
     { k: 'school', v: "penn, bachelor's + master's in cis" },
     { k: 'scholarship', v: 'onsi sawiris scholar' },
     { k: 'award', v: 'penn engineering outstanding research award' },
@@ -51,7 +51,8 @@ export const ABOUT = {
 
 export const EXPERIENCE = [
   {
-    title: 'R&D Software Developer',
+    title: 'Software Engineer',
+    aka: 'IT Applications Consultant',
     company: 'Orascom Construction',
     short: 'Orascom',
     dates: 'Jul 2026 — Present',
