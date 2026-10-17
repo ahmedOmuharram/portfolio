@@ -63,7 +63,8 @@ PathFinder was evaluated in a 420-run controlled study over a 35-strategy gold
 corpus; gene-set F1 collapses from 0.66 to 0.23 to 0.16 across precise, moderate,
 and vague prompts. The work derived four production design recommendations
 (disambiguation protocols, catalog grounding, incremental validation, replicated
-evaluation) and received the Penn Engineering Outstanding Research Award.
+evaluation) and received the Penn Engineering Outstanding Research Award. Full
+text: https://muharram.dev/thesis.pdf
 
 ## Publications
 
@@ -151,5 +152,7 @@ https://muharram.dev/#writing, with each post at https://muharram.dev/writing/<s
 ## Links
 
 - Website: https://muharram.dev
+- Résumé: https://muharram.dev/resume.pdf
+- Thesis: https://muharram.dev/thesis.pdf
 - GitHub: https://github.com/ahmedomuharram
 - LinkedIn: https://www.linkedin.com/in/ahmed-muharram

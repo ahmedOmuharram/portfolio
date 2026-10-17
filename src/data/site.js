@@ -1,7 +1,6 @@
 import fidInvst from '../assets/fid-invst.png'
 import aydi from '../assets/aydi.png'
 import orascom from '../assets/orascom.png'
-import resume from '../assets/Public_Resume.pdf'
 import pathfinderImage from '../assets/pathfinder.png'
 import browsersLabyrinthGif from '../assets/browserslabyrinth.gif'
 import prodosphereGif from '../assets/prodosphere.gif'
@@ -27,7 +26,7 @@ export const PROFILE = {
   role: 'AI / ML Engineer',
   focus: ['Systems', 'Scientific LLM agents', 'Retrieval'],
   location: 'Cairo, Egypt',
-  resume,
+  resume: '/resume.pdf',
   email: null,
   links: [
     { label: 'github', href: 'https://github.com/ahmedomuharram' },
@@ -123,7 +122,7 @@ export const THESIS = {
     { v: '420', k: 'controlled PathFinder runs' },
   ],
   terms: 'LLM agents, tool calling, retrieval-augmented generation, agentic workflows, materials informatics, pathogen genomics, evaluation.',
-  paper: 'https://drive.google.com/file/d/1pT22STsQXo0BKfvNUpkWZ2qmoOJ534rl/view?usp=sharing',
+  paper: '/thesis.pdf',
   defense: 'https://www.youtube.com/watch?v=atXx9LYXkus',
   figures: [
     {
