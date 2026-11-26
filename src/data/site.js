@@ -149,7 +149,7 @@ export const PUBLICATIONS = [
     year: 2026,
     title: 'VEuPathDB: 2026 update on data, tools, and infrastructure for eukaryotic pathogens, vectors, and hosts',
     venue: 'nucleic acids research',
-    authors: 'cristina aurrecoechea et al. (34 authors, listed alphabetically, including ahmed muharram)',
+    authors: 'cristina aurrecoechea, evelina basenko, …, shahram mesdaghi, ahmed muharram, sadik muzemil, …, mariann winkelman (34 authors, alphabetical)',
     credit: 'software (equal), conceptualization (supporting)',
     links: [{ label: 'doi', href: 'https://doi.org/10.1093/nar/gkag1245' }],
   },

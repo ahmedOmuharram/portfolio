@@ -56,7 +56,7 @@ export default function Research() {
             <div>
               <p className="pub-title">{p.title}</p>
               <p className="muted small">
-                {p.authors} · {p.venue}
+                {p.authors.split('ahmed muharram').flatMap((part, i) => (i ? [<strong key={i}>ahmed muharram</strong>, part] : [part]))} · {p.venue}
               </p>
               {p.credit && <p className="muted small">my roles: {p.credit}</p>}
               <div className="pub-links">
