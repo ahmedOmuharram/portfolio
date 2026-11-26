@@ -68,7 +68,7 @@ text: https://muharram.dev/thesis.pdf
 
 ## Publications
 
-- Cristina Aurrecoechea et al. (34 authors, listed alphabetically, including Ahmed Muharram).
+- Cristina Aurrecoechea, Evelina Basenko, …, Shahram Mesdaghi, Ahmed Muharram, Sadik Muzemil, …, Mariann Winkelman (34 authors, alphabetical).
   **VEuPathDB: 2026 update on data, tools, and infrastructure for eukaryotic pathogens, vectors, and hosts**. Nucleic Acids Research, November 2026.
   https://doi.org/10.1093/nar/gkag1245
   Ahmed's CRediT roles: Software (equal) and Conceptualization (supporting).
