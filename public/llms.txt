@@ -68,6 +68,10 @@ text: https://muharram.dev/thesis.pdf
 
 ## Publications
 
+- Cristina Aurrecoechea et al. (34 authors, including Ahmed Muharram).
+  **VEuPathDB: 2026 update on data, tools, and infrastructure for eukaryotic pathogens, vectors, and hosts**. Nucleic Acids Research, November 2026.
+  https://doi.org/10.1093/nar/gkag1245
+  Ahmed's CRediT roles: Software (equal) and Conceptualization (supporting).
 - Delip Rao, Ahmed Muharram, Chris Callison-Burch. **Same Claim, Different Interpretations: How LLM Agents Resolve Ambiguity in Scientific Claims**. arXiv preprint
   arXiv:2610.20457 [cs.CL], October 2026. https://arxiv.org/abs/2610.20457
   Introduces Claim Cards, which make an LLM agent's interpretation of an underspecified
@@ -156,3 +160,4 @@ https://muharram.dev/#writing, with each post at https://muharram.dev/writing/<s
 - Thesis: https://muharram.dev/thesis.pdf
 - GitHub: https://github.com/ahmedomuharram
 - LinkedIn: https://www.linkedin.com/in/ahmed-muharram
+- ORCID: https://orcid.org/0009-0006-7242-3469

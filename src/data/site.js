@@ -31,6 +31,7 @@ export const PROFILE = {
   links: [
     { label: 'github', href: 'https://github.com/ahmedomuharram' },
     { label: 'linkedin', href: 'https://www.linkedin.com/in/ahmed-muharram' },
+    { label: 'orcid', href: 'https://orcid.org/0009-0006-7242-3469' },
   ],
 }
 
@@ -143,6 +144,15 @@ export const THESIS = {
 }
 
 export const PUBLICATIONS = [
+  {
+    kind: 'Journal article',
+    year: 2026,
+    title: 'VEuPathDB: 2026 update on data, tools, and infrastructure for eukaryotic pathogens, vectors, and hosts',
+    venue: 'nucleic acids research',
+    authors: 'cristina aurrecoechea et al. (34 authors, including ahmed muharram)',
+    credit: 'software (equal), conceptualization (supporting)',
+    links: [{ label: 'doi', href: 'https://doi.org/10.1093/nar/gkag1245' }],
+  },
   {
     kind: 'Preprint',
     year: 2026,

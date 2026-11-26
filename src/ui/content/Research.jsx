@@ -58,6 +58,7 @@ export default function Research() {
               <p className="muted small">
                 {p.authors} · {p.venue}
               </p>
+              {p.credit && <p className="muted small">my roles: {p.credit}</p>}
               <div className="pub-links">
                 {p.links.map((l) => (
                   <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer">
